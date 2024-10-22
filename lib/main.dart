@@ -1,4 +1,6 @@
+import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:iconly/iconly.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,7 +30,16 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+enum _SelectedTab { home, favourite, add, search, profile }
+
 class _MyHomePageState extends State<MyHomePage> {
+  _SelectedTab _selectedTab = _SelectedTab.home;
+
+  void _handleIndexChanged(int index) {
+    setState(() {
+      _selectedTab = _SelectedTab.values[index];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +48,48 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+      ),
+      backgroundColor: Colors.black87,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: CrystalNavigationBar(
+          currentIndex: _SelectedTab.values.indexOf(_selectedTab),
+          unselectedItemColor: Colors.white70,
+          backgroundColor: Colors.black.withOpacity(0.1),
+          onTap: _handleIndexChanged,
+          items: [
+            // Home
+            CrystalNavigationBarItem(
+              icon: IconlyBold.home,
+              unselectedIcon: IconlyLight.home,
+              selectedColor: Colors.white,
+            ),
+            // Favourite
+            CrystalNavigationBarItem(
+              icon: IconlyBold.heart,
+              unselectedIcon: IconlyLight.heart,
+              selectedColor: Colors.red,
+            ),
+            // Add
+            CrystalNavigationBarItem(
+              icon: IconlyBold.plus,
+              unselectedIcon: IconlyLight.plus,
+              selectedColor: Colors.white,
+            ),
+            // Search
+            CrystalNavigationBarItem(
+              icon: IconlyBold.search,
+              unselectedIcon: IconlyLight.search,
+              selectedColor: Colors.white,
+            ),
+            // Profile
+            CrystalNavigationBarItem(
+              icon: IconlyBold.user_2,
+              unselectedIcon: IconlyLight.user,
+              selectedColor: Colors.white,
+            ),
+          ],
+        ),
       ),
     );
   }
