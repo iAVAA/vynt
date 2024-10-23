@@ -49,6 +49,11 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
+      body: const Center(
+        child: Text(
+          'Prova',
+        ),
+      ),
       backgroundColor: Colors.blueAccent,
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 20),
