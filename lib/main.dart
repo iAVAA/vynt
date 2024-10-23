@@ -1,6 +1,6 @@
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -69,32 +69,32 @@ class _MyHomePageState extends State<MyHomePage> {
           items: [
             // Home
             CrystalNavigationBarItem(
-              icon: IconlyBold.home,
-              unselectedIcon: IconlyLight.home,
+              icon: Icons.square,
+              unselectedIcon: Icons.square,
               selectedColor: Colors.white,
             ),
             // Search
             CrystalNavigationBarItem(
-              icon: IconlyBold.search,
-              unselectedIcon: IconlyLight.search,
+              icon: Icons.square,
+              unselectedIcon: Icons.square,
               selectedColor: Colors.white,
             ),
             // Add
             CrystalNavigationBarItem(
-              icon: IconlyBold.plus,
-              unselectedIcon: IconlyLight.plus,
+              icon: Icons.square,
+              unselectedIcon: Icons.square,
               selectedColor: Colors.white,
             ),
             // Library
             CrystalNavigationBarItem(
-              icon: IconlyBold.star,
-              unselectedIcon: IconlyLight.star,
+              icon: Icons.square,
+              unselectedIcon: Icons.square,
               selectedColor: Colors.yellow,
             ),
             // Profile
             CrystalNavigationBarItem(
-              icon: IconlyBold.user_2,
-              unselectedIcon: IconlyLight.user,
+              icon: Icons.square,
+              unselectedIcon: Icons.square,
               selectedColor: Colors.white,
             ),
           ],
