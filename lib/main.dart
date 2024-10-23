@@ -12,12 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Vynt',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Vynt'),
     );
   }
 }
@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-enum _SelectedTab { home, favourite, add, search, profile }
+enum _SelectedTab { home, search, add, library, profile }
 
 class _MyHomePageState extends State<MyHomePage> {
   _SelectedTab _selectedTab = _SelectedTab.home;
@@ -49,13 +49,17 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.blueAccent,
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 20),
         child: CrystalNavigationBar(
+          enableFloatingNavBar: true,
+          enablePaddingAnimation: true,
           currentIndex: _SelectedTab.values.indexOf(_selectedTab),
           unselectedItemColor: Colors.white70,
           backgroundColor: Colors.black.withOpacity(0.1),
+          splashColor: Colors.transparent,
+          indicatorColor: Colors.transparent,
           onTap: _handleIndexChanged,
           items: [
             // Home
@@ -64,11 +68,11 @@ class _MyHomePageState extends State<MyHomePage> {
               unselectedIcon: IconlyLight.home,
               selectedColor: Colors.white,
             ),
-            // Favourite
+            // Search
             CrystalNavigationBarItem(
-              icon: IconlyBold.heart,
-              unselectedIcon: IconlyLight.heart,
-              selectedColor: Colors.red,
+              icon: IconlyBold.search,
+              unselectedIcon: IconlyLight.search,
+              selectedColor: Colors.white,
             ),
             // Add
             CrystalNavigationBarItem(
@@ -76,11 +80,11 @@ class _MyHomePageState extends State<MyHomePage> {
               unselectedIcon: IconlyLight.plus,
               selectedColor: Colors.white,
             ),
-            // Search
+            // Library
             CrystalNavigationBarItem(
-              icon: IconlyBold.search,
-              unselectedIcon: IconlyLight.search,
-              selectedColor: Colors.white,
+              icon: IconlyBold.star,
+              unselectedIcon: IconlyLight.star,
+              selectedColor: Colors.yellow,
             ),
             // Profile
             CrystalNavigationBarItem(

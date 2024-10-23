@@ -1,0 +1,41 @@
+name: Flutter Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        platform: [android, ios]
+    runs-on: ${{ matrix.platform == 'android' && 'ubuntu-latest' || 'macos-latest' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        if: matrix.platform == 'android'
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
+      - name: Build Android
+        if: matrix.platform == 'android'
+        run: flutter build apk --release
+
+      - name: Build iOS
+        if: matrix.platform == 'ios'
+        run: flutter build ios --no-codesign
