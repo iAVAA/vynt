@@ -3,7 +3,7 @@ name: Flutter Deploy
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Java
+      - name: Set up Java (for Android)
         if: matrix.platform == 'android'
         uses: actions/setup-java@v3
         with:
