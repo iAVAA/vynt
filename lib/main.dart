@@ -17,6 +17,7 @@ class Main extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const Feed(title: 'Vynt'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

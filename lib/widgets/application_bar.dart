@@ -14,6 +14,7 @@ class ApplicationBar extends StatelessWidget {
       backgroundColor: Colors.transparent,
       centerTitle: true,
       pinned: true,
+      forceMaterialTransparency: true,
       elevation: 0,
       title: Text(
         title,
@@ -22,7 +23,8 @@ class ApplicationBar extends StatelessWidget {
       leading: IconButton(
         icon: const Icon(
           Icons.home,
-          color: Colors.white
+          color: Colors.white,
+          size: 30,
         ),
         onPressed: () {},
       ),
@@ -30,19 +32,20 @@ class ApplicationBar extends StatelessWidget {
         IconButton(
           icon: const Icon(
             Icons.propane,
-            color: Colors.white
+            color: Colors.white,
+            size: 30,
           ),
           onPressed: () {},
         ),
       ],
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.black,
-              Colors.transparent,
+              Colors.black.withOpacity(0.5),
+              Colors.transparent.withOpacity(0.0),
             ],
           ),
         ),

@@ -62,9 +62,12 @@ class _FeedState extends State<Feed> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  return ListTile(
-                    title: Text('Item #$index', style: const TextStyle(color: Colors.white)),
-                    tileColor: index % 2 == 0 ? Colors.blueAccent : Colors.lightBlue,
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                    child: ListTile(
+                      title: Text('Item #$index', style: const TextStyle(color: Colors.white)),
+                      tileColor: index % 2 == 0 ? Colors.blueAccent : Colors.lightBlue
+                    ),
                   );
                 },
                 childCount: 20,
