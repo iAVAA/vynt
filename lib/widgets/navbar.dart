@@ -30,11 +30,11 @@ class BlurredNavigationBar extends StatelessWidget {
 
   List<CrystalNavigationBarItem> _buildNavigationBarItems() {
     return [
-      _buildNavigationBarItem(Icons.square, Colors.white),
-      _buildNavigationBarItem(Icons.square, Colors.white),
-      _buildNavigationBarItem(Icons.square, Colors.white),
-      _buildNavigationBarItem(Icons.square, Colors.yellow),
-      _buildNavigationBarItem(Icons.square, Colors.white),
+      _buildNavigationBarItem(Icons.home, Colors.grey),
+      _buildNavigationBarItem(Icons.search, Colors.grey),
+      _buildNavigationBarItem(Icons.add, Colors.grey),
+      _buildNavigationBarItem(Icons.library_books, Colors.grey),
+      _buildNavigationBarItem(Icons.person, Colors.grey),
     ];
   }
 

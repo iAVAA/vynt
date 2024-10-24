@@ -20,12 +20,18 @@ class ApplicationBar extends StatelessWidget {
         style: const TextStyle(fontSize: 20),
       ),
       leading: IconButton(
-        icon: const Icon(Icons.square, color: Colors.white),
+        icon: const Icon(
+          Icons.home,
+          color: Colors.white
+        ),
         onPressed: () {},
       ),
       actions: [
         IconButton(
-          icon: const Icon(Icons.square, color: Colors.white),
+          icon: const Icon(
+            Icons.propane,
+            color: Colors.white
+          ),
           onPressed: () {},
         ),
       ],
