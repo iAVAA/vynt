@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatelessWidget {
+class ApplicationBar extends StatelessWidget {
   final String title;
 
-  const CustomAppBar({
-    Key? key,
+  const ApplicationBar({
+    super.key,
     required this.title,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +21,12 @@ class CustomAppBar extends StatelessWidget {
       ),
       leading: IconButton(
         icon: const Icon(Icons.square, color: Colors.white),
-        onPressed: () {
-          // Action for the left icon
-        },
+        onPressed: () {},
       ),
       actions: [
         IconButton(
           icon: const Icon(Icons.square, color: Colors.white),
-          onPressed: () {
-            // Action for the right icon
-          },
+          onPressed: () {},
         ),
       ],
       flexibleSpace: Container(

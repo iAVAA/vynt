@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 
 enum SelectedTab { home, search, add, library, profile }
 
-class CustomNavigationBar extends StatelessWidget {
+class BlurredNavigationBar extends StatelessWidget {
   final SelectedTab selectedTab;
   final ValueChanged<int> onIndexChanged;
 
-  const CustomNavigationBar({
-    Key? key,
+  const BlurredNavigationBar({
+    super.key,
     required this.selectedTab,
     required this.onIndexChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

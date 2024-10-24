@@ -25,7 +25,7 @@ class _FeedState extends State<Feed> {
       extendBody: true,
       body: _buildBody(),
       backgroundColor: Colors.grey[900],
-      bottomNavigationBar: CustomNavigationBar(
+      bottomNavigationBar: BlurredNavigationBar(
         selectedTab: _selectedTab,
         onIndexChanged: _handleIndexChanged,
       ),
@@ -35,7 +35,7 @@ class _FeedState extends State<Feed> {
   Widget _buildBody() {
     return CustomScrollView(
       slivers: [
-        CustomAppBar(title: widget.title),
+        ApplicationBar(title: widget.title),
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
@@ -44,7 +44,7 @@ class _FeedState extends State<Feed> {
                 tileColor: index % 2 == 0 ? Colors.blueAccent : Colors.lightBlue,
               );
             },
-            childCount: 20, // Number of list items
+            childCount: 20,
           ),
         ),
       ],
