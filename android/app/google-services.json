@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "91243704533",
+    "project_id": "vynt-iava",
+    "storage_bucket": "vynt-iava.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91243704533:android:93d4a24fc325c7f01a325c",
+        "android_client_info": {
+          "package_name": "com.vynt.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtDxuGuyogGjOe5KKE59qf-w7SarYLa7M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
