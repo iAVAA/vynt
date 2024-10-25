@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.vynt.app"
+    namespace = "com.vynt.app.vynt"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
