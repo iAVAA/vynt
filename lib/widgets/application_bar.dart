@@ -16,39 +16,58 @@ class ApplicationBar extends StatelessWidget {
       pinned: true,
       forceMaterialTransparency: true,
       elevation: 0,
-      title: Text(
-        title,
-        style: const TextStyle(fontSize: 20),
-      ),
-      leading: IconButton(
-        icon: const Icon(
-          Icons.home,
-          color: Colors.white,
-          size: 30,
-        ),
-        onPressed: () {},
-      ),
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.propane,
-            color: Colors.white,
-            size: 30,
-          ),
-          onPressed: () {},
-        ),
-      ],
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.black.withOpacity(0.5),
-              Colors.transparent.withOpacity(0.0),
-            ],
-          ),
-        ),
+      expandedHeight: 75,
+      flexibleSpace: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          double expandedHeight = 100.0;
+          double collapsedHeight = kToolbarHeight;
+          double t = ((constraints.maxHeight - collapsedHeight) / (expandedHeight - collapsedHeight)).clamp(0.0, 1.0);
+          double iconSize = 19 + (6 * t);
+
+          return FlexibleSpaceBar(
+            titlePadding: const EdgeInsets.only( left: 15.0, right: 15.0, bottom: 10.0),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.home,
+                    color: Colors.white,
+                    size: iconSize,
+                  ),
+                  onPressed: () {},
+                ),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.propane,
+                    color: Colors.white,
+                    size: iconSize,
+                  ),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+            background: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.center,
+                  colors: [
+                    Colors.black.withOpacity(0.3),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
