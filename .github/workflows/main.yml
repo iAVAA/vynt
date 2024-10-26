@@ -42,8 +42,8 @@ jobs:
           CI: true
         run: |
           flutter build ios --release --no-codesign
-          xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release -archivePath build/Runner.xcarchive archive
-          xcodebuild -exportArchive -archivePath build/Runner.xcarchive -exportPath build/ios -exportOptionsPlist ios/ExportOptions.plist
+          xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release -archivePath build/Runner.xcarchive archive -allowProvisioningUpdates
+          xcodebuild -exportArchive -archivePath build/Runner.xcarchive -exportPath build/ios -exportOptionsPlist ios/ExportOptions.plist -allowProvisioningUpdates
 
       - name: Upload APK
         if: matrix.platform == 'android'
