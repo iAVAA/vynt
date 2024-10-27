@@ -25,7 +25,7 @@ class ApplicationBar extends StatelessWidget {
           double expandedHeight = 100.0;
           double collapsedHeight = kToolbarHeight;
           double t = ((constraints.maxHeight - collapsedHeight) / (expandedHeight - collapsedHeight)).clamp(0.0, 1.0);
-          double iconSize = 24 + (6 * t);
+          double iconSize = 25 + (6 * t);
 
           return FlexibleSpaceBar(
             titlePadding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10.0),
