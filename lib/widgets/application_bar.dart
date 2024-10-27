@@ -19,13 +19,13 @@ class ApplicationBar extends StatelessWidget {
       pinned: true,
       forceMaterialTransparency: true,
       elevation: 0,
-      expandedHeight: 75,
+      expandedHeight: 100,
       flexibleSpace: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           double expandedHeight = 100.0;
           double collapsedHeight = kToolbarHeight;
           double t = ((constraints.maxHeight - collapsedHeight) / (expandedHeight - collapsedHeight)).clamp(0.0, 1.0);
-          double iconSize = 19 + (6 * t);
+          double iconSize = 24 + (6 * t);
 
           return FlexibleSpaceBar(
             titlePadding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10.0),
@@ -50,7 +50,7 @@ class ApplicationBar extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Icon(
-                    Icons.propane,
+                    Icons.account_circle,
                     color: Colors.white,
                     size: iconSize,
                   ),
