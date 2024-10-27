@@ -1,74 +1,54 @@
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/search_page.dart';
-import '../screens/feed_page.dart';
+class CustomNavigationBar extends StatelessWidget {
+  final int selectedIndex;
+  final ValueChanged<int> onItemTapped;
+  final List<Widget> pages;
 
-enum SelectedTab { home, search, add, library, profile }
-
-class BlurredNavigationBar extends StatelessWidget {
-  final SelectedTab selectedTab;
-  final ValueChanged<int> onIndexChanged;
-
-  const BlurredNavigationBar({
+  const CustomNavigationBar({
     super.key,
-    required this.selectedTab,
-    required this.onIndexChanged,
+    required this.selectedIndex,
+    required this.onItemTapped,
+    required this.pages,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(
-        minWidth: 0,
-        minHeight: 0,
-        maxWidth: double.infinity,
-        maxHeight: double.infinity,
-      ),
-      child: CrystalNavigationBar(
-        enableFloatingNavBar: true,
-        enablePaddingAnimation: true,
-        currentIndex: SelectedTab.values.indexOf(selectedTab),
-        unselectedItemColor: Colors.white70,
-        backgroundColor: Colors.black.withOpacity(0.1),
-        splashColor: Colors.transparent,
-        indicatorColor: Colors.transparent,
-        onTap: (index) {
-          if (SelectedTab.values[index] != selectedTab) {
-            if (SelectedTab.values[index] == SelectedTab.search) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Search()),
-              );
-            } else if (SelectedTab.values[index] == SelectedTab.home) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Feed(title: 'Feed')),
-              );
-            }
-            onIndexChanged(index);
-          }
-        },
-        items: _buildNavigationBarItems(),
-      ),
-    );
-  }
-
-  List<CrystalNavigationBarItem> _buildNavigationBarItems() {
-    return [
-      _buildNavigationBarItem(Icons.home, Colors.grey),
-      _buildNavigationBarItem(Icons.search, Colors.grey),
-      _buildNavigationBarItem(Icons.add, Colors.grey),
-      _buildNavigationBarItem(Icons.library_books, Colors.grey),
-      _buildNavigationBarItem(Icons.person, Colors.grey),
-    ];
-  }
-
-  CrystalNavigationBarItem _buildNavigationBarItem(IconData icon, Color selectedColor) {
-    return CrystalNavigationBarItem(
-      icon: icon,
-      unselectedIcon: icon,
-      selectedColor: selectedColor,
+    return Stack(
+      children: [
+        pages[selectedIndex],
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: CrystalNavigationBar(
+            enableFloatingNavBar: true,
+            enablePaddingAnimation: true,
+            currentIndex: selectedIndex,
+            unselectedItemColor: Colors.white70,
+            backgroundColor: Colors.black.withOpacity(0.1),
+            splashColor: Colors.transparent,
+            indicatorColor: Colors.transparent,
+            onTap: onItemTapped,
+            items: [
+              CrystalNavigationBarItem(
+                icon: Icons.home,
+                unselectedIcon: Icons.search,
+                selectedColor: Colors.grey,
+                unselectedColor: Colors.black,
+              ),
+              CrystalNavigationBarItem(
+                icon: Icons.search,
+                unselectedIcon: Icons.search,
+                selectedColor: Colors.grey,
+                unselectedColor: Colors.black,
+              ),
+              // Add other items here
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

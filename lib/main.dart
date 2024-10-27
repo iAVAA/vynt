@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'screens/feed_page.dart';
+import 'package:vynt/screens/main_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -22,7 +22,7 @@ class Main extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Feed(title: 'Vynt'),
+      home: const Home(),
       debugShowCheckedModeBanner: false,
     );
   }
