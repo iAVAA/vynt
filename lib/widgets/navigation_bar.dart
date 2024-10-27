@@ -1,6 +1,7 @@
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
+
 enum SelectedTab { home, search, add, library, profile }
 
 class BlurredNavigationBar extends StatelessWidget {

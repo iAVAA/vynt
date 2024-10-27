@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
+
 
 class ApplicationBar extends StatelessWidget {
   final String title;
@@ -25,7 +28,7 @@ class ApplicationBar extends StatelessWidget {
           double iconSize = 19 + (6 * t);
 
           return FlexibleSpaceBar(
-            titlePadding: const EdgeInsets.only( left: 15.0, right: 15.0, bottom: 10.0),
+            titlePadding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10.0),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -39,8 +42,9 @@ class ApplicationBar extends StatelessWidget {
                 ),
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 25,
+                    fontWeight: FontWeight.w600,
                     color: Colors.white,
                   ),
                 ),
