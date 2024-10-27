@@ -1,6 +1,8 @@
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/search_page.dart';
+import '../screens/feed_page.dart';
 
 enum SelectedTab { home, search, add, library, profile }
 
@@ -24,7 +26,22 @@ class BlurredNavigationBar extends StatelessWidget {
       backgroundColor: Colors.black.withOpacity(0.1),
       splashColor: Colors.transparent,
       indicatorColor: Colors.transparent,
-      onTap: onIndexChanged,
+      onTap: (index) {
+        if (SelectedTab.values[index] != selectedTab) {
+          if (SelectedTab.values[index] == SelectedTab.search) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Search()),
+            );
+          } else if (SelectedTab.values[index] == SelectedTab.home) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Feed(title: 'Feed')),
+            );
+          }
+          onIndexChanged(index);
+        }
+      },
       items: _buildNavigationBarItems(),
     );
   }
