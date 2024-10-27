@@ -18,31 +18,39 @@ class BlurredNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CrystalNavigationBar(
-      enableFloatingNavBar: true,
-      enablePaddingAnimation: true,
-      currentIndex: SelectedTab.values.indexOf(selectedTab),
-      unselectedItemColor: Colors.white70,
-      backgroundColor: Colors.black.withOpacity(0.1),
-      splashColor: Colors.transparent,
-      indicatorColor: Colors.transparent,
-      onTap: (index) {
-        if (SelectedTab.values[index] != selectedTab) {
-          if (SelectedTab.values[index] == SelectedTab.search) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Search()),
-            );
-          } else if (SelectedTab.values[index] == SelectedTab.home) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Feed(title: 'Feed')),
-            );
+    return Container(
+      constraints: const BoxConstraints(
+        minWidth: 0,
+        minHeight: 0,
+        maxWidth: double.infinity,
+        maxHeight: double.infinity,
+      ),
+      child: CrystalNavigationBar(
+        enableFloatingNavBar: true,
+        enablePaddingAnimation: true,
+        currentIndex: SelectedTab.values.indexOf(selectedTab),
+        unselectedItemColor: Colors.white70,
+        backgroundColor: Colors.black.withOpacity(0.1),
+        splashColor: Colors.transparent,
+        indicatorColor: Colors.transparent,
+        onTap: (index) {
+          if (SelectedTab.values[index] != selectedTab) {
+            if (SelectedTab.values[index] == SelectedTab.search) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Search()),
+              );
+            } else if (SelectedTab.values[index] == SelectedTab.home) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Feed(title: 'Feed')),
+              );
+            }
+            onIndexChanged(index);
           }
-          onIndexChanged(index);
-        }
-      },
-      items: _buildNavigationBarItems(),
+        },
+        items: _buildNavigationBarItems(),
+      ),
     );
   }
 
