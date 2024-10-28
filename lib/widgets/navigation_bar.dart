@@ -33,18 +33,35 @@ class CustomNavigationBar extends StatelessWidget {
             onTap: onItemTapped,
             items: [
               CrystalNavigationBarItem(
-                icon: Icons.home,
-                unselectedIcon: Icons.search,
-                selectedColor: Colors.grey,
-                unselectedColor: Colors.black,
+                icon: Icons.home_filled,
+                unselectedIcon: Icons.home_outlined,
+                selectedColor: Colors.black,
+                unselectedColor: Colors.grey,
               ),
               CrystalNavigationBarItem(
                 icon: Icons.search,
                 unselectedIcon: Icons.search,
-                selectedColor: Colors.grey,
-                unselectedColor: Colors.black,
+                selectedColor: Colors.black,
+                unselectedColor: Colors.grey,
               ),
-              // Add other items here
+              CrystalNavigationBarItem(
+                icon: Icons.library_music,
+                unselectedIcon: Icons.library_music_outlined,
+                selectedColor: Colors.black,
+                unselectedColor: Colors.grey,
+              ),
+              CrystalNavigationBarItem(
+                icon: Icons.music_note,
+                unselectedIcon: Icons.music_note_outlined,
+                selectedColor: Colors.black,
+                unselectedColor: Colors.grey,
+              ),
+              CrystalNavigationBarItem(
+                icon: Icons.person,
+                unselectedIcon: Icons.person_outline,
+                selectedColor: Colors.black,
+                unselectedColor: Colors.grey,
+              ),
             ],
           ),
         ),

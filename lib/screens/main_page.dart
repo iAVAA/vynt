@@ -16,6 +16,9 @@ class _HomeState extends State<Home> {
   static const List<Widget> _pages = <Widget>[
     Feed(),
     Search(),
+    Placeholder(),
+    Placeholder(),
+    Placeholder(),
   ];
 
   void _onItemTapped(int index) {
