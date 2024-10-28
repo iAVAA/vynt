@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '/constants.dart' as constants;
 import '/widgets/application_bar.dart';
 import '/controllers/scroll_monitor.dart';
 
 class Feed extends StatelessWidget {
-  const Feed({super.key, required this.title});
-  final String title;
+  const Feed({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class Feed extends StatelessWidget {
         return CustomScrollView(
           controller: scrollMonitor.scrollController,
           slivers: [
-            ApplicationBar(title: title),
+            const ApplicationBar(title: constants.appName),
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
