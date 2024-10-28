@@ -45,14 +45,14 @@ class CustomNavigationBar extends StatelessWidget {
                 unselectedColor: Colors.grey,
               ),
               CrystalNavigationBarItem(
-                icon: Icons.library_music,
-                unselectedIcon: Icons.library_music_outlined,
+                icon: Icons.music_note,
+                unselectedIcon: Icons.music_note_outlined,
                 selectedColor: Colors.black,
                 unselectedColor: Colors.grey,
               ),
               CrystalNavigationBarItem(
-                icon: Icons.music_note,
-                unselectedIcon: Icons.music_note_outlined,
+                icon: Icons.library_music,
+                unselectedIcon: Icons.library_music_outlined,
                 selectedColor: Colors.black,
                 unselectedColor: Colors.grey,
               ),

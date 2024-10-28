@@ -34,7 +34,7 @@ class ApplicationBar extends StatelessWidget {
               children: [
                 IconButton(
                   icon: Icon(
-                    Icons.home,
+                    Icons.circle,
                     color: Colors.white,
                     size: iconSize,
                   ),
@@ -50,7 +50,7 @@ class ApplicationBar extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Icon(
-                    Icons.account_circle,
+                    Icons.music_video,
                     color: Colors.white,
                     size: iconSize,
                   ),
