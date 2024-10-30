@@ -50,7 +50,7 @@ class ApplicationBar extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Icon(
-                    Icons.music_video,
+                    Icons.messenger_outline_rounded,
                     color: Colors.white,
                     size: iconSize,
                   ),
