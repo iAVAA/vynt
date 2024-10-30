@@ -1,52 +1,42 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:vynt/screens/main_page.dart';
 
-class SplashScreen extends StatefulWidget {
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
+import '../constants.dart' as costants;
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    );
-
-    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
-
-    _controller.forward();
-
-    Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacementNamed('/home');
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  get splashScreen => null;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: ScaleTransition(
-          scale: _animation,
-          child: FadeTransition(
-            opacity: _animation,
-            child: Image.asset('/icons/vinyl.png', width: 150, height: 150),
+    return AnimatedSplashScreen(
+      splash: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.music_note,
+            size: 25,
+            color: Colors.white,
           ),
-        ),
+          Text(
+            costants.appName,
+            style: GoogleFonts.poppins(
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
+      nextScreen: const Home(),
+      backgroundColor: Colors.deepPurple,
+      splashTransition: SplashTransition.scaleTransition,
+      //pageTransitionType: PageTransitionType.fade, // TODO FIX IT
+      curve: Curves.easeInOut,
     );
   }
 }

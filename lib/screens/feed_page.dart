@@ -42,7 +42,7 @@ class Feed extends StatelessWidget {
                     ),
                   );
                 },
-                childCount: 20,
+                childCount: 15,
               ),
             ),
           ],
