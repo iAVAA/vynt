@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:vynt/screens/main_page.dart';
+import 'package:vynt/widgets/splash_screen.dart';
 import 'firebase_options.dart';
 import 'constants.dart' as constants;
 
@@ -23,7 +23,7 @@ class Main extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Home(),
+      home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

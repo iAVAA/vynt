@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '/constants.dart' as constants;
 import '/widgets/application_bar.dart';
 import '/controllers/scroll_monitor.dart';
+import '/widgets/post_widget.dart';
+import '/widgets/story-box_widget.dart';
 
 class Feed extends StatelessWidget {
   const Feed({super.key});
@@ -31,18 +33,13 @@ class Feed extends StatelessWidget {
           controller: scrollMonitor.scrollController,
           slivers: [
             const ApplicationBar(title: constants.appName),
+            const SliverToBoxAdapter(child: StoryBoxRow()),
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    child: ListTile(
-                      title: Text('Item #$index', style: const TextStyle(color: Colors.white)),
-                      tileColor: index % 2 == 0 ? Colors.blueAccent : Colors.lightBlue
-                    ),
-                  );
+                  return PostWidget(index: index);
                 },
-                childCount: 20,
+                childCount: 10,
               ),
             ),
           ],
