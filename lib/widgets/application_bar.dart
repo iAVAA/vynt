@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
+import '../screens/subscreens/message_page.dart';
 
 class ApplicationBar extends StatelessWidget {
   final String title;
@@ -24,11 +25,14 @@ class ApplicationBar extends StatelessWidget {
         builder: (BuildContext context, BoxConstraints constraints) {
           double expandedHeight = 100.0;
           double collapsedHeight = kToolbarHeight;
-          double t = ((constraints.maxHeight - collapsedHeight) / (expandedHeight - collapsedHeight)).clamp(0.0, 1.0);
+          double t = ((constraints.maxHeight - collapsedHeight) /
+                  (expandedHeight - collapsedHeight))
+              .clamp(0.0, 1.0);
           double iconSize = 24 + (6 * t);
 
           return FlexibleSpaceBar(
-            titlePadding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10.0),
+            titlePadding:
+                const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10.0),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -54,7 +58,13 @@ class ApplicationBar extends StatelessWidget {
                     color: Colors.white,
                     size: iconSize,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MessagePage()), // TODO OPEN IT SCROLLING LEFT TO RIGHT
+                    );
+                  },
                 ),
               ],
             ),
