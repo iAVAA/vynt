@@ -44,7 +44,7 @@ class UserInfoRow extends StatelessWidget {
     return Row(
       children: [
         const CircleAvatar(
-          backgroundImage: AssetImage('assets/user_avatar.png'),
+          backgroundImage: AssetImage('assets/test_pictures/daniele_pfp.png'),
           radius: 20,
         ),
         const SizedBox(width: 10),
@@ -75,7 +75,7 @@ class PostImage extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         image: DecorationImage(
-          image: AssetImage('assets/post_image_$index.jpg'),
+          image: AssetImage('assets/test_pictures/test_post.webp'),
           fit: BoxFit.cover,
         ),
       ),

@@ -71,6 +71,8 @@ flutter:
   assets:
     - assets/icons/home.json
     - assets/icons/vinyl.png
+    - assets/test_pictures/daniele_pfp.png
+    - assets/test_pictures/test_post.webp
 
   # To add assets to your application, add an assets section, like this:
   # assets:

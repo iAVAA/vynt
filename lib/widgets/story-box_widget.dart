@@ -32,7 +32,7 @@ class StoryBox extends StatelessWidget {
         children: [
           const CircleAvatar(
             radius: 20,
-            backgroundImage: AssetImage('assets/profile_image.png'),
+            backgroundImage: AssetImage('assets/test_pictures/daniele_pfp.png'),
           ),
           const SizedBox(height: 8),
           SizedBox(
