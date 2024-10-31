@@ -27,7 +27,7 @@ class PostWidget extends StatelessWidget {
             'User $index: Sample caption for post #$index...',
             style: const TextStyle(color: Colors.white),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 25),
         ],
       ),
     );
