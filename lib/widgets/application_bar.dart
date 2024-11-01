@@ -6,10 +6,12 @@ import '../screens/subscreens/message_page.dart';
 
 class ApplicationBar extends StatelessWidget {
   final String title;
+  final ScrollController scrollController;
 
   const ApplicationBar({
     super.key,
     required this.title,
+    required this.scrollController,
   });
 
   @override
@@ -44,12 +46,21 @@ class ApplicationBar extends StatelessWidget {
                   ),
                   onPressed: () {},
                 ),
-                Text(
-                  title,
-                  style: GoogleFonts.poppins(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
+                GestureDetector(
+                  onTap: () {
+                    scrollController.animateTo(
+                      0,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  },
+                  child: Text(
+                    title,
+                    style: GoogleFonts.poppins(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 IconButton(

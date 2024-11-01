@@ -32,7 +32,10 @@ class Feed extends StatelessWidget {
         return CustomScrollView(
           controller: scrollMonitor.scrollController,
           slivers: [
-            const ApplicationBar(title: constants.appName),
+            ApplicationBar(
+              title: constants.appName,
+              scrollController: scrollMonitor.scrollController,
+            ),
             const SliverToBoxAdapter(child: StoryBoxRow()),
             SliverList(
               delegate: SliverChildBuilderDelegate(
