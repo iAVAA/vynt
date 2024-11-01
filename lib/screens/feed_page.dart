@@ -37,6 +37,9 @@ class Feed extends StatelessWidget {
               scrollController: scrollMonitor.scrollController,
             ),
             const SliverToBoxAdapter(child: StoryBoxRow()),
+            const SliverPadding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+            ),
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
