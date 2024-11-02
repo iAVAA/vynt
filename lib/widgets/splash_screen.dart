@@ -33,7 +33,7 @@ class SplashScreen extends StatelessWidget {
         ],
       ),
       nextScreen: const Home(),
-      backgroundColor: Colors.deepPurple,
+      backgroundColor: Colors.grey.shade900,
       splashTransition: SplashTransition.scaleTransition,
       //pageTransitionType: PageTransitionType.fade, // TODO FIX IT
       curve: Curves.easeInOut,

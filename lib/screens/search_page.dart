@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:marquee/marquee.dart';
 
 class Search extends StatelessWidget {
   const Search({super.key});
@@ -29,6 +30,17 @@ class Search extends StatelessWidget {
               style: const TextStyle(color: Colors.white),
             ),
           ),
+          SizedBox(
+            height: 110,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+              child: Row(
+                children: List.generate(10, (index) => _buildEventItem()),
+              ),
+            ),
+          ),
+          // Grid View
           Expanded(
             child: GridView.builder(
               padding: const EdgeInsets.all(8.0),
@@ -37,7 +49,7 @@ class Search extends StatelessWidget {
                 mainAxisSpacing: 4,
                 crossAxisSpacing: 4,
               ),
-              itemCount: 30, // Adjust as needed for content
+              itemCount: 30,
               itemBuilder: (context, index) {
                 return Container(
                   decoration: BoxDecoration(
@@ -53,6 +65,57 @@ class Search extends StatelessWidget {
                   ),
                 );
               },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEventItem() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        children: [
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.grey[700],
+            ),
+            child: Icon(
+              Icons.person,
+              color: Colors.grey[500],
+              size: 25,
+            ),
+          ),
+          const SizedBox(height: 6),
+          SizedBox(
+            width: 70,
+            height: 18,
+            child: Marquee(
+              text: 'Event Name',
+              style: const TextStyle(color: Colors.white, fontSize: 11),
+              scrollAxis: Axis.horizontal,
+              blankSpace: 20.0,
+              velocity: 30.0,
+              startPadding: 10.0,
+              pauseAfterRound: const Duration(seconds: 1),
+            ),
+          ),
+          const SizedBox(height: 4),
+          SizedBox(
+            width: 70,
+            height: 16,
+            child: Marquee(
+              text: 'Artist Name',
+              style: const TextStyle(color: Colors.grey, fontSize: 9),
+              scrollAxis: Axis.horizontal,
+              blankSpace: 20.0,
+              velocity: 30.0,
+              startPadding: 10.0,
+              pauseAfterRound: const Duration(seconds: 1),
             ),
           ),
         ],
