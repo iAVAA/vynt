@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../screens/subscreens/message_page.dart';
 
@@ -37,13 +39,19 @@ class ApplicationBar extends StatelessWidget {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.circle,
-                    color: Colors.white,
-                    size: iconSize,
+                Material(
+                  color: Colors.transparent,
+                  child: IconButton(
+                    icon: Icon(
+                      CupertinoIcons.headphones, // NOTE: not sure about this icon
+                      color: Colors.white,
+                      size: iconSize,
+                    ),
+                    onPressed: () {},
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
                   ),
-                  onPressed: () {},
                 ),
                 GestureDetector(
                   onTap: () {
@@ -62,20 +70,29 @@ class ApplicationBar extends StatelessWidget {
                     ),
                   ),
                 ),
-                IconButton(
-                  icon: Icon(
-                    Icons.messenger_outline_rounded,
-                    color: Colors.white,
-                    size: iconSize,
+                Material(
+                  color: Colors.transparent,
+                  child: IconButton(
+                    icon: Icon(
+                      CupertinoIcons.chat_bubble, // NOTE: not sure about this icon
+                      color: Colors.white,
+                      size: iconSize,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: const MessagePage(),
+                          duration: const Duration(milliseconds: 300),
+                        ), // Page transition momentary TODO: Need to implement a scrolling right to left to open
+                      );
+                    },
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const MessagePage()), // TODO OPEN IT SCROLLING LEFT TO RIGHT
-                    );
-                  },
-                ),
+                )
               ],
             ),
             background: Container(
