@@ -28,7 +28,10 @@ class Feed extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
+    final PageController pageController = PageController(initialPage: 1);
+
     return PageView(
+      controller: pageController,
       physics: const ClampingScrollPhysics(),
       children: [
         const Placeholder(),
