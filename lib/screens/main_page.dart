@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'feed_page.dart';
 import 'search_page.dart';
+import 'profile_page.dart';
 import '../widgets/navigation_bar.dart';
 
 class Home extends StatefulWidget {
@@ -18,7 +19,7 @@ class _HomeState extends State<Home> {
     Search(),
     Placeholder(),
     Placeholder(),
-    Placeholder(),
+    Profile(),
   ];
 
   void _onItemTapped(int index) {
