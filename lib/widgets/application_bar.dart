@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../screens/subscreens/message_page.dart';
 
 class ApplicationBar extends StatelessWidget {
   final String title;
+  final ScrollController scrollController;
 
   const ApplicationBar({
     super.key,
     required this.title,
+    required this.scrollController,
   });
 
   @override
@@ -20,15 +23,15 @@ class ApplicationBar extends StatelessWidget {
       pinned: true,
       forceMaterialTransparency: true,
       elevation: 0,
-      expandedHeight: 100,
+      expandedHeight: 80,
       flexibleSpace: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          double expandedHeight = 100.0;
+          double expandedHeight = 80.0;
           double collapsedHeight = kToolbarHeight;
           double t = ((constraints.maxHeight - collapsedHeight) /
                   (expandedHeight - collapsedHeight))
               .clamp(0.0, 1.0);
-          double iconSize = 24 + (6 * t);
+          double iconSize = 20 + (4 * t);
 
           return FlexibleSpaceBar(
             titlePadding:
@@ -36,36 +39,60 @@ class ApplicationBar extends StatelessWidget {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.circle,
-                    color: Colors.white,
-                    size: iconSize,
-                  ),
-                  onPressed: () {},
-                ),
-                Text(
-                  title,
-                  style: GoogleFonts.poppins(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
+                Material(
+                  color: Colors.transparent,
+                  child: IconButton(
+                    icon: Icon(
+                      CupertinoIcons.headphones,
+                      color: Colors.white,
+                      size: iconSize,
+                    ),
+                    onPressed: () {},
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
                   ),
                 ),
-                IconButton(
-                  icon: Icon(
-                    Icons.messenger_outline_rounded,
-                    color: Colors.white,
-                    size: iconSize,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const MessagePage()), // TODO OPEN IT SCROLLING LEFT TO RIGHT
+                GestureDetector(
+                  onTap: () {
+                    scrollController.animateTo(
+                      0,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
                     );
                   },
+                  child: Text(
+                    title,
+                    style: GoogleFonts.poppins(
+                      fontSize: 20 + (5 * t),
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
+                Material(
+                  color: Colors.transparent,
+                  child: IconButton(
+                    icon: Icon(
+                      CupertinoIcons.paperplane,
+                      color: Colors.white,
+                      size: iconSize,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: const MessagePage(),
+                          duration: const Duration(milliseconds: 300),
+                        ),
+                      );
+                    },
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                  ),
+                )
               ],
             ),
             background: Container(

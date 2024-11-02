@@ -1,4 +1,5 @@
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomNavigationBar extends StatelessWidget {
@@ -33,32 +34,32 @@ class CustomNavigationBar extends StatelessWidget {
             onTap: onItemTapped,
             items: [
               CrystalNavigationBarItem(
-                icon: Icons.home_filled,
-                unselectedIcon: Icons.home_outlined,
+                icon: CupertinoIcons.house_fill,
+                unselectedIcon: CupertinoIcons.house,
                 selectedColor: Colors.black,
                 unselectedColor: Colors.grey,
               ),
               CrystalNavigationBarItem(
-                icon: Icons.search,
-                unselectedIcon: Icons.search,
+                icon: CupertinoIcons.search,
+                unselectedIcon: CupertinoIcons.search,
                 selectedColor: Colors.black,
                 unselectedColor: Colors.grey,
               ),
               CrystalNavigationBarItem(
-                icon: Icons.music_note,
-                unselectedIcon: Icons.music_note_outlined,
+                icon: CupertinoIcons.add,
+                unselectedIcon: CupertinoIcons.add,
                 selectedColor: Colors.black,
                 unselectedColor: Colors.grey,
               ),
               CrystalNavigationBarItem(
-                icon: Icons.library_music,
-                unselectedIcon: Icons.library_music_outlined,
+                icon: CupertinoIcons.music_albums_fill,
+                unselectedIcon: CupertinoIcons.music_albums,
                 selectedColor: Colors.black,
                 unselectedColor: Colors.grey,
               ),
               CrystalNavigationBarItem(
-                icon: Icons.person,
-                unselectedIcon: Icons.person_outline,
+                icon: CupertinoIcons.person_fill,
+                unselectedIcon: CupertinoIcons.person,
                 selectedColor: Colors.black,
                 unselectedColor: Colors.grey,
               ),

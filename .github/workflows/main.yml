@@ -22,7 +22,13 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'temurin'
+          distribution: 'zulu'  # You can change this if necessary
+
+      - name: Check Java Version
+        if: matrix.platform == 'android'
+        run: |
+          java -version
+          echo "JAVA_HOME: $JAVA_HOME"
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -34,7 +40,9 @@ jobs:
 
       - name: Build Android APK
         if: matrix.platform == 'android'
-        run: flutter build apk --release
+        run: |
+          export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
+          flutter build apk --release
 
       - name: Build iOS
         if: matrix.platform == 'ios'

@@ -10,7 +10,7 @@ class StoryBoxRow extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: List.generate(
-          5,
+          10,
           (index) => const Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0),
             child: StoryBox(),

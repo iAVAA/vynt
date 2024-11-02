@@ -4,6 +4,8 @@ import 'package:flutter/rendering.dart';
 class ScrollMonitor extends ChangeNotifier {
   final ScrollController _scrollController = ScrollController();
   bool isScrollingDown = false;
+  bool isScrollingLeft = false;
+  bool isScrollingRight = false;
 
   ScrollMonitor() {
     _scrollController.addListener(_scrollListener);
@@ -20,6 +22,22 @@ class ScrollMonitor extends ChangeNotifier {
     } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
       if (isScrollingDown) {
         isScrollingDown = false;
+        notifyListeners();
+      }
+    }
+  }
+
+  void updateHorizontalScrollDirection(double deltaX) {
+    if (deltaX > 0) {
+      if (!isScrollingRight) {
+        isScrollingRight = true;
+        isScrollingLeft = false;
+        notifyListeners();
+      }
+    } else if (deltaX < 0) {
+      if (!isScrollingLeft) {
+        isScrollingLeft = true;
+        isScrollingRight = false;
         notifyListeners();
       }
     }
