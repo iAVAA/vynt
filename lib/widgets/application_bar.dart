@@ -23,15 +23,15 @@ class ApplicationBar extends StatelessWidget {
       pinned: true,
       forceMaterialTransparency: true,
       elevation: 0,
-      expandedHeight: 100,
+      expandedHeight: 80,
       flexibleSpace: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          double expandedHeight = 100.0;
+          double expandedHeight = 80.0;
           double collapsedHeight = kToolbarHeight;
           double t = ((constraints.maxHeight - collapsedHeight) /
                   (expandedHeight - collapsedHeight))
               .clamp(0.0, 1.0);
-          double iconSize = 24 + (6 * t);
+          double iconSize = 20 + (4 * t);
 
           return FlexibleSpaceBar(
             titlePadding:
@@ -43,7 +43,7 @@ class ApplicationBar extends StatelessWidget {
                   color: Colors.transparent,
                   child: IconButton(
                     icon: Icon(
-                      CupertinoIcons.headphones, // NOTE: not sure about this icon
+                      CupertinoIcons.headphones,
                       color: Colors.white,
                       size: iconSize,
                     ),
@@ -64,7 +64,7 @@ class ApplicationBar extends StatelessWidget {
                   child: Text(
                     title,
                     style: GoogleFonts.poppins(
-                      fontSize: 25,
+                      fontSize: 20 + (5 * t),
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),
@@ -74,7 +74,7 @@ class ApplicationBar extends StatelessWidget {
                   color: Colors.transparent,
                   child: IconButton(
                     icon: Icon(
-                      CupertinoIcons.chat_bubble, // NOTE: not sure about this icon
+                      CupertinoIcons.paperplane,
                       color: Colors.white,
                       size: iconSize,
                     ),
@@ -85,7 +85,7 @@ class ApplicationBar extends StatelessWidget {
                           type: PageTransitionType.rightToLeft,
                           child: const MessagePage(),
                           duration: const Duration(milliseconds: 300),
-                        ), // Page transition momentary TODO: Need to implement a scrolling right to left to open
+                        ),
                       );
                     },
                     splashColor: Colors.transparent,

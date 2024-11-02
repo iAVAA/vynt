@@ -5,7 +5,7 @@ import '/constants.dart' as constants;
 import '/widgets/application_bar.dart';
 import '/controllers/scroll_monitor.dart';
 import '/widgets/post_widget.dart';
-import '/widgets/story-box_widget.dart';
+import '/widgets/story_box_widget.dart';
 
 class Feed extends StatelessWidget {
   const Feed({super.key});
