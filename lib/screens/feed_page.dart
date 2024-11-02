@@ -43,7 +43,7 @@ class Feed extends StatelessWidget {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  return PostWidget(index: index);
+                  return const PostWidget(index: 10);
                 },
                 childCount: 10,
               ),

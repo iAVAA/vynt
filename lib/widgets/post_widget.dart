@@ -74,7 +74,7 @@ class PostImage extends StatelessWidget {
       height: 300,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        image: DecorationImage(
+        image: const DecorationImage(
           image: AssetImage('assets/test_pictures/test_post.webp'),
           fit: BoxFit.cover,
         ),

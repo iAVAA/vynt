@@ -32,12 +32,11 @@ class Search extends StatelessWidget {
           ),
           SizedBox(
             height: 110,
-            child: SingleChildScrollView(
+            child: ListView.builder(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-              child: Row(
-                children: List.generate(10, (index) => _buildEventItem()),
-              ),
+              itemCount: 10,
+              itemBuilder: (context, index) => _buildEventItem(),
             ),
           ),
           // Grid View
@@ -95,7 +94,7 @@ class Search extends StatelessWidget {
             width: 70,
             height: 18,
             child: Marquee(
-              text: 'Event Name',
+              text: 'Event ${DateTime.now()}',
               style: const TextStyle(color: Colors.white, fontSize: 11),
               scrollAxis: Axis.horizontal,
               blankSpace: 20.0,
