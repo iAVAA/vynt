@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vynt/screens/subscreens/message_page.dart';
 
 import '/constants.dart' as constants;
 import '/widgets/application_bar.dart';
@@ -27,6 +28,17 @@ class Feed extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
+    return PageView(
+      physics: const ClampingScrollPhysics(),
+      children: [
+        const Placeholder(),
+        _buildFeedContent(context),
+        const MessagePage(),
+      ],
+    );
+  }
+
+  Widget _buildFeedContent(BuildContext context) {
     return Consumer<ScrollMonitor>(
       builder: (context, scrollMonitor, child) {
         return CustomScrollView(
