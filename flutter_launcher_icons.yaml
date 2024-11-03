@@ -1,0 +1,22 @@
+flutter_launcher_icons:
+  android: "launcher_icon"
+  min_sdk_android: 21
+  image_path: "assets/icons/logo/vynt_logo.png"
+  adaptive_icon_foreground_inset: 20
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/icons/logo/vynt_logo.png"
+  adaptive_icon_monochrome: "assets/icons/logo/vynt_logo.png"
+
+  ios: true
+  image_path_ios: "assets/icons/logo/vynt_logo.png"
+  image_path_ios_dark_transparent: "assets/icons/logo/vynt_logo.png"
+  image_path_ios_tinted_grayscale: "assets/icons/logo/vynt_logo.png"
+  desaturate_tinted_to_grayscale_ios: true
+  remove_alpha_ios: true
+
+
+  web:
+    generate: true
+    image_path: "assets/icons/logo/vynt_logo.png"
+    background_color: "#FFFFFF"
+    theme_color: "#212121"

@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'zulu'  # You can change this if necessary
+          distribution: 'corretto'
 
       - name: Check Java Version
         if: matrix.platform == 'android'
@@ -48,11 +48,16 @@ jobs:
         if: matrix.platform == 'ios'
         run: flutter build ios --no-codesign
 
-      # TODO: Fix the build iOS step adding the ipa file to the artifacts
-
       - name: Upload APK
         if: matrix.platform == 'android'
         uses: actions/upload-artifact@v3
         with:
           name: app-release.apk
           path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Upload iOS build artifacts
+        if: matrix.platform == 'ios'
+        uses: actions/upload-artifact@v3
+        with:
+          name: ios-build
+          path: build/ios/ipa/*.ipa
