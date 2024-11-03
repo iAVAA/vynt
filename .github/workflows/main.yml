@@ -38,7 +38,9 @@ jobs:
 
       - name: Build Android APK
         if: matrix.platform == 'android'
-        run: flutter build apk --release
+        run: |
+          export JAVA_HOME=/opt/hostedtoolcache/Java_Corretto_jdk/17.0.13-11.1/x64
+          flutter build apk --release
 
       - name: Build iOS IPA
         if: matrix.platform == 'ios'
