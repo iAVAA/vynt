@@ -24,12 +24,6 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: Check Java Version
-        if: matrix.platform == 'android'
-        run: |
-          java -version
-          echo "JAVA_HOME: $JAVA_HOME"
-
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -40,6 +34,8 @@ jobs:
 
       - name: Build Android APK
         if: matrix.platform == 'android'
+        env:
+          JAVA_HOME: ${{ steps['Set up Java (for Android)'].outputs.java-home }}
         run: flutter build apk --release
 
       - name: Build iOS
