@@ -24,9 +24,9 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: Manually set JAVA_HOME for Android
+      - name: Manually set JAVA_HOME (for Android)
         if: matrix.platform == 'android'
-        run: echo "JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto" >> $GITHUB_ENV
+        run: echo "JAVA_HOME=/opt/hostedtoolcache/Java_Corretto_jdk/17.0.13-11.1/x64" >> $GITHUB_ENV
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -40,7 +40,7 @@ jobs:
         if: matrix.platform == 'android'
         run: flutter build apk --release
 
-      - name: Build iOS
+      - name: Build iOS IPA
         if: matrix.platform == 'ios'
         run: flutter build ios --no-codesign
 
@@ -51,7 +51,7 @@ jobs:
           name: app-release.apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
-      - name: Upload iOS build artifacts
+      - name: Upload IPA
         if: matrix.platform == 'ios'
         uses: actions/upload-artifact@v3
         with:
