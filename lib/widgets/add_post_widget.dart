@@ -17,7 +17,7 @@ class AddPostWidget extends StatelessWidget {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5, // 50% of the screen height
+              height: MediaQuery.of(context).size.height * 0.5,
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.grey[900],
