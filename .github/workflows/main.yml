@@ -24,6 +24,10 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
+      - name: Set JAVA_HOME (for Android)
+        if: matrix.platform == 'android'
+        run: echo "JAVA_HOME=${{ env.JAVA_HOME }}" >> $GITHUB_ENV
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -34,8 +38,6 @@ jobs:
 
       - name: Build Android APK
         if: matrix.platform == 'android'
-        env:
-          JAVA_HOME: ${{ steps['Set up Java (for Android)'].outputs.java-home }}
         run: flutter build apk --release
 
       - name: Build iOS
