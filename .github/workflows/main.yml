@@ -31,7 +31,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.3'
+          flutter-version: '3.24.4'
 
       - name: Install Flutter dependencies
         run: flutter pub get
@@ -42,9 +42,10 @@ jobs:
           export JAVA_HOME=/opt/hostedtoolcache/Java_Corretto_jdk/17.0.13-11.1/x64
           flutter build apk --release
 
-      - name: Build iOS IPA
+      - name: Build iOS for Simulator
         if: matrix.platform == 'ios'
-        run: flutter build ios --no-codesign
+        run: |
+          flutter build ios --debug --no-codesign
 
       - name: Upload APK
         if: matrix.platform == 'android'
@@ -53,9 +54,9 @@ jobs:
           name: app-release.apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
-      - name: Upload IPA
+      - name: Upload iOS Build Artifacts
         if: matrix.platform == 'ios'
         uses: actions/upload-artifact@v3
         with:
           name: ios-build
-          path: build/ios/ipa/*.ipa
+          path: build/ios/iphoneos/*.app
