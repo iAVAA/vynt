@@ -40,9 +40,7 @@ jobs:
 
       - name: Build Android APK
         if: matrix.platform == 'android'
-        run: |
-          export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
-          flutter build apk --release
+        run: flutter build apk --release
 
       - name: Build iOS
         if: matrix.platform == 'ios'
