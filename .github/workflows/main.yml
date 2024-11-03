@@ -24,9 +24,9 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: Set JAVA_HOME (for Android)
+      - name: Manually set JAVA_HOME for Android
         if: matrix.platform == 'android'
-        run: echo "JAVA_HOME=${{ env.JAVA_HOME }}" >> $GITHUB_ENV
+        run: echo "JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto" >> $GITHUB_ENV
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
