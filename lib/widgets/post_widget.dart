@@ -73,20 +73,71 @@ class UserInfoRow extends StatelessWidget {
   }
 }
 
-class PostImage extends StatelessWidget {
+class PostImage extends StatefulWidget {
   final int index;
 
   const PostImage({required this.index, super.key});
 
   @override
+  _PostImageState createState() => _PostImageState();
+}
+
+class _PostImageState extends State<PostImage>
+    with SingleTickerProviderStateMixin {
+  late TransformationController _transformationController;
+  late AnimationController _animationController;
+  Animation<Matrix4>? _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _transformationController = TransformationController();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    )..addListener(() {
+        _transformationController.value = _animation!.value;
+      });
+  }
+
+  @override
+  void dispose() {
+    _transformationController.dispose();
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void _onInteractionEnd() {
+    if (_transformationController.value != Matrix4.identity()) {
+      _animation = Matrix4Tween(
+        begin: _transformationController.value,
+        end: Matrix4.identity(),
+      ).animate(CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeOut,
+      ));
+      _animationController.forward(from: 0);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        image: const DecorationImage(
-          image: AssetImage('assets/test_pictures/test_post.webp'),
-          fit: BoxFit.cover,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: InteractiveViewer(
+        transformationController: _transformationController,
+        onInteractionEnd: (details) => _onInteractionEnd(),
+        minScale: 1.0,
+        maxScale: 4.0,
+        child: Container(
+          height: 300,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/test_pictures/test_post.webp'),
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
       ),
     );
