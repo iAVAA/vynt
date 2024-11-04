@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vynt/controllers/animation_controller.dart';
 
 class PostWidget extends StatelessWidget {
   final int index;
@@ -155,40 +156,19 @@ class _PostActionsState extends State<PostActions>
     with TickerProviderStateMixin {
   bool isLiked = false;
   bool isBookmarked = false;
-
-  late AnimationController _likeController;
-  late AnimationController _bookmarkController;
-  late Animation<double> _likeAnimation;
-  late Animation<double> _bookmarkAnimation;
+  late IconAnimationController iconAnimationController;
 
   @override
   void initState() {
     super.initState();
-
-    _likeController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 250),
-    );
-    _bookmarkController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 250),
-    );
-
-    _likeAnimation = TweenSequence([
-      TweenSequenceItem(tween: Tween<double>(begin: 1.0, end: 1.2), weight: 50),
-      TweenSequenceItem(tween: Tween<double>(begin: 1.2, end: 1.0), weight: 50),
-    ]).animate(_likeController);
-
-    _bookmarkAnimation = TweenSequence([
-      TweenSequenceItem(tween: Tween<double>(begin: 1.0, end: 1.2), weight: 50),
-      TweenSequenceItem(tween: Tween<double>(begin: 1.2, end: 1.0), weight: 50),
-    ]).animate(_bookmarkController);
+    iconAnimationController = IconAnimationController(vsync: this);
+    iconAnimationController.initLikeAnimation();
+    iconAnimationController.initBookmarkAnimation();
   }
 
   @override
   void dispose() {
-    _likeController.dispose();
-    _bookmarkController.dispose();
+    iconAnimationController.dispose();
     super.dispose();
   }
 
@@ -196,14 +176,14 @@ class _PostActionsState extends State<PostActions>
     setState(() {
       isLiked = !isLiked;
     });
-    _likeController.forward(from: 0.0);
+    iconAnimationController.playLikeAnimation();
   }
 
   void _onBookmarkButtonPressed() {
     setState(() {
       isBookmarked = !isBookmarked;
     });
-    _bookmarkController.forward(from: 0.0);
+    iconAnimationController.playBookmarkAnimation();
   }
 
   @override
@@ -211,7 +191,7 @@ class _PostActionsState extends State<PostActions>
     return Row(
       children: [
         ScaleTransition(
-          scale: _likeAnimation,
+          scale: iconAnimationController.likeAnimation,
           child: IconButton(
             icon: Icon(
               isLiked ? Icons.favorite : Icons.favorite_border_outlined,
@@ -245,7 +225,7 @@ class _PostActionsState extends State<PostActions>
         ),
         const Spacer(),
         ScaleTransition(
-          scale: _bookmarkAnimation,
+          scale: iconAnimationController.bookmarkAnimation,
           child: IconButton(
             icon: Icon(
               isBookmarked
