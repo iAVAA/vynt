@@ -43,6 +43,8 @@ dependencies:
   marquee: ^2.3.0
   page_transition: ^2.1.0
   flutter_launcher_icons: ^0.14.1
+  animate_do: ^3.3.4
+
 
 
 

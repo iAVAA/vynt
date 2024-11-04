@@ -93,16 +93,69 @@ class PostImage extends StatelessWidget {
   }
 }
 
-class PostActions extends StatelessWidget {
+class PostActions extends StatefulWidget {
   const PostActions({super.key});
+
+  @override
+  _PostActionsState createState() => _PostActionsState();
+}
+
+class _PostActionsState extends State<PostActions>
+    with SingleTickerProviderStateMixin {
+  bool isLiked = false;
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 250),
+    );
+
+    _animation = TweenSequence([
+      TweenSequenceItem(tween: Tween<double>(begin: 1.0, end: 1.2), weight: 50),
+      TweenSequenceItem(tween: Tween<double>(begin: 1.2, end: 1.0), weight: 50),
+    ]).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onLikeButtonPressed() {
+    setState(() {
+      isLiked = !isLiked;
+    });
+    _controller.forward(from: 0.0);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
+        ScaleTransition(
+          scale: _animation,
+          child: IconButton(
+            icon: Icon(
+              isLiked
+                  ? Icons.favorite
+                  : Icons
+                      .favorite_border_outlined, // TODO: MODIFY THE LIKE ICON, DO A NOTE LIKE ICON
+              color: isLiked ? Colors.red : Colors.white,
+            ),
+            onPressed: _onLikeButtonPressed,
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+          ),
+        ),
         IconButton(
           icon: const Icon(
-            Icons.favorite_border,
+            CupertinoIcons.chat_bubble,
             color: Colors.white,
           ),
           onPressed: () {},
@@ -112,18 +165,8 @@ class PostActions extends StatelessWidget {
         ),
         IconButton(
           icon: const Icon(
-              CupertinoIcons.chat_bubble,
-              color: Colors.white
-          ),
-          onPressed: () {},
-          hoverColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-        ),
-        IconButton(
-          icon: const Icon(
-              CupertinoIcons.paperplane,
-              color: Colors.white
+            CupertinoIcons.paperplane,
+            color: Colors.white,
           ),
           onPressed: () {},
           hoverColor: Colors.transparent,
@@ -133,8 +176,8 @@ class PostActions extends StatelessWidget {
         const Spacer(),
         IconButton(
           icon: const Icon(
-              CupertinoIcons.bookmark,
-              color: Colors.white
+            CupertinoIcons.bookmark,
+            color: Colors.white,
           ),
           onPressed: () {},
           hoverColor: Colors.transparent,
