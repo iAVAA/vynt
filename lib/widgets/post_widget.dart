@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vynt/controllers/animation_controller.dart';
@@ -73,7 +75,6 @@ class UserInfoRow extends StatelessWidget {
     );
   }
 }
-
 class PostImage extends StatefulWidget {
   final int index;
 
@@ -126,24 +127,53 @@ class _PostImageState extends State<PostImage>
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
-      child: InteractiveViewer(
-        transformationController: _transformationController,
-        onInteractionEnd: (details) => _onInteractionEnd(),
-        minScale: 1.0,
-        maxScale: 4.0,
-        child: Container(
-          height: 300,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/test_pictures/test_post.webp'),
-              fit: BoxFit.cover,
+      child: Stack(
+        children: [
+          InteractiveViewer(
+            transformationController: _transformationController,
+            onInteractionEnd: (details) => _onInteractionEnd(),
+            minScale: 1.0,
+            maxScale: 4.0,
+            child: Container(
+              height: 300,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/test_pictures/test_post.webp'),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
           ),
-        ),
+          Positioned.fill(
+            child: Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'Centered Text',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
+
 
 class PostActions extends StatefulWidget {
   const PostActions({super.key});
