@@ -101,28 +101,43 @@ class PostActions extends StatefulWidget {
 }
 
 class _PostActionsState extends State<PostActions>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   bool isLiked = false;
-  late AnimationController _controller;
-  late Animation<double> _animation;
+  bool isBookmarked = false;
+
+  late AnimationController _likeController;
+  late AnimationController _bookmarkController;
+  late Animation<double> _likeAnimation;
+  late Animation<double> _bookmarkAnimation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
+
+    _likeController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 250),
+    );
+    _bookmarkController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 250),
     );
 
-    _animation = TweenSequence([
+    _likeAnimation = TweenSequence([
       TweenSequenceItem(tween: Tween<double>(begin: 1.0, end: 1.2), weight: 50),
       TweenSequenceItem(tween: Tween<double>(begin: 1.2, end: 1.0), weight: 50),
-    ]).animate(_controller);
+    ]).animate(_likeController);
+
+    _bookmarkAnimation = TweenSequence([
+      TweenSequenceItem(tween: Tween<double>(begin: 1.0, end: 1.2), weight: 50),
+      TweenSequenceItem(tween: Tween<double>(begin: 1.2, end: 1.0), weight: 50),
+    ]).animate(_bookmarkController);
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _likeController.dispose();
+    _bookmarkController.dispose();
     super.dispose();
   }
 
@@ -130,7 +145,14 @@ class _PostActionsState extends State<PostActions>
     setState(() {
       isLiked = !isLiked;
     });
-    _controller.forward(from: 0.0);
+    _likeController.forward(from: 0.0);
+  }
+
+  void _onBookmarkButtonPressed() {
+    setState(() {
+      isBookmarked = !isBookmarked;
+    });
+    _bookmarkController.forward(from: 0.0);
   }
 
   @override
@@ -138,13 +160,10 @@ class _PostActionsState extends State<PostActions>
     return Row(
       children: [
         ScaleTransition(
-          scale: _animation,
+          scale: _likeAnimation,
           child: IconButton(
             icon: Icon(
-              isLiked
-                  ? Icons.favorite
-                  : Icons
-                      .favorite_border_outlined, // TODO: MODIFY THE LIKE ICON, DO A NOTE LIKE ICON
+              isLiked ? Icons.favorite : Icons.favorite_border_outlined,
               color: isLiked ? Colors.red : Colors.white,
             ),
             onPressed: _onLikeButtonPressed,
@@ -174,15 +193,20 @@ class _PostActionsState extends State<PostActions>
           splashColor: Colors.transparent,
         ),
         const Spacer(),
-        IconButton(
-          icon: const Icon(
-            CupertinoIcons.bookmark,
-            color: Colors.white,
+        ScaleTransition(
+          scale: _bookmarkAnimation,
+          child: IconButton(
+            icon: Icon(
+              isBookmarked
+                  ? CupertinoIcons.bookmark_fill
+                  : CupertinoIcons.bookmark,
+              color: Colors.white,
+            ),
+            onPressed: _onBookmarkButtonPressed,
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
           ),
-          onPressed: () {},
-          hoverColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
         ),
       ],
     );
