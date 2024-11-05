@@ -59,8 +59,7 @@ class UserInfoRow extends StatelessWidget {
         const SizedBox(width: 10),
         Text(
           'User $index',
-          style:
-              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         const Spacer(),
         Material(
@@ -90,8 +89,7 @@ class PostImage extends StatefulWidget {
   _PostImageState createState() => _PostImageState();
 }
 
-class _PostImageState extends State<PostImage>
-    with SingleTickerProviderStateMixin {
+class _PostImageState extends State<PostImage> with SingleTickerProviderStateMixin {
   late TransformationController _transformationController;
   late AnimationController _animationController;
   Animation<Matrix4>? _animation;
@@ -157,17 +155,26 @@ class _PostImageState extends State<PostImage>
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                   child: Container(
-                    width: 150,
-                    height: 150,
+                    width: 200,
+                    height: 200,
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Center(
-                      child: Text(
-                        'Centered Text',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/arts/vinyl_art.png',
+                          width: 200,
+                          height: 270,
+                        ),
+                        Image.asset(
+                          'assets/arts/cover_art.png',
+                          width: 200,
+                          height: 270,
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -187,10 +194,12 @@ class PostActions extends StatefulWidget {
   _PostActionsState createState() => _PostActionsState();
 }
 
-class _PostActionsState extends State<PostActions>
-    with TickerProviderStateMixin {
+class _PostActionsState extends State<PostActions> with TickerProviderStateMixin {
   bool isLiked = false;
   bool isBookmarked = false;
+  int likeCount = 0;
+  int commentCount = 0;
+  int shareCount = 0;
   late IconAnimationController iconAnimationController;
 
   @override
@@ -210,6 +219,7 @@ class _PostActionsState extends State<PostActions>
   void _onLikeButtonPressed() {
     setState(() {
       isLiked = !isLiked;
+      likeCount += isLiked ? 1 : -1;
     });
     iconAnimationController.playLikeAnimation();
   }
@@ -225,50 +235,62 @@ class _PostActionsState extends State<PostActions>
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ScaleTransition(
-          scale: iconAnimationController.likeAnimation,
-          child: IconButton(
-            icon: Icon(
-              isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-              color: isLiked ? Colors.red : Colors.white,
+        Column(
+          children: [
+            ScaleTransition(
+              scale: iconAnimationController.likeAnimation,
+              child: IconButton(
+                icon: Icon(
+                  isLiked ? Icons.favorite : Icons.favorite_border_outlined,
+                  color: isLiked ? Colors.red : Colors.white,
+                ),
+                onPressed: _onLikeButtonPressed,
+                hoverColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+              ),
             ),
-            onPressed: _onLikeButtonPressed,
-            hoverColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-          ),
+            Text(
+              '$likeCount',
+              style: const TextStyle(color: Colors.white),
+            ),
+          ],
         ),
-        const Text(
-          '10',
-          style: TextStyle(color: Colors.white),
+        Column(
+          children: [
+            IconButton(
+              icon: const Icon(
+                CupertinoIcons.chat_bubble,
+                color: Colors.white,
+              ),
+              onPressed: () {},
+              hoverColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+            ),
+            Text(
+              '$commentCount',
+              style: const TextStyle(color: Colors.white),
+            ),
+          ],
         ),
-        IconButton(
-          icon: const Icon(
-            CupertinoIcons.chat_bubble,
-            color: Colors.white,
-          ),
-          onPressed: () {},
-          hoverColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-        ),
-        const Text(
-          '10',
-          style: TextStyle(color: Colors.white),
-        ),
-        IconButton(
-          icon: const Icon(
-            CupertinoIcons.paperplane,
-            color: Colors.white,
-          ),
-          onPressed: () {},
-          hoverColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-        ),
-        const Text(
-          '10',
-          style: TextStyle(color: Colors.white),
+        Column(
+          children: [
+            IconButton(
+              icon: const Icon(
+                CupertinoIcons.paperplane,
+                color: Colors.white,
+              ),
+              onPressed: () {},
+              hoverColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+            ),
+            Text(
+              '$shareCount',
+              style: const TextStyle(color: Colors.white),
+            ),
+          ],
         ),
         const Spacer(),
         ScaleTransition(
