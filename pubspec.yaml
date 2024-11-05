@@ -43,6 +43,8 @@ dependencies:
   marquee: ^2.3.0
   page_transition: ^2.1.0
   flutter_launcher_icons: ^0.14.1
+  animate_do: ^3.3.4
+
 
 
 
@@ -73,6 +75,8 @@ flutter:
     - assets/icons/home.json
     - assets/test_pictures/daniele_pfp.png
     - assets/test_pictures/test_post.webp
+    - assets/arts/vinyl_art.png
+    - assets/arts/cover_art.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

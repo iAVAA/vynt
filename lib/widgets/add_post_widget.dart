@@ -10,18 +10,18 @@ class AddPostWidget extends StatelessWidget {
       onTap: () {
         Navigator.of(context).pop();
       },
-      child: Container(
-        color: Colors.black54,
-        child: GestureDetector(
-          onTap: () {},
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+      child: GestureDetector(
+        onTap: () {},
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+          child: Padding(
+            padding: const EdgeInsets.all(25.0),
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.5,
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.grey[900],
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                  borderRadius: const BorderRadius.all(Radius.circular(50)),
                 ),
                 padding: const EdgeInsets.all(16.0),
                 child: Column(

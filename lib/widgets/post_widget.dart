@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vynt/controllers/animation_controller.dart';
 
 class PostWidget extends StatelessWidget {
   final int index;
@@ -27,6 +30,11 @@ class PostWidget extends StatelessWidget {
           Text(
             'User $index: Sample caption for post #$index...',
             style: const TextStyle(color: Colors.white),
+          ),
+          const SizedBox(height: 5),
+          const Text(
+            'Posted on 01/01/2022',
+            style: TextStyle(color: Colors.grey),
           ),
           const SizedBox(height: 25),
         ],
@@ -73,36 +81,179 @@ class UserInfoRow extends StatelessWidget {
   }
 }
 
-class PostImage extends StatelessWidget {
+class PostImage extends StatefulWidget {
   final int index;
 
   const PostImage({required this.index, super.key});
 
   @override
+  _PostImageState createState() => _PostImageState();
+}
+
+class _PostImageState extends State<PostImage>
+    with SingleTickerProviderStateMixin {
+  late TransformationController _transformationController;
+  late AnimationController _animationController;
+  Animation<Matrix4>? _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _transformationController = TransformationController();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    )..addListener(() {
+        _transformationController.value = _animation!.value;
+      });
+  }
+
+  @override
+  void dispose() {
+    _transformationController.dispose();
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void _onInteractionEnd() {
+    if (_transformationController.value != Matrix4.identity()) {
+      _animation = Matrix4Tween(
+        begin: _transformationController.value,
+        end: Matrix4.identity(),
+      ).animate(CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeOut,
+      ));
+      _animationController.forward(from: 0);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        image: const DecorationImage(
-          image: AssetImage('assets/test_pictures/test_post.webp'),
-          fit: BoxFit.cover,
-        ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: Stack(
+        children: [
+          InteractiveViewer(
+            transformationController: _transformationController,
+            onInteractionEnd: (details) => _onInteractionEnd(),
+            minScale: 1.0,
+            maxScale: 4.0,
+            child: Container(
+              height: 300,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/test_pictures/test_post.webp'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+          Positioned.fill(
+            child: Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/arts/vinyl_art.png',
+                          width: 200,
+                          height: 270,
+                        ),
+                        Image.asset(
+                          'assets/arts/cover_art.png',
+                          width: 200,
+                          height: 270,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class PostActions extends StatelessWidget {
+class PostActions extends StatefulWidget {
   const PostActions({super.key});
+
+  @override
+  _PostActionsState createState() => _PostActionsState();
+}
+
+class _PostActionsState extends State<PostActions>
+    with TickerProviderStateMixin {
+  bool isLiked = false;
+  bool isBookmarked = false;
+  late IconAnimationController iconAnimationController;
+
+  @override
+  void initState() {
+    super.initState();
+    iconAnimationController = IconAnimationController(vsync: this);
+    iconAnimationController.initLikeAnimation();
+    iconAnimationController.initBookmarkAnimation();
+  }
+
+  @override
+  void dispose() {
+    iconAnimationController.dispose();
+    super.dispose();
+  }
+
+  void _onLikeButtonPressed() {
+    setState(() {
+      isLiked = !isLiked;
+    });
+    iconAnimationController.playLikeAnimation();
+  }
+
+  void _onBookmarkButtonPressed() {
+    setState(() {
+      isBookmarked = !isBookmarked;
+    });
+    iconAnimationController.playBookmarkAnimation();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
+        ScaleTransition(
+          scale: iconAnimationController.likeAnimation,
+          child: IconButton(
+            icon: Icon(
+              isLiked ? Icons.favorite : Icons.favorite_border_outlined,
+              color: isLiked ? Colors.red : Colors.white,
+            ),
+            onPressed: _onLikeButtonPressed,
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+          ),
+        ),
+        const Text(
+          '10',
+          style: TextStyle(color: Colors.white),
+        ),
         IconButton(
           icon: const Icon(
-            Icons.favorite_border,
+            CupertinoIcons.chat_bubble,
             color: Colors.white,
           ),
           onPressed: () {},
@@ -110,36 +261,39 @@ class PostActions extends StatelessWidget {
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
         ),
+        const Text(
+          '10',
+          style: TextStyle(color: Colors.white),
+        ),
         IconButton(
           icon: const Icon(
-              CupertinoIcons.chat_bubble,
-              color: Colors.white
+            CupertinoIcons.paperplane,
+            color: Colors.white,
           ),
           onPressed: () {},
           hoverColor: Colors.transparent,
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
         ),
-        IconButton(
-          icon: const Icon(
-              CupertinoIcons.paperplane,
-              color: Colors.white
-          ),
-          onPressed: () {},
-          hoverColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
+        const Text(
+          '10',
+          style: TextStyle(color: Colors.white),
         ),
         const Spacer(),
-        IconButton(
-          icon: const Icon(
-              CupertinoIcons.bookmark,
-              color: Colors.white
+        ScaleTransition(
+          scale: iconAnimationController.bookmarkAnimation,
+          child: IconButton(
+            icon: Icon(
+              isBookmarked
+                  ? CupertinoIcons.bookmark_fill
+                  : CupertinoIcons.bookmark,
+              color: Colors.white,
+            ),
+            onPressed: _onBookmarkButtonPressed,
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
           ),
-          onPressed: () {},
-          hoverColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
         ),
       ],
     );
