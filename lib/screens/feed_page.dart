@@ -35,13 +35,13 @@ class Feed extends StatelessWidget {
       physics: const ClampingScrollPhysics(),
       children: [
         const Placeholder(),
-        _buildFeedContent(context),
+        _buildFeedContent(context, pageController),
         const MessagePage(),
       ],
     );
   }
 
-  Widget _buildFeedContent(BuildContext context) {
+  Widget _buildFeedContent(BuildContext context, PageController pageController) {
     return Consumer<ScrollMonitor>(
       builder: (context, scrollMonitor, child) {
         return CustomScrollView(
@@ -50,6 +50,7 @@ class Feed extends StatelessWidget {
             ApplicationBar(
               title: constants.appName,
               scrollController: scrollMonitor.scrollController,
+              pageController: pageController, // Pass the PageController here
             ),
             const SliverToBoxAdapter(child: StoryBoxRow()),
             const SliverPadding(

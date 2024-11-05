@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
-
-import '../screens/subscreens/message_page.dart';
 
 class ApplicationBar extends StatelessWidget {
   final String title;
   final ScrollController scrollController;
+  final PageController pageController; // Add PageController
 
   const ApplicationBar({
     super.key,
     required this.title,
     required this.scrollController,
+    required this.pageController, // Add PageController
   });
 
   @override
@@ -79,13 +78,9 @@ class ApplicationBar extends StatelessWidget {
                       size: iconSize,
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: const MessagePage(),
-                          duration: const Duration(milliseconds: 300),
-                        ),
+                      pageController.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
                       );
                     },
                     splashColor: Colors.transparent,
