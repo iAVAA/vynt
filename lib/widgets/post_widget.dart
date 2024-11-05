@@ -59,7 +59,8 @@ class UserInfoRow extends StatelessWidget {
         const SizedBox(width: 10),
         Text(
           'User $index',
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         const Spacer(),
         Material(
@@ -89,7 +90,8 @@ class PostImage extends StatefulWidget {
   _PostImageState createState() => _PostImageState();
 }
 
-class _PostImageState extends State<PostImage> with SingleTickerProviderStateMixin {
+class _PostImageState extends State<PostImage>
+    with SingleTickerProviderStateMixin {
   late TransformationController _transformationController;
   late AnimationController _animationController;
   Animation<Matrix4>? _animation;
@@ -194,12 +196,10 @@ class PostActions extends StatefulWidget {
   _PostActionsState createState() => _PostActionsState();
 }
 
-class _PostActionsState extends State<PostActions> with TickerProviderStateMixin {
+class _PostActionsState extends State<PostActions>
+    with TickerProviderStateMixin {
   bool isLiked = false;
   bool isBookmarked = false;
-  int likeCount = 0;
-  int commentCount = 0;
-  int shareCount = 0;
   late IconAnimationController iconAnimationController;
 
   @override
@@ -219,7 +219,6 @@ class _PostActionsState extends State<PostActions> with TickerProviderStateMixin
   void _onLikeButtonPressed() {
     setState(() {
       isLiked = !isLiked;
-      likeCount += isLiked ? 1 : -1;
     });
     iconAnimationController.playLikeAnimation();
   }
@@ -235,62 +234,50 @@ class _PostActionsState extends State<PostActions> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Column(
-          children: [
-            ScaleTransition(
-              scale: iconAnimationController.likeAnimation,
-              child: IconButton(
-                icon: Icon(
-                  isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-                  color: isLiked ? Colors.red : Colors.white,
-                ),
-                onPressed: _onLikeButtonPressed,
-                hoverColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent,
-              ),
+        ScaleTransition(
+          scale: iconAnimationController.likeAnimation,
+          child: IconButton(
+            icon: Icon(
+              isLiked ? Icons.favorite : Icons.favorite_border_outlined,
+              color: isLiked ? Colors.red : Colors.white,
             ),
-            Text(
-              '$likeCount',
-              style: const TextStyle(color: Colors.white),
-            ),
-          ],
+            onPressed: _onLikeButtonPressed,
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+          ),
         ),
-        Column(
-          children: [
-            IconButton(
-              icon: const Icon(
-                CupertinoIcons.chat_bubble,
-                color: Colors.white,
-              ),
-              onPressed: () {},
-              hoverColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-            ),
-            Text(
-              '$commentCount',
-              style: const TextStyle(color: Colors.white),
-            ),
-          ],
+        const Text(
+          '10',
+          style: TextStyle(color: Colors.white),
         ),
-        Column(
-          children: [
-            IconButton(
-              icon: const Icon(
-                CupertinoIcons.paperplane,
-                color: Colors.white,
-              ),
-              onPressed: () {},
-              hoverColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-            ),
-            Text(
-              '$shareCount',
-              style: const TextStyle(color: Colors.white),
-            ),
-          ],
+        IconButton(
+          icon: const Icon(
+            CupertinoIcons.chat_bubble,
+            color: Colors.white,
+          ),
+          onPressed: () {},
+          hoverColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+        ),
+        const Text(
+          '10',
+          style: TextStyle(color: Colors.white),
+        ),
+        IconButton(
+          icon: const Icon(
+            CupertinoIcons.paperplane,
+            color: Colors.white,
+          ),
+          onPressed: () {},
+          hoverColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+        ),
+        const Text(
+          '10',
+          style: TextStyle(color: Colors.white),
         ),
         const Spacer(),
         ScaleTransition(
