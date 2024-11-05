@@ -31,6 +31,11 @@ class PostWidget extends StatelessWidget {
             'User $index: Sample caption for post #$index...',
             style: const TextStyle(color: Colors.white),
           ),
+          const SizedBox(height: 5),
+          const Text(
+            'Posted on 01/01/2022',
+            style: TextStyle(color: Colors.grey),
+          ),
           const SizedBox(height: 25),
         ],
       ),
@@ -75,6 +80,7 @@ class UserInfoRow extends StatelessWidget {
     );
   }
 }
+
 class PostImage extends StatefulWidget {
   final int index;
 
@@ -151,8 +157,8 @@ class _PostImageState extends State<PostImage>
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                   child: Container(
-                    width: 200,
-                    height: 200,
+                    width: 150,
+                    height: 150,
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(10),
@@ -173,7 +179,6 @@ class _PostImageState extends State<PostImage>
     );
   }
 }
-
 
 class PostActions extends StatefulWidget {
   const PostActions({super.key});
@@ -233,6 +238,10 @@ class _PostActionsState extends State<PostActions>
             splashColor: Colors.transparent,
           ),
         ),
+        const Text(
+          '10',
+          style: TextStyle(color: Colors.white),
+        ),
         IconButton(
           icon: const Icon(
             CupertinoIcons.chat_bubble,
@@ -243,6 +252,10 @@ class _PostActionsState extends State<PostActions>
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
         ),
+        const Text(
+          '10',
+          style: TextStyle(color: Colors.white),
+        ),
         IconButton(
           icon: const Icon(
             CupertinoIcons.paperplane,
@@ -252,6 +265,10 @@ class _PostActionsState extends State<PostActions>
           hoverColor: Colors.transparent,
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
+        ),
+        const Text(
+          '10',
+          style: TextStyle(color: Colors.white),
         ),
         const Spacer(),
         ScaleTransition(
