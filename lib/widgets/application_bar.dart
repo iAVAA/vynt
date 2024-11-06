@@ -46,7 +46,13 @@ class ApplicationBar extends StatelessWidget {
                       color: Colors.white,
                       size: iconSize,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      pageController.animateToPage(
+                        0, // Navigate to the first page
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     hoverColor: Colors.transparent,
