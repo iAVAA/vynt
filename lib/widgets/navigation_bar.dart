@@ -33,7 +33,7 @@ class CustomNavigationBar extends StatelessWidget {
               left: 0,
               right: 0,
               bottom: scrollMonitor.isScrollingDown
-                  ? -kBottomNavigationBarHeight - 65
+                  ? -kBottomNavigationBarHeight - 75
                   : 0,
               child: CrystalNavigationBar(
                 enableFloatingNavBar: true,
