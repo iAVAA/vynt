@@ -1,12 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:marquee/marquee.dart';
+
+import 'package:provider/provider.dart';
+
+import 'package:vynt/controllers/scroll_monitor.dart';
 
 class Search extends StatelessWidget {
   const Search({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final scrollMonitor = Provider.of<ScrollMonitor>(context);
+
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
@@ -17,39 +24,42 @@ class Search extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CupertinoSearchTextField(
-              backgroundColor: Colors.grey[800],
-              borderRadius: BorderRadius.circular(10),
-              placeholder: 'Search',
-              placeholderStyle: const TextStyle(color: Colors.grey),
-              itemColor: Colors.grey,
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-          SizedBox(
-            height: 110,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-              itemCount: 10,
-              itemBuilder: (context, index) => _buildEventItem(),
-            ),
-          ),
-          // Grid View
-          Expanded(
-            child: GridView.builder(
+      body: CustomScrollView(
+        controller: scrollMonitor.scrollController,
+        slivers: [
+          SliverToBoxAdapter(
+            child: Padding(
               padding: const EdgeInsets.all(8.0),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 4,
-                crossAxisSpacing: 4,
+              child: CupertinoSearchTextField(
+                backgroundColor: Colors.grey[800],
+                borderRadius: BorderRadius.circular(10),
+                placeholder: 'Search',
+                placeholderStyle: const TextStyle(color: Colors.grey),
+                itemColor: Colors.grey,
+                style: const TextStyle(color: Colors.white),
               ),
-              itemCount: 30,
-              itemBuilder: (context, index) {
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 110,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                itemCount: 10,
+                itemBuilder: (context, index) => _buildEventItem(),
+              ),
+            ),
+          ),
+          SliverGrid(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              mainAxisSpacing: 4,
+              crossAxisSpacing: 4,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
                 return Container(
                   decoration: BoxDecoration(
                     color: Colors.grey[800],
@@ -64,6 +74,7 @@ class Search extends StatelessWidget {
                   ),
                 );
               },
+              childCount: 30,
             ),
           ),
         ],

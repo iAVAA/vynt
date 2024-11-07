@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:vynt/controllers/animation_controller.dart';
 
 class PostWidget extends StatelessWidget {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:marquee/marquee.dart';
 
 class StoryBoxRow extends StatelessWidget {
