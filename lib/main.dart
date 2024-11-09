@@ -13,10 +13,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // Lock orientation to portrait only
   await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp
   ]);
 
   runApp(
