@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:ui';
+
+import 'package:flutter/material.dart';
 
 class AddPostWidget extends StatelessWidget {
   const AddPostWidget({super.key});
@@ -17,7 +18,7 @@ class AddPostWidget extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(25.0),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
+              height: MediaQuery.of(context).size.height * 0.8,
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.grey[900],
@@ -28,26 +29,46 @@ class AddPostWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     const Text(
-                      'Add a New Post',
+                      'Add a new post',
                       style: TextStyle(
-                        fontSize: 24,
                         color: Colors.white,
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    const TextField(
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/arts/vinyl_art.png',
+                          width: 200,
+                          height: 270,
+                        ),
+                        Image.asset(
+                          'assets/arts/cover_art.png',
+                          width: 180,
+                          height: 270,
+                        ),
+                      ],
+                    ),
+                    TextField(
+                      maxLines: 1,
+                      style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Post Content',
+                        hintText: 'Write a description...',
+                        hintStyle: const TextStyle(color: Colors.white70),
+                        filled: true,
+                        fillColor: Colors.grey[800],
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    // add the playlist selector
                     ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Submit'),
+                      onPressed: () {},
+                      child: const Text('Post'),
                     ),
                   ],
                 ),

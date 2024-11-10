@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'feed_page.dart';
-import 'search_page.dart';
-import 'profile_page.dart';
-import '../widgets/navigation_bar.dart';
-import '../widgets/add_post_widget.dart';
+
+import 'package:vynt/screens/feed_page.dart';
+import 'package:vynt/screens/search_page.dart';
+import 'package:vynt/screens/profile_page.dart';
+import 'package:vynt/screens/../widgets/navigation_bar.dart';
+import 'package:vynt/screens/../widgets/add_post_widget.dart';
+import 'package:vynt/screens/../controllers/scroll_monitor.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,13 +16,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
+  final ScrollMonitor _scrollMonitor = ScrollMonitor();
 
-  static const List<Widget> _pages = <Widget>[
-    Feed(),
-    Search(),
-    AddPostWidget(),
-    Placeholder(),
-    Profile(),
+  static List<Widget> _pages(ScrollMonitor scrollMonitor) => <Widget>[
+    const Feed(),
+    const Search(),
+    const AddPostWidget(),
+    const Placeholder(),
+    const Profile(),
   ];
 
   void _onItemTapped(int index) {
@@ -50,7 +53,8 @@ class _HomeState extends State<Home> {
       body: CustomNavigationBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
-        pages: _pages,
+        pages: _pages(_scrollMonitor),
+        scrollMonitor: _scrollMonitor,
       ),
     );
   }

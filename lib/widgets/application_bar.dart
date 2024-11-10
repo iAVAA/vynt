@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 class ApplicationBar extends StatelessWidget {
   final String title;
   final ScrollController scrollController;
-  final PageController pageController; // Add PageController
+  final PageController pageController;
 
   const ApplicationBar({
     super.key,
     required this.title,
     required this.scrollController,
-    required this.pageController, // Add PageController
+    required this.pageController,
   });
 
   @override
@@ -46,7 +47,13 @@ class ApplicationBar extends StatelessWidget {
                       color: Colors.white,
                       size: iconSize,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      pageController.animateToPage(
+                        0,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     hoverColor: Colors.transparent,

@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:vynt/widgets/splash_screen.dart';
+import 'controllers/scroll_monitor.dart';
 import 'firebase_options.dart';
 import 'constants.dart' as constants;
 
@@ -11,13 +13,16 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // Lock orientation to portrait only
   await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp
   ]);
 
-  runApp(const Main());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ScrollMonitor(),
+      child: const Main(),
+    ),
+  );
 }
 
 class Main extends StatelessWidget {
