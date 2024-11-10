@@ -31,10 +31,16 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.4'
+          channel: 'stable'
+          architecture: x64
 
       - name: Install Flutter dependencies
         run: flutter pub get
+
+      - name: Setup Pods (for iOS)
+        if: matrix.platform == 'ios'
+        run: pod repo update
+        working-directory: ios
 
       - name: Build Android APK
         if: matrix.platform == 'android'
@@ -42,10 +48,24 @@ jobs:
           export JAVA_HOME=/opt/hostedtoolcache/Java_Corretto_jdk/17.0.13-11.1/x64
           flutter build apk --release
 
-      - name: Build iOS for Simulator
+      - name: Build iOS Runner
         if: matrix.platform == 'ios'
-        run: |
-          flutter build ios --debug --no-codesign
+        run: flutter build ios --release --no-codesign
+
+      - name: Setup Payload
+        if: matrix.platform == 'ios'
+        run: mkdir Payload
+        working-directory: build/ios/iphoneos
+
+      - name: Move Runner.app to Payload
+        if: matrix.platform == 'ios'
+        run: mv Runner.app/ Payload
+        working-directory: build/ios/iphoneos
+
+      - name: Build IPA
+        if: matrix.platform == 'ios'
+        run: zip -qq -r -9 Runner.ipa Payload
+        working-directory: build/ios/iphoneos
 
       - name: Upload APK
         if: matrix.platform == 'android'
@@ -54,9 +74,9 @@ jobs:
           name: app-release.apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
-      - name: Upload iOS Build Artifacts
+      - name: Upload IPA
         if: matrix.platform == 'ios'
         uses: actions/upload-artifact@v3
         with:
-          name: ios-build
-          path: build/ios/iphoneos/*.app
+          name: ios-ipa
+          path: build/ios/iphoneos/Runner.ipa
