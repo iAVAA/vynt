@@ -44,6 +44,7 @@ class Feed extends StatelessWidget {
   Widget _buildFeedContent(BuildContext context, PageController pageController,
       ScrollMonitor scrollMonitor) {
     return CustomScrollView(
+      key: const PageStorageKey('feed'),
       controller: scrollMonitor.scrollController,
       slivers: [
         ApplicationBar(
