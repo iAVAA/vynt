@@ -22,6 +22,7 @@ class Profile extends StatelessWidget {
         ),
       ),
       body: CustomScrollView(
+        key: const PageStorageKey('profile'),
         controller: scrollMonitor.scrollController,
         slivers: [
           SliverToBoxAdapter(

@@ -25,6 +25,7 @@ class Search extends StatelessWidget {
         ),
       ),
       body: CustomScrollView(
+        key: const PageStorageKey('search'),
         controller: scrollMonitor.scrollController,
         slivers: [
           SliverToBoxAdapter(
