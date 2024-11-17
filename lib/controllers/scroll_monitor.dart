@@ -15,19 +15,20 @@ class ScrollMonitor extends ChangeNotifier {
 
   void _scrollListener() {
     double currentOffset = _scrollController.offset;
-    if ((currentOffset - _lastOffset).abs() > scrollThreshold) {
-      if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
-        if (!isScrollingDown) {
-          isScrollingDown = true;
-          notifyListeners();
-        }
-      } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
-        if (isScrollingDown) {
-          isScrollingDown = false;
-          notifyListeners();
-        }
+    double offsetDifference = (currentOffset - _lastOffset).abs();
+
+    if (offsetDifference > scrollThreshold) {
+      ScrollDirection direction = _scrollController.position.userScrollDirection;
+
+      if (direction == ScrollDirection.reverse && !isScrollingDown) {
+        isScrollingDown = true;
+        _lastOffset = currentOffset;
+        notifyListeners();
+      } else if (direction == ScrollDirection.forward && isScrollingDown) {
+        isScrollingDown = false;
+        _lastOffset = currentOffset;
+        notifyListeners();
       }
-      _lastOffset = currentOffset;
     }
   }
 
