@@ -2,22 +2,72 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MessagePage extends StatelessWidget {
-  const MessagePage({super.key});
+  final PageController pageController;
+
+  const MessagePage({super.key, required this.pageController});
 
   @override
   Widget build(BuildContext context) {
     final chatData = [
       {
-        'name': 'John Doe',
-        'message': 'Hey, how are you?',
-        'status': '2 new messages',
-        'avatar': 'https://via.placeholder.com/150'
+        'name': 'Michele',
+        'message': 'Hai preso 2 punti bonus a reti?',
+        'avatar': 'assets/test_pictures/michele_pfp.jpeg'
       },
       {
-        'name': 'Jane Smith',
-        'message': 'Let’s catch up soon!',
-        'status': 'Seen',
-        'avatar': 'https://via.placeholder.com/150'
+        'name': 'iava',
+        'message': 'Hai preso il tavolino?',
+        'avatar': 'assets/test_pictures/iava_pfp.png'
+      },
+      {
+        'name': 'Michele',
+        'message': 'Hai preso 2 punti bonus a reti?',
+        'avatar': 'assets/test_pictures/michele_pfp.jpeg'
+      },
+      {
+        'name': 'iava',
+        'message': 'Hai preso il tavolino?',
+        'avatar': 'assets/test_pictures/iava_pfp.png'
+      },
+      {
+        'name': 'Michele',
+        'message': 'Hai preso 2 punti bonus a reti?',
+        'avatar': 'assets/test_pictures/michele_pfp.jpeg'
+      },
+      {
+        'name': 'iava',
+        'message': 'Hai preso il tavolino?',
+        'avatar': 'assets/test_pictures/iava_pfp.png'
+      },
+      {
+        'name': 'Michele',
+        'message': 'Hai preso 2 punti bonus a reti?',
+        'avatar': 'assets/test_pictures/michele_pfp.jpeg'
+      },
+      {
+        'name': 'iava',
+        'message': 'Hai preso il tavolino?',
+        'avatar': 'assets/test_pictures/iava_pfp.png'
+      },
+      {
+        'name': 'Michele',
+        'message': 'Hai preso 2 punti bonus a reti?',
+        'avatar': 'assets/test_pictures/michele_pfp.jpeg'
+      },
+      {
+        'name': 'iava',
+        'message': 'Hai preso il tavolino?',
+        'avatar': 'assets/test_pictures/iava_pfp.png'
+      },
+      {
+        'name': 'Michele',
+        'message': 'Hai preso 2 punti bonus a reti?',
+        'avatar': 'assets/test_pictures/michele_pfp.jpeg'
+      },
+      {
+        'name': 'iava',
+        'message': 'Hai preso il tavolino?',
+        'avatar': 'assets/test_pictures/iava_pfp.png'
       },
     ];
 
@@ -28,10 +78,16 @@ class MessagePage extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {},
+          onPressed: () {
+            pageController.animateToPage(
+              1,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          },
         ),
         title: const Text(
-          'iava_a_',
+          'danielecompagnonibusiness',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -40,77 +96,80 @@ class MessagePage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.edit, color: Colors.white),
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            icon: const Icon(Icons.more_horiz, color: Colors.white),
             onPressed: () {},
           ),
           IconButton(
-            icon: const Icon(Icons.more_vert, color: Colors.white),
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            icon: const Icon(CupertinoIcons.pencil, color: Colors.white),
             onPressed: () {},
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CupertinoSearchTextField(
-              backgroundColor: Colors.grey[800],
-              borderRadius: BorderRadius.circular(10),
-              placeholder: 'Search',
-              placeholderStyle: const TextStyle(color: Colors.grey),
-              itemColor: Colors.grey,
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-          Expanded(
-            child: ListView.separated(
-              itemCount: chatData.length,
-              separatorBuilder: (context, index) => const Divider(
-                color: Colors.grey,
-                indent: 72.0,
-                endIndent: 16.0,
+      body: ListView.builder(
+        itemCount: chatData.length + 1,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CupertinoSearchTextField(
+                backgroundColor: Colors.grey[800],
+                borderRadius: BorderRadius.circular(10),
+                placeholder: 'Search',
+                placeholderStyle: const TextStyle(color: Colors.grey),
+                itemColor: Colors.grey,
+                style: const TextStyle(color: Colors.white),
               ),
-              itemBuilder: (context, index) {
-                final chat = chatData[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 16.0),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(chat['avatar']!),
-                      radius: 25,
-                    ),
-                    title: Text(
-                      chat['name']!,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          chat['message']!,
-                          style: const TextStyle(
-                              color: Colors.white70, fontSize: 14),
-                        ),
-                        if (chat['status'] != null)
-                          Text(
-                            chat['status']!,
-                            style: const TextStyle(
-                                color: Colors.blue, fontSize: 12),
-                          ),
-                      ],
-                    ),
-                    trailing: const Icon(Icons.camera_alt, color: Colors.white),
-                    onTap: () {},
-                  ),
-                );
-              },
+            );
+          }
+          final chat = chatData[index - 1];
+          return ListTile(
+            splashColor: Colors.transparent,
+            leading: CircleAvatar(
+              backgroundImage: AssetImage(chat['avatar']!),
+              radius: 25,
             ),
-          ),
-        ],
+            title: Text(
+              chat['name']!,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  chat['message']!,
+                  style: const TextStyle(color: Colors.white70, fontSize: 14),
+                ),
+              ],
+            ),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const Text(
+                  '1h',
+                  style: TextStyle(color: Colors.white70, fontSize: 12),
+                ),
+                CircleAvatar(
+                  radius: 10,
+                  backgroundColor: Colors.purple[700],
+                  child: const Text(
+                    '1',
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  ),
+                ),
+              ],
+            ),
+            onTap: () {},
+          );
+        },
       ),
     );
   }

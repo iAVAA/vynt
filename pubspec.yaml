@@ -77,6 +77,8 @@ flutter:
   assets:
     - assets/icons/home.json
     - assets/test_pictures/daniele_pfp.png
+    - assets/test_pictures/iava_pfp.png
+    - assets/test_pictures/michele_pfp.jpeg
     - assets/test_pictures/test_post.webp
     - assets/arts/vinyl_art.png
     - assets/arts/cover_art.png
