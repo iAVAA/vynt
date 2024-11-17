@@ -19,7 +19,12 @@ class PostWidget extends StatelessWidget {
         children: [
           UserInfoRow(index: index),
           const SizedBox(height: 10),
-          PostImage(index: index),
+          PostImage(
+            index: index,
+            onDoubleTapLike: () {
+              print('Double tap liked post #$index');
+            },
+          ),
           const SizedBox(height: 10),
           const PostActions(),
           const SizedBox(height: 5),
@@ -84,8 +89,9 @@ class UserInfoRow extends StatelessWidget {
 
 class PostImage extends StatefulWidget {
   final int index;
+  final VoidCallback onDoubleTapLike;
 
-  const PostImage({required this.index, super.key});
+  const PostImage({required this.index, required this.onDoubleTapLike, super.key});
 
   @override
   _PostImageState createState() => _PostImageState();
@@ -132,59 +138,62 @@ class _PostImageState extends State<PostImage>
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Stack(
-        children: [
-          InteractiveViewer(
-            transformationController: _transformationController,
-            onInteractionEnd: (details) => _onInteractionEnd(),
-            minScale: 1.0,
-            maxScale: 4.0,
-            child: Container(
-              height: 300,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/test_pictures/test_post.webp'),
-                  fit: BoxFit.cover,
+    return GestureDetector(
+      onDoubleTap: widget.onDoubleTapLike,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Stack(
+          children: [
+            InteractiveViewer(
+              transformationController: _transformationController,
+              onInteractionEnd: (details) => _onInteractionEnd(),
+              minScale: 1.0,
+              maxScale: 4.0,
+              child: Container(
+                height: 300,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/test_pictures/test_post.webp'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
-          ),
-          Positioned.fill(
-            child: Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                  child: Container(
-                    width: 200,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/arts/vinyl_art.png',
-                          width: 200,
-                          height: 270,
-                        ),
-                        Image.asset(
-                          'assets/arts/cover_art.png',
-                          width: 200,
-                          height: 270,
-                        ),
-                      ],
+            Positioned.fill(
+              child: Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                    child: Container(
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/arts/vinyl_art.png',
+                            width: 200,
+                            height: 270,
+                          ),
+                          Image.asset(
+                            'assets/arts/cover_art.png',
+                            width: 200,
+                            height: 270,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

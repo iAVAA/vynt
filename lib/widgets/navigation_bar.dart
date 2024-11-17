@@ -7,6 +7,8 @@ import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 
 import 'package:vynt/controllers/scroll_monitor.dart';
 
+import 'package:vynt/constants.dart' as constants;
+
 class CustomNavigationBar extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onItemTapped;
@@ -32,8 +34,7 @@ class CustomNavigationBar extends StatelessWidget {
               duration: const Duration(milliseconds: 250),
               left: 0,
               right: 0,
-              bottom: scrollMonitor.isScrollingDown
-                  ? -kBottomNavigationBarHeight - 75
+              bottom: scrollMonitor.isScrollingDown ? -constants.minNavBarHeight
                   : 0,
               child: CrystalNavigationBar(
                 enableFloatingNavBar: true,
