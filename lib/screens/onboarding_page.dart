@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:modular_ui/modular_ui.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../widgets/square_tile.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});
@@ -8,36 +12,39 @@ class OnBoardingScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[900],
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Image.asset(
-              "assets/icons/onboarding_background.png",
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text(
-              "Millions of songs.",
-              style: TextStyle(
-                fontFamily: "AB",
-                fontSize: 28,
-                color: Colors.white,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/icons/logo/vynt_logo.png",
+                width: 150,
+                height: 150,
               ),
-            ),
-            const Text(
-              "To share with your friends.",
-              style: TextStyle(
-                fontFamily: "AB",
-                fontSize: 28,
-                color: Colors.white,
+              const SizedBox(height: 20),
+              const Text(
+                "Millions of songs.",
+                style: TextStyle(
+                  fontFamily: "AB",
+                  fontSize: 28,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
               ),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            const _ActionButtons(),
-          ],
+              const Text(
+                "To share with your friends.",
+                style: TextStyle(
+                  fontFamily: "AB",
+                  fontSize: 28,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 30),
+              const _ActionButtons(),
+            ],
+          ),
         ),
       ),
     );
@@ -52,144 +59,36 @@ class _ActionButtons extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(MediaQuery.of(context).size.width, 49),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(25),
-                ),
-              ),
-              backgroundColor: Colors.white,
-            ),
-            onPressed: () {/*
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const CreateEmailScreen(),
-                ),
-              );*/
-            },
-            child: Text(
-              "ُSign up free",
-              style: TextStyle(
-                fontFamily: "AB",
-                fontSize: 16,
-                color: Colors.grey[900],
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          OutlinedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(MediaQuery.of(context).size.width, 49),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(25),
-                ),
-              ),
-              side: const BorderSide(
-                width: 1,
-                color: Colors.grey,
-              ),
-            ),
+          MUIPrimaryButton(
+            text: 'Register Now!',
             onPressed: () {},
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset("assets/icons/icon_google.png"),
-                const Text(
-                  "Continue with google",
-                  style: TextStyle(
-                    fontFamily: "AB",
-                    fontSize: 16,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(
-                  height: 18,
-                  width: 18,
-                ),
-              ],
-            ),
+            textColor: Colors.black,
+            bgColor: Colors.white,
+            hapticsEnabled: true,
+            borderRadius: 25,
+            widthFactorUnpressed: 0.05,
+            widthFactorPressed: 0.045,
           ),
-          const SizedBox(
-            height: 15,
-          ),
-          OutlinedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(MediaQuery.of(context).size.width, 49),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(25),
-                ),
+          const SizedBox(height: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SquareTile(
+                onTap: () {},
+                imagePath: 'assets/icons/icon_google.svg',
+                height: 50,
               ),
-              side: const BorderSide(
-                width: 1,
-                color: Colors.grey,
+              const SizedBox(width: 20),
+              SquareTile(
+                onTap: () {},
+                imagePath: 'assets/icons/icon_apple.svg',
+                height: 50,
               ),
-            ),
-            onPressed: () {},
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset("assets/icons/icon_facebook.png"),
-                const Text(
-                  "Continue with Facebook",
-                  style: TextStyle(
-                    fontFamily: "AB",
-                    fontSize: 16,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(
-                  height: 18,
-                  width: 18,
-                ),
-              ],
-            ),
+            ],
           ),
-          const SizedBox(
-            height: 15,
-          ),
-          OutlinedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(MediaQuery.of(context).size.width, 49),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(25),
-                ),
-              ),
-              side: const BorderSide(
-                width: 1,
-                color: Colors.grey,
-              ),
-            ),
-            onPressed: () {},
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset("assets/icons/icon_apple.png"),
-                const Text(
-                  "Continue with Apple",
-                  style: TextStyle(
-                    fontFamily: "AB",
-                    fontSize: 16,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(
-                  height: 18,
-                  width: 18,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 20),
           const Text(
             "Log in",
             style: TextStyle(
