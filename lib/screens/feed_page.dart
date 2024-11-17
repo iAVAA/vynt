@@ -36,7 +36,7 @@ class Feed extends StatelessWidget {
       children: [
         const Placeholder(),
         _buildFeedContent(context, pageController, scrollMonitor),
-        const MessagePage(),
+        MessagePage(pageController: pageController),
       ],
     );
   }
