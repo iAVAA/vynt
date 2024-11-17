@@ -52,6 +52,8 @@ class _ChatPageState extends State<ChatPage> {
         user: _user,
         theme: DefaultChatTheme(
           inputBackgroundColor: Colors.grey[800]!,
+          inputTextStyle: const TextStyle(color: Colors.white, fontSize: 16),
+          inputBorderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
           inputTextColor: Colors.white,
           primaryColor: Colors.purple[700]!,
           backgroundColor: Colors.grey[900]!,
