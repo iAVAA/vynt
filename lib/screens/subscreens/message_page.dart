@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:vynt/screens/subscreens/chat_page.dart';
+
 class MessagePage extends StatelessWidget {
   final PageController pageController;
 
@@ -77,7 +79,10 @@ class MessagePage extends StatelessWidget {
         backgroundColor: Colors.grey[850],
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          icon: const Icon(CupertinoIcons.back, color: Colors.white),
           onPressed: () {
             pageController.animateToPage(
               1,
@@ -167,7 +172,12 @@ class MessagePage extends StatelessWidget {
                 ),
               ],
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ChatPage()),
+              );
+            },
           );
         },
       ),
