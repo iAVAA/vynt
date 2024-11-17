@@ -2,6 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:vynt/screens/login_page.dart';
+import 'package:vynt/screens/onboarding_page.dart';
+import 'package:vynt/screens/signup_page.dart';
 import 'package:vynt/widgets/splash_screen.dart';
 import 'controllers/scroll_monitor.dart';
 import 'firebase_options.dart';
@@ -36,7 +39,7 @@ class Main extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home: const OnBoardingScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
