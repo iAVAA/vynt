@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:modular_ui/modular_ui.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-import '../widgets/square_tile.dart';
+import '../widgets/onboarding_widgets.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});
@@ -17,31 +17,37 @@ class OnBoardingScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Logo Section
               Image.asset(
                 "assets/icons/logo/vynt_logo.png",
                 width: 150,
                 height: 150,
               ),
               const SizedBox(height: 20),
+              // Welcome Text
               const Text(
-                "Millions of songs.",
+                "Welcome to Vynt",
                 style: TextStyle(
                   fontFamily: "AB",
                   fontSize: 28,
+                  fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
                 textAlign: TextAlign.center,
               ),
+              const SizedBox(height: 10),
+              // Subtitle
               const Text(
-                "To share with your friends.",
+                "Log in or register to explore your journey.",
                 style: TextStyle(
                   fontFamily: "AB",
-                  fontSize: 28,
-                  color: Colors.white,
+                  fontSize: 16,
+                  color: Colors.grey,
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 30),
+              // Buttons and Actions
               const _ActionButtons(),
             ],
           ),
@@ -57,21 +63,10 @@ class _ActionButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40),
+      padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          MUIPrimaryButton(
-            text: 'Register Now!',
-            onPressed: () {},
-            textColor: Colors.black,
-            bgColor: Colors.white,
-            hapticsEnabled: true,
-            borderRadius: 25,
-            widthFactorUnpressed: 0.05,
-            widthFactorPressed: 0.045,
-          ),
-          const SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -80,7 +75,7 @@ class _ActionButtons extends StatelessWidget {
                 imagePath: 'assets/icons/icon_google.svg',
                 height: 50,
               ),
-              const SizedBox(width: 20),
+              const SizedBox(width: 25),
               SquareTile(
                 onTap: () {},
                 imagePath: 'assets/icons/icon_apple.svg',
@@ -89,13 +84,34 @@ class _ActionButtons extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          const Text(
-            "Log in",
-            style: TextStyle(
-              fontFamily: "AB",
-              fontSize: 16,
-              color: Colors.white,
-            ),
+          const LineSeparatorWithText(
+            text: 'OR',
+            lineColor: Colors.white54,
+            textColor: Colors.white70,
+          ),
+          const SizedBox(height: 20),
+          MUIOutlinedButton(
+            text: 'Register Now!',
+            onPressed: () {},
+            textColor: Colors.white,
+            hapticsEnabled: true,
+            borderColor: Colors.white,
+            borderWidth: 1,
+            borderRadius: 25,
+            widthFactorUnpressed: 0.05,
+            widthFactorPressed: 0.045,
+          ),
+          const SizedBox(height: 20),
+          MUIOutlinedButton(
+            text: 'Log in',
+            onPressed: () {},
+            textColor: Colors.white,
+            hapticsEnabled: true,
+            borderColor: Colors.white,
+            borderWidth: 1,
+            borderRadius: 25,
+            widthFactorUnpressed: 0.15,
+            widthFactorPressed: 0.145
           ),
         ],
       ),
