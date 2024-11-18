@@ -23,7 +23,7 @@ class Feed extends StatelessWidget {
           _buildBody(context, scrollMonitor),
         ],
       ),
-      backgroundColor: Colors.grey[900],
+      backgroundColor: constants.bgColor,
     );
   }
 

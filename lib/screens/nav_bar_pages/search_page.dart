@@ -6,6 +6,7 @@ import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 
 import 'package:vynt/controllers/scroll_monitor.dart';
+import 'package:vynt/constants/constants.dart' as constants;
 
 class Search extends StatelessWidget {
   const Search({super.key});
@@ -15,13 +16,13 @@ class Search extends StatelessWidget {
     final scrollMonitor = Provider.of<ScrollMonitor>(context);
 
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: constants.bgColor,
       appBar: AppBar(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: constants.bgColor,
         elevation: 0,
-        title: const Text(
+        title: Text(
           'Search',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: constants.primaryTextColor),
         ),
       ),
       body: CustomScrollView(
@@ -32,12 +33,12 @@ class Search extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: CupertinoSearchTextField(
-                backgroundColor: Colors.grey[800],
+                backgroundColor: constants.secondaryBgColor,
                 borderRadius: BorderRadius.circular(10),
                 placeholder: 'Search',
-                placeholderStyle: const TextStyle(color: Colors.grey),
+                placeholderStyle: TextStyle(color: constants.secondaryTextColor),
                 itemColor: Colors.grey,
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(color: constants.primaryTextColor),
               ),
             ),
           ),
@@ -63,7 +64,7 @@ class Search extends StatelessWidget {
               (context, index) {
                 return Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey[800],
+                    color: constants.secondaryBgColor,
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   child: Center(
@@ -107,7 +108,7 @@ class Search extends StatelessWidget {
             height: 18,
             child: Marquee(
               text: 'Event ${DateTime.now()}',
-              style: const TextStyle(color: Colors.white, fontSize: 11),
+              style: TextStyle(color: constants.primaryTextColor, fontSize: 11),
               scrollAxis: Axis.horizontal,
               blankSpace: 20.0,
               velocity: 30.0,
@@ -121,7 +122,7 @@ class Search extends StatelessWidget {
             height: 16,
             child: Marquee(
               text: 'Artist Name',
-              style: const TextStyle(color: Colors.grey, fontSize: 9),
+              style: TextStyle(color: constants.secondaryTextColor, fontSize: 9),
               scrollAxis: Axis.horizontal,
               blankSpace: 20.0,
               velocity: 30.0,

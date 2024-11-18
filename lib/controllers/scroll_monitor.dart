@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 class ScrollMonitor extends ChangeNotifier {
   final ScrollController _scrollController = ScrollController();
   bool isScrollingDown = false;
-  static const double scrollThreshold = 75.0;
+  static const double scrollThreshold = 100.0;
   double _lastOffset = 0.0;
 
   ScrollMonitor() {
