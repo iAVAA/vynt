@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:vynt/screens/subscreens/message_page.dart';
-import 'package:vynt/widgets/application_bar.dart';
+import 'package:vynt/widgets/nav_bar_widgets/application_bar.dart';
 import 'package:vynt/controllers/scroll_monitor.dart';
-import 'package:vynt/widgets/post_widget.dart';
-import 'package:vynt/widgets/story_box_widget.dart';
+import 'package:vynt/widgets/nav_bar_pages_widgets/post_widget.dart';
+import 'package:vynt/widgets/nav_bar_pages_widgets/story_box_widget.dart';
 
-import 'package:vynt/constants.dart' as constants;
+import 'package:vynt/constants/constants.dart' as constants;
 
 class Feed extends StatelessWidget {
   const Feed({super.key});

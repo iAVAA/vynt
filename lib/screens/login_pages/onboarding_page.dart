@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:modular_ui/modular_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../widgets/onboarding_widgets.dart';
+import '../../widgets/login_pages_widgets/onboarding_widgets.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});

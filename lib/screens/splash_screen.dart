@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'package:vynt/screens/main_page.dart';
-import 'package:vynt/constants.dart' as constants;
+import 'package:vynt/constants/constants.dart' as constants;
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

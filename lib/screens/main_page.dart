@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:vynt/screens/feed_page.dart';
-import 'package:vynt/screens/search_page.dart';
-import 'package:vynt/screens/profile_page.dart';
-import 'package:vynt/screens/../widgets/navigation_bar.dart';
-import 'package:vynt/screens/../widgets/add_post_widget.dart';
+import 'package:vynt/screens/nav_bar_pages/feed_page.dart';
+import 'package:vynt/screens/nav_bar_pages/search_page.dart';
+import 'package:vynt/screens/nav_bar_pages/profile_page.dart';
+import 'package:vynt/widgets/nav_bar_widgets/navigation_bar.dart';
+import 'package:vynt/widgets/nav_bar_pages_widgets/add_post_widget.dart';
 import 'package:vynt/screens/../controllers/scroll_monitor.dart';
 
 class Home extends StatefulWidget {
