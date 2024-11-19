@@ -1,11 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
 import 'package:modular_ui/modular_ui.dart';
-
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:vynt/constants/constants.dart' as constants;
 import 'package:vynt/screens/login_pages/signup_page.dart';
+
+import '../../widgets/login_pages_widgets/onboarding_widgets.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -13,7 +13,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: constants.bgColor,
       body: Center(
         child: SingleChildScrollView(
@@ -25,7 +25,6 @@ class LoginPage extends StatelessWidget {
                 width: 150,
                 height: 150,
               ),
-              const SizedBox(height: 20),
               Text(
                 "Welcome Back",
                 style: TextStyle(
@@ -49,7 +48,15 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 30),
               const _LoginForm(),
               const SizedBox(height: 20),
+              _RegisterText(),
+              const SizedBox(height: 20),
               const _ActionButtons(),
+              const SizedBox(height: 20),
+              const LineSeparatorWithText(
+                text: 'OR',
+                lineColor: Colors.white54,
+                textColor: Colors.white70,
+              ),
             ],
           ),
         ),
@@ -139,6 +146,34 @@ class _ActionButtons extends StatelessWidget {
             borderRadius: 25,
             widthFactorUnpressed: 0.05,
             widthFactorPressed: 0.045,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _RegisterText extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        text: "You don't have an account? ",
+        style: TextStyle(color: constants.secondaryTextColor),
+        children: [
+          TextSpan(
+            text: 'Register here!',
+            style: TextStyle(
+              color: constants.primaryTextColor,
+              fontWeight: FontWeight.bold,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SignupPage()),
+                );
+              },
           ),
         ],
       ),

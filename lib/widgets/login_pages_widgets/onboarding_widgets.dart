@@ -3,13 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SquareTile extends StatelessWidget {
   final String imagePath;
-  final double height;
+  final double imageHeight;
   final Function()? onTap;
 
   const SquareTile({
     super.key,
     required this.imagePath,
-    required this.height,
+    required this.imageHeight,
     required this.onTap,
   });
 
@@ -20,12 +20,14 @@ class SquareTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(25),
           color: Colors.grey[800],
         ),
-        child: SvgPicture.asset(
-          imagePath,
-          height: height,
+        child: Center(
+          child: SvgPicture.asset(
+            imagePath,
+            height: imageHeight,
+          ),
         ),
       ),
     );
