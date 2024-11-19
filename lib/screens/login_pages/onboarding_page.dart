@@ -7,8 +7,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vynt/constants/constants.dart' as constants;
 import 'package:vynt/widgets/login_pages_widgets/onboarding_widgets.dart';
 
-class OnBoardingScreen extends StatelessWidget {
-  const OnBoardingScreen({super.key});
+import 'login_page.dart';
+
+class OnBoardingPage extends StatelessWidget {
+  const OnBoardingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -90,11 +92,12 @@ class _ActionButtons extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           MUIOutlinedButton(
-            text: 'Register Now!',
+            text: 'Register Now',
             onPressed: () {},
-            textColor: constants.primaryTextColor,
+            textColor: Colors.black,
             hapticsEnabled: true,
             borderColor: Colors.white,
+            bgColor: Colors.white,
             borderWidth: 1,
             borderRadius: 25,
             widthFactorUnpressed: 0.05,
@@ -102,15 +105,20 @@ class _ActionButtons extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           MUIOutlinedButton(
-            text: 'Log in',
-            onPressed: () {},
-            textColor: constants.primaryTextColor,
-            hapticsEnabled: true,
-            borderColor: Colors.white,
-            borderWidth: 1,
-            borderRadius: 25,
-            widthFactorUnpressed: 0.15,
-            widthFactorPressed: 0.145
+              text: 'Log in',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                );
+              },
+              textColor: constants.primaryTextColor,
+              hapticsEnabled: true,
+              borderColor: Colors.white,
+              borderWidth: 1,
+              borderRadius: 25,
+              widthFactorUnpressed: 0.15,
+              widthFactorPressed: 0.095
           ),
         ],
       ),
