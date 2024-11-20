@@ -5,6 +5,7 @@ import 'package:modular_ui/modular_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:vynt/constants/constants.dart' as constants;
+import 'package:vynt/screens/login_pages/signup_page.dart';
 import 'package:vynt/widgets/login_pages_widgets/onboarding_widgets.dart';
 
 import 'login_page.dart';
@@ -70,7 +71,12 @@ class _ActionButtons extends StatelessWidget {
         children: [
           MUIOutlinedButton(
             text: 'Register Now',
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SignupPage()),
+              );
+            },
             textColor: Colors.black,
             hapticsEnabled: true,
             borderColor: Colors.white,
@@ -95,8 +101,7 @@ class _ActionButtons extends StatelessWidget {
               borderWidth: 1,
               borderRadius: 25,
               widthFactorUnpressed: 0.15,
-              widthFactorPressed: 0.095
-          ),
+              widthFactorPressed: 0.095),
           const SizedBox(height: 20),
           const LineSeparatorWithText(
             text: 'OR',
