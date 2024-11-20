@@ -56,6 +56,8 @@ dependencies:
   http: ^1.2.2
   modular_ui: ^0.0.5 # TODO: Implements the buttons in this package
   flutter_svg: ^2.0.14
+  firebase_auth: ^5.3.3
+
 
 
 

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +19,7 @@ class SignupPage extends StatelessWidget {
         backgroundColor: constants.bgColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(
-              CupertinoIcons.back,
-              color: Colors.white
-          ),
+          icon: const Icon(CupertinoIcons.back, color: Colors.white),
           splashColor: Colors.transparent,
           hoverColor: Colors.transparent,
           highlightColor: Colors.transparent,
@@ -52,7 +50,6 @@ class SignupPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 10),
               Text(
                 "Sign up to start your journey.",
                 style: TextStyle(
@@ -62,12 +59,10 @@ class SignupPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               const _SignupForm(),
               const SizedBox(height: 20),
               _LoginText(),
-              const SizedBox(height: 20),
-              const _ActionButtons(),
               const SizedBox(height: 20),
               const LineSeparatorWithText(
                 text: 'OR',
@@ -99,8 +94,41 @@ class SignupPage extends StatelessWidget {
   }
 }
 
-class _SignupForm extends StatelessWidget {
+class _SignupForm extends StatefulWidget {
   const _SignupForm();
+
+  @override
+  State<_SignupForm> createState() => _SignupFormState();
+}
+
+class _SignupFormState extends State<_SignupForm> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    try {
+      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      print(credential.user);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +138,7 @@ class _SignupForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TextField(
+            controller: _emailController,
             decoration: InputDecoration(
               hintText: 'Email',
               hintStyle: TextStyle(color: constants.secondaryTextColor),
@@ -124,6 +153,7 @@ class _SignupForm extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           TextField(
+            controller: _passwordController,
             decoration: InputDecoration(
               hintText: 'Password',
               hintStyle: TextStyle(color: constants.secondaryTextColor),
@@ -137,25 +167,10 @@ class _SignupForm extends StatelessWidget {
             obscureText: true,
             style: TextStyle(color: constants.primaryTextColor),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ActionButtons extends StatelessWidget {
-  const _ActionButtons();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+          const SizedBox(height: 20),
           MUIOutlinedButton(
             text: 'Sign up',
-            onPressed: () {},
+            onPressed: _submit,
             textColor: Colors.black,
             hapticsEnabled: true,
             borderColor: Colors.white,
