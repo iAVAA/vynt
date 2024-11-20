@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:modular_ui/modular_ui.dart';
@@ -13,6 +14,22 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: constants.bgColor,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(
+              CupertinoIcons.back,
+              color: Colors.white
+          ),
+          splashColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       resizeToAvoidBottomInset: true,
       backgroundColor: constants.bgColor,
       body: Center(
@@ -56,6 +73,23 @@ class LoginPage extends StatelessWidget {
                 text: 'OR',
                 lineColor: Colors.white54,
                 textColor: Colors.white70,
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SquareTile(
+                    onTap: () {},
+                    imagePath: 'assets/icons/icon_google.svg',
+                    imageHeight: 50,
+                  ),
+                  const SizedBox(width: 25),
+                  SquareTile(
+                    onTap: () {},
+                    imagePath: 'assets/icons/icon_apple.svg',
+                    imageHeight: 50,
+                  ),
+                ],
               ),
             ],
           ),
@@ -122,30 +156,14 @@ class _ActionButtons extends StatelessWidget {
           MUIOutlinedButton(
             text: 'Log in',
             onPressed: () {},
-            textColor: constants.primaryTextColor,
+            textColor: Colors.black,
             hapticsEnabled: true,
             borderColor: Colors.white,
+            bgColor: Colors.white,
             borderWidth: 1,
             borderRadius: 25,
-            widthFactorUnpressed: 0.15,
+            widthFactorUnpressed: 0.1,
             widthFactorPressed: 0.095,
-          ),
-          const SizedBox(height: 20),
-          MUIOutlinedButton(
-            text: 'Register Now',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SignupPage()),
-              );
-            },
-            textColor: constants.primaryTextColor,
-            hapticsEnabled: true,
-            borderColor: Colors.white,
-            borderWidth: 1,
-            borderRadius: 25,
-            widthFactorUnpressed: 0.05,
-            widthFactorPressed: 0.045,
           ),
         ],
       ),
@@ -158,7 +176,7 @@ class _RegisterText extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        text: "You don't have an account? ",
+        text: "Don't have an account yet? ",
         style: TextStyle(color: constants.secondaryTextColor),
         children: [
           TextSpan(

@@ -95,7 +95,8 @@ class _ActionButtons extends StatelessWidget {
               borderWidth: 1,
               borderRadius: 25,
               widthFactorUnpressed: 0.15,
-              widthFactorPressed: 0.095),
+              widthFactorPressed: 0.095
+          ),
           const SizedBox(height: 20),
           const LineSeparatorWithText(
             text: 'OR',
