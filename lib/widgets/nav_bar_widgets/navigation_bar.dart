@@ -7,7 +7,7 @@ import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 
 import 'package:vynt/controllers/scroll_monitor.dart';
 
-import 'package:vynt/constants.dart' as constants;
+import 'package:vynt/constants/constants.dart' as constants;
 
 class CustomNavigationBar extends StatelessWidget {
   final int selectedIndex;
@@ -50,31 +50,31 @@ class CustomNavigationBar extends StatelessWidget {
                     icon: CupertinoIcons.house_fill,
                     unselectedIcon: CupertinoIcons.house,
                     selectedColor: Colors.black,
-                    unselectedColor: Colors.grey,
+                    unselectedColor: Colors.white,
                   ),
                   CrystalNavigationBarItem(
                     icon: CupertinoIcons.search,
                     unselectedIcon: CupertinoIcons.search,
                     selectedColor: Colors.black,
-                    unselectedColor: Colors.grey,
+                    unselectedColor: Colors.white,
                   ),
                   CrystalNavigationBarItem(
                     icon: CupertinoIcons.add,
                     unselectedIcon: CupertinoIcons.add,
                     selectedColor: Colors.black,
-                    unselectedColor: Colors.grey,
+                    unselectedColor: Colors.white,
                   ),
                   CrystalNavigationBarItem(
                     icon: CupertinoIcons.music_albums_fill,
                     unselectedIcon: CupertinoIcons.music_albums,
                     selectedColor: Colors.black,
-                    unselectedColor: Colors.grey,
+                    unselectedColor: Colors.white,
                   ),
                   CrystalNavigationBarItem(
                     icon: CupertinoIcons.person_fill,
                     unselectedIcon: CupertinoIcons.person,
                     selectedColor: Colors.black,
-                    unselectedColor: Colors.grey,
+                    unselectedColor: Colors.white,
                   ),
                 ],
               ),

@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'package:vynt/screens/main_page.dart';
-import 'package:vynt/constants.dart' as constants;
+import 'package:vynt/constants/constants.dart' as constants;
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -20,22 +20,15 @@ class SplashScreen extends StatelessWidget {
       splash: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
-            Icons.music_note,
-            size: 25,
-            color: Colors.white,
-          ),
-          Text(
-            constants.appName,
-            style: GoogleFonts.poppins(
-              fontSize: 25,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-            ),
+          Image.asset(
+            'assets/icons/logo/vynt_logo.png',
+            height: 200,
+            width: 200,
           ),
         ],
       ),
       nextScreen: const Home(),
+      splashIconSize: 200,
       backgroundColor: Colors.grey.shade900,
       splashTransition: SplashTransition.scaleTransition,
       pageTransitionType: PageTransitionType.fade,
