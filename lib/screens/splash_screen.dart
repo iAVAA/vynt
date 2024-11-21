@@ -20,22 +20,15 @@ class SplashScreen extends StatelessWidget {
       splash: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
-            Icons.music_note,
-            size: 25,
-            color: Colors.white,
-          ),
-          Text(
-            constants.appName,
-            style: GoogleFonts.poppins(
-              fontSize: 25,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-            ),
+          Image.asset(
+            'assets/icons/logo/vynt_logo.png',
+            height: 200,
+            width: 200,
           ),
         ],
       ),
       nextScreen: const Home(),
+      splashIconSize: 200,
       backgroundColor: Colors.grey.shade900,
       splashTransition: SplashTransition.scaleTransition,
       pageTransitionType: PageTransitionType.fade,
