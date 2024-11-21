@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:modular_ui/modular_ui.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vynt/constants/constants.dart' as constants;
 import 'package:vynt/screens/login_pages/signup_page.dart';
 
@@ -18,10 +18,7 @@ class LoginPage extends StatelessWidget {
         backgroundColor: constants.bgColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(
-              CupertinoIcons.back,
-              color: Colors.white
-          ),
+          icon: const Icon(CupertinoIcons.back, color: Colors.white),
           splashColor: Colors.transparent,
           hoverColor: Colors.transparent,
           highlightColor: Colors.transparent,
@@ -52,7 +49,6 @@ class LoginPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 10),
               Text(
                 "Log in to continue your journey.",
                 style: TextStyle(
@@ -62,12 +58,10 @@ class LoginPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               const _LoginForm(),
               const SizedBox(height: 20),
-              _RegisterText(),
-              const SizedBox(height: 20),
-              const _ActionButtons(),
+              _SignupText(),
               const SizedBox(height: 20),
               const LineSeparatorWithText(
                 text: 'OR',
@@ -99,8 +93,38 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class _LoginForm extends StatelessWidget {
+class _LoginForm extends StatefulWidget {
   const _LoginForm();
+
+  @override
+  State<_LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<_LoginForm> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text, password: _passwordController.text
+      );
+      print(credential.user);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +134,7 @@ class _LoginForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TextField(
+            controller: _emailController,
             decoration: InputDecoration(
               hintText: 'Email',
               hintStyle: TextStyle(color: constants.secondaryTextColor),
@@ -124,6 +149,7 @@ class _LoginForm extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           TextField(
+            controller: _passwordController,
             decoration: InputDecoration(
               hintText: 'Password',
               hintStyle: TextStyle(color: constants.secondaryTextColor),
@@ -137,25 +163,10 @@ class _LoginForm extends StatelessWidget {
             obscureText: true,
             style: TextStyle(color: constants.primaryTextColor),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ActionButtons extends StatelessWidget {
-  const _ActionButtons();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+          const SizedBox(height: 20),
           MUIOutlinedButton(
             text: 'Log in',
-            onPressed: () {},
+            onPressed: _submit,
             textColor: Colors.black,
             hapticsEnabled: true,
             borderColor: Colors.white,
@@ -171,7 +182,7 @@ class _ActionButtons extends StatelessWidget {
   }
 }
 
-class _RegisterText extends StatelessWidget {
+class _SignupText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
