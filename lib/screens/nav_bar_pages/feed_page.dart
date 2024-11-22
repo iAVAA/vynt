@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vynt/screens/subscreens/listening_party_page.dart';
 
 import 'package:vynt/screens/subscreens/message_page.dart';
 import 'package:vynt/widgets/nav_bar_widgets/application_bar.dart';
@@ -33,7 +34,7 @@ class Feed extends StatelessWidget {
       controller: pageController,
       physics: const ClampingScrollPhysics(),
       children: [
-        const Placeholder(),
+        const ListeningPartyPage(),
         _buildFeedContent(context, pageController, scrollMonitor),
         MessagePage(pageController: pageController),
       ],
