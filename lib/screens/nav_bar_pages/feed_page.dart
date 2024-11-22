@@ -15,21 +15,20 @@ class Feed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scrollMonitor = Provider.of<ScrollMonitor>(context);
+    final PageController pageController = PageController(initialPage: 1);
 
     return Scaffold(
       extendBody: true,
       body: Stack(
         children: [
-          _buildBody(context, scrollMonitor),
+          _buildBody(context, pageController, scrollMonitor),
         ],
       ),
       backgroundColor: constants.bgColor,
     );
   }
 
-  Widget _buildBody(BuildContext context, ScrollMonitor scrollMonitor) {
-    final PageController pageController = PageController(initialPage: 1);
-
+  Widget _buildBody(BuildContext context, PageController pageController, ScrollMonitor scrollMonitor) {
     return PageView(
       controller: pageController,
       physics: const ClampingScrollPhysics(),
@@ -41,8 +40,7 @@ class Feed extends StatelessWidget {
     );
   }
 
-  Widget _buildFeedContent(BuildContext context, PageController pageController,
-      ScrollMonitor scrollMonitor) {
+  Widget _buildFeedContent(BuildContext context, PageController pageController, ScrollMonitor scrollMonitor) {
     return CustomScrollView(
       key: const PageStorageKey('feed'),
       controller: scrollMonitor.scrollController,
@@ -59,7 +57,9 @@ class Feed extends StatelessWidget {
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
-              return const PostWidget(index: 10);
+              return const RepaintBoundary(
+                child: PostWidget(index: 10),
+              );
             },
             childCount: 10,
           ),

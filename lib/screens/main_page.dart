@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vynt/screens/nav_bar_pages/feed_page.dart';
+import 'package:vynt/screens/nav_bar_pages/library_page.dart';
 import 'package:vynt/screens/nav_bar_pages/search_page.dart';
 import 'package:vynt/screens/nav_bar_pages/profile_page.dart';
 import 'package:vynt/widgets/nav_bar_widgets/navigation_bar.dart';
@@ -22,7 +23,7 @@ class _HomeState extends State<Home> {
     const Feed(),
     const Search(),
     const AddPostWidget(),
-    const Placeholder(),
+    const LibraryPage(),
     const Profile(),
   ];
 
