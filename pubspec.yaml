@@ -57,6 +57,7 @@ dependencies:
   modular_ui: ^0.0.5 # TODO: Implements the buttons in this package
   flutter_svg: ^2.0.14
   firebase_auth: ^5.3.3
+  flutter_native_splash: ^2.4.3
 
 
 
@@ -91,6 +92,7 @@ flutter:
     - assets/icons/icon_google.svg
     - assets/icons/icon_apple.svg
     - assets/icons/logo/vynt_logo.png
+    - assets/icons/logo/splash_screen_vynt_logo.png
     - assets/test_pictures/daniele_pfp.png
     - assets/test_pictures/iava_pfp.png
     - assets/test_pictures/michele_pfp.jpeg

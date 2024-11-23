@@ -21,14 +21,14 @@ class SplashScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            'assets/icons/logo/vynt_logo.png',
-            height: 200,
-            width: 200,
+            'assets/icons/logo/splash_screen_vynt_logo.png',
+            height: 128,
+            width: 128,
           ),
         ],
       ),
       nextScreen: const Home(),
-      splashIconSize: 200,
+      splashIconSize: 128,
       backgroundColor: Colors.grey.shade900,
       splashTransition: SplashTransition.scaleTransition,
       pageTransitionType: PageTransitionType.fade,
