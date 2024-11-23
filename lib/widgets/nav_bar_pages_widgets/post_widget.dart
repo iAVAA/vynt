@@ -91,7 +91,8 @@ class PostImage extends StatefulWidget {
   final int index;
   final VoidCallback onDoubleTapLike;
 
-  const PostImage({required this.index, required this.onDoubleTapLike, super.key});
+  const PostImage(
+      {required this.index, required this.onDoubleTapLike, super.key});
 
   @override
   _PostImageState createState() => _PostImageState();
@@ -180,10 +181,31 @@ class _PostImageState extends State<PostImage>
                             width: 200,
                             height: 270,
                           ),
+                          Positioned(
+                            bottom: 80,
+                            right: 58,
+                            child: ClipOval(
+                              child: Image.asset(
+                                'assets/test_pictures/cover_art/${widget.index}.jpeg',
+                                width: 32,
+                                height: 32,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                           Image.asset(
                             'assets/arts/cover_art.png',
                             width: 200,
                             height: 270,
+                          ),
+                          Positioned(
+                            right: 72,
+                            bottom: 50,
+                            child: Image.asset(
+                              'assets/test_pictures/cover_art/${widget.index}.jpeg',
+                              width: 93,
+                              height: 93,
+                            ),
                           ),
                         ],
                       ),

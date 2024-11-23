@@ -35,7 +35,7 @@ class ListeningPartyPage extends StatelessWidget {
               context,
               title: "Join Spotify Party",
               description: "Sync and enjoy tracks together.",
-              iconPath: "assets/spotify_logo.png", // Add Spotify logo
+              iconPath: "assets/test_pictures/icons/spotify.webp",
               buttonLabel: "Join Now",
               buttonColor: Colors.green,
               onTap: () {
@@ -56,7 +56,7 @@ class ListeningPartyPage extends StatelessWidget {
               context,
               title: "Start Apple Music Party",
               description: "Listen to your favorite albums together.",
-              iconPath: "assets/apple_music_logo.png", // Add Apple Music logo
+              iconPath: "assets/test_pictures/icons/apple_music.png",
               buttonLabel: "Start Now",
               buttonColor: Colors.red,
               onTap: () {

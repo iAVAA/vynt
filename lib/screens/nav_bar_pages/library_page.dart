@@ -54,7 +54,7 @@ class LibraryPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Column(
                           children: [
-                            const PlaylistImage(),
+                            PlaylistImage(index: index + 1),
                             const SizedBox(height: 8),
                             Text(
                               playlistName,
@@ -81,7 +81,9 @@ class LibraryPage extends StatelessWidget {
 }
 
 class PlaylistImage extends StatelessWidget {
-  const PlaylistImage({super.key});
+  final int index;
+
+  const PlaylistImage({required this.index, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -92,10 +94,9 @@ class PlaylistImage extends StatelessWidget {
         color: Colors.grey[800],
         borderRadius: BorderRadius.circular(15.0),
       ),
-      child: const Icon(
-        Icons.music_note,
-        color: Colors.white,
-        size: 40,
+      child: Image.asset(
+        'assets/test_pictures/cover_art/$index.jpeg',
+        fit: BoxFit.cover,
       ),
     );
   }

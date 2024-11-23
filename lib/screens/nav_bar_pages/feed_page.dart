@@ -58,11 +58,11 @@ class Feed extends StatelessWidget {
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
-              return const RepaintBoundary(
-                child: PostWidget(index: 10),
+              return RepaintBoundary(
+                child: PostWidget(index: index + 1),
               );
             },
-            childCount: 10,
+            childCount: 5,
           ),
         ),
       ],

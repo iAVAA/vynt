@@ -93,12 +93,19 @@ flutter:
     - assets/icons/icon_apple.svg
     - assets/icons/logo/vynt_logo.png
     - assets/icons/logo/splash_screen_vynt_logo.png
+    - assets/arts/cover_art.png
+    - assets/arts/vinyl_art.png
     - assets/test_pictures/daniele_pfp.png
     - assets/test_pictures/iava_pfp.png
     - assets/test_pictures/michele_pfp.jpeg
     - assets/test_pictures/test_post.webp
-    - assets/arts/vinyl_art.png
-    - assets/arts/cover_art.png
+    - assets/test_pictures/cover_art/1.jpeg
+    - assets/test_pictures/cover_art/2.jpeg
+    - assets/test_pictures/cover_art/3.jpeg
+    - assets/test_pictures/cover_art/4.jpeg
+    - assets/test_pictures/cover_art/5.jpeg
+    - assets/test_pictures/icons/spotify.webp
+    - assets/test_pictures/icons/apple_music.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
