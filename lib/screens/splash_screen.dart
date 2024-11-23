@@ -16,20 +16,23 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? Colors.grey.shade900 : Colors.white;
+
     return AnimatedSplashScreen(
       splash: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            'assets/icons/logo/vynt_logo.png',
-            height: 200,
-            width: 200,
+            'assets/icons/logo/splash_screen_vynt_logo.png',
+            height: 128,
+            width: 128,
           ),
         ],
       ),
       nextScreen: const Home(),
-      splashIconSize: 200,
-      backgroundColor: Colors.grey.shade900,
+      splashIconSize: 128,
+      backgroundColor: backgroundColor,
       splashTransition: SplashTransition.scaleTransition,
       pageTransitionType: PageTransitionType.fade,
       curve: Curves.easeInOut,

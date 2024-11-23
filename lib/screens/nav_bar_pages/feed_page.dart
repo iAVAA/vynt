@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vynt/screens/subscreens/listening_party_page.dart';
 
 import 'package:vynt/screens/subscreens/message_page.dart';
 import 'package:vynt/widgets/nav_bar_widgets/application_bar.dart';
@@ -15,34 +16,32 @@ class Feed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scrollMonitor = Provider.of<ScrollMonitor>(context);
+    final PageController pageController = PageController(initialPage: 1);
 
     return Scaffold(
       extendBody: true,
       body: Stack(
         children: [
-          _buildBody(context, scrollMonitor),
+          _buildBody(context, pageController, scrollMonitor),
         ],
       ),
       backgroundColor: constants.bgColor,
     );
   }
 
-  Widget _buildBody(BuildContext context, ScrollMonitor scrollMonitor) {
-    final PageController pageController = PageController(initialPage: 1);
-
+  Widget _buildBody(BuildContext context, PageController pageController, ScrollMonitor scrollMonitor) {
     return PageView(
       controller: pageController,
       physics: const ClampingScrollPhysics(),
       children: [
-        const Placeholder(),
+        const ListeningPartyPage(),
         _buildFeedContent(context, pageController, scrollMonitor),
         MessagePage(pageController: pageController),
       ],
     );
   }
 
-  Widget _buildFeedContent(BuildContext context, PageController pageController,
-      ScrollMonitor scrollMonitor) {
+  Widget _buildFeedContent(BuildContext context, PageController pageController, ScrollMonitor scrollMonitor) {
     return CustomScrollView(
       key: const PageStorageKey('feed'),
       controller: scrollMonitor.scrollController,
@@ -59,9 +58,11 @@ class Feed extends StatelessWidget {
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
-              return const PostWidget(index: 10);
+              return RepaintBoundary(
+                child: PostWidget(index: index + 1),
+              );
             },
-            childCount: 10,
+            childCount: 5,
           ),
         ),
       ],
