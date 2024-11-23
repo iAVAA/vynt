@@ -16,6 +16,9 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? Colors.grey.shade900 : Colors.white;
+
     return AnimatedSplashScreen(
       splash: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -29,7 +32,7 @@ class SplashScreen extends StatelessWidget {
       ),
       nextScreen: const Home(),
       splashIconSize: 128,
-      backgroundColor: Colors.grey.shade900,
+      backgroundColor: backgroundColor,
       splashTransition: SplashTransition.scaleTransition,
       pageTransitionType: PageTransitionType.fade,
       curve: Curves.easeInOut,
