@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:pull_down_button/pull_down_button.dart';
+
 import 'package:vynt/controllers/animation_controller.dart';
 
 class PostWidget extends StatelessWidget {
@@ -65,23 +67,35 @@ class UserInfoRow extends StatelessWidget {
         const SizedBox(width: 10),
         Text(
           'User $index',
-          style:
-              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         const Spacer(),
-        Material(
-          color: Colors.transparent,
-          child: IconButton(
+        PullDownButton(
+          itemBuilder: (context) => [
+            PullDownMenuItem(
+              title: 'Show Profile',
+              onTap: () {},
+              icon: CupertinoIcons.profile_circled,
+            ),
+            PullDownMenuItem(
+              title: 'Share',
+              onTap: () {},
+              icon: CupertinoIcons.paperplane,
+            ),
+            PullDownMenuItem(
+              title: 'Save to your library',
+              onTap: () {},
+              icon: CupertinoIcons.music_albums,
+            ),
+          ],
+          buttonBuilder: (context, showMenu) => IconButton(
             icon: const Icon(
               Icons.more_horiz,
               color: Colors.white,
             ),
-            onPressed: () {},
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            hoverColor: Colors.transparent,
+            onPressed: showMenu,
           ),
-        )
+        ),
       ],
     );
   }
