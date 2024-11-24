@@ -125,46 +125,46 @@ class OnboardingOverview extends StatelessWidget {
       pages: [
         WhatsNewPage(
           scrollPhysics: const BouncingScrollPhysics(),
-          title: const Text("What's New Template"),
+          title: const Text("Welcome to Vynt"),
           features: const [
             WhatsNewFeature(
-              title: Text('Showcase your App Features'),
+              title: Text('Discover Music and Connect'),
               description: Text(
-                  'Clean and minimalistic iOS styled template for showing app features e.g. in a new update.'),
-              icon: Icon(CupertinoIcons.star),
+                  'Vynt lets you share your favorite tracks and connect with others who share your taste in music.'),
+              icon: Icon(CupertinoIcons.music_note),
             ),
             WhatsNewFeature(
-              title: Text("Styled Icons and Buttons"),
+              title: Text("Share Your Vinyl Moments"),
               description: Text(
-                  "To create consistent look, icons and buttons are styled to match your CupertinoTheme's primaryColor. "),
-              icon: Icon(CupertinoIcons.paintbrush),
+                  "Showcase your personal vinyl collection or favorite playlists in a visually stunning way."),
+              icon: Icon(CupertinoIcons.photo_camera),
             ),
             WhatsNewFeature(
-              title: Text('Style Flexibility'),
+              title: Text('Join the Vynt Community'),
               description: Text(
-                  "What's New Template can be styled to match new and old iOS versions of onboarding or your own preferences."),
-              icon: Icon(CupertinoIcons.gear),
+                  "Engage with music enthusiasts, follow creators, and exchange recommendations."),
+              icon: Icon(CupertinoIcons.group),
             ),
           ],
         ),
         const CupertinoOnboardingPage(
-          title: Text('Support For Multiple Pages'),
+          title: Text('Create Your Profile'),
           body: Icon(
-            CupertinoIcons.square_stack_3d_down_right,
+            CupertinoIcons.person_crop_circle,
             size: 200,
           ),
         ),
         const CupertinoOnboardingPage(
-          title: Text('Great Look in Light and Dark Mode'),
+          title: Text('Share Your Music Journey'),
           body: Icon(
-            CupertinoIcons.sun_max,
+            CupertinoIcons.share,
             size: 200,
           ),
         ),
         const CupertinoOnboardingPage(
-          title: Text('Beautiful and Consistent Appearance'),
+          title: Text('Engage with the Community'),
           body: Icon(
-            CupertinoIcons.check_mark_circled,
+            CupertinoIcons.chat_bubble_text,
             size: 200,
           ),
         ),
