@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
-
 import 'package:vynt/controllers/scroll_monitor.dart';
 import 'package:vynt/constants/constants.dart' as constants;
 
@@ -45,25 +43,37 @@ class Profile extends StatelessWidget {
                     'User Name',
                     style: TextStyle(color: constants.primaryTextColor, fontSize: 24),
                   ),
+                  const SizedBox(height: 20),
+                  Container(
+                    padding: const EdgeInsets.all(16.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[800],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Today\'s Post',
+                          style: TextStyle(
+                            color: constants.primaryTextColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Description of today\'s post...',
+                          style: TextStyle(
+                            color: constants.secondaryTextColor,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return ListTile(
-                  title: Text(
-                    'Post $index',
-                    style: TextStyle(color: constants.primaryTextColor),
-                  ),
-                  subtitle: Text(
-                    'Description of post $index',
-                    style: TextStyle(color: constants.secondaryTextColor),
-                  ),
-                );
-              },
-              childCount: 20,
             ),
           ),
         ],

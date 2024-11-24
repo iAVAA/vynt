@@ -58,6 +58,11 @@ dependencies:
   flutter_svg: ^2.0.14
   firebase_auth: ^5.3.3
   flutter_native_splash: ^2.4.3
+  cupertino_onboarding: ^1.2.0
+  modal_bottom_sheet: ^3.0.0
+  shared_preferences: ^2.3.3
+
+
 
 
 
