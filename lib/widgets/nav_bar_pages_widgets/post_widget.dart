@@ -67,7 +67,8 @@ class UserInfoRow extends StatelessWidget {
         const SizedBox(width: 10),
         Text(
           'User $index',
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         const Spacer(),
         PullDownButton(
@@ -218,10 +219,14 @@ class _PostImageState extends State<PostImage>
                           Positioned(
                             right: 72,
                             bottom: 50,
-                            child: Image.asset(
-                              'assets/test_pictures/cover_art/${widget.index}.jpeg',
-                              width: 93,
-                              height: 93,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  2),
+                              child: Image.asset(
+                                'assets/test_pictures/cover_art/${widget.index}.jpeg',
+                                width: 93,
+                                height: 93,
+                              ),
                             ),
                           ),
                         ],
