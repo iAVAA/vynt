@@ -78,14 +78,14 @@ class UserInfoRow extends StatelessWidget {
               icon: CupertinoIcons.profile_circled,
             ),
             PullDownMenuItem(
-              title: 'Share',
-              onTap: () {},
-              icon: CupertinoIcons.paperplane,
-            ),
-            PullDownMenuItem(
               title: 'Save to your library',
               onTap: () {},
               icon: CupertinoIcons.music_albums,
+            ),
+            PullDownMenuItem(
+              title: 'Share',
+              onTap: () {},
+              icon: CupertinoIcons.share,
             ),
           ],
           buttonBuilder: (context, showMenu) => IconButton(
@@ -94,6 +94,9 @@ class UserInfoRow extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: showMenu,
+            highlightColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            splashColor: Colors.transparent,
           ),
         ),
       ],
