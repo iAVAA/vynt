@@ -345,7 +345,7 @@ class _PostActionsState extends State<PostActions>
               isBookmarked
                   ? CupertinoIcons.add_circled_solid
                   : CupertinoIcons.add_circled,
-              color: Colors.deepPurpleAccent,
+              color: Colors.white,
             ),
             onPressed: _onBookmarkButtonPressed,
             hoverColor: Colors.transparent,

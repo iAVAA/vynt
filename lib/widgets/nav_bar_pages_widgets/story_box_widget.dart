@@ -60,9 +60,10 @@ class _StoryBoxState extends State<StoryBox> with SingleTickerProviderStateMixin
             right: 0,
             child: RotationTransition(
               turns: _rotationController,
-              child: const CircleAvatar(
-                radius: 15,
-                backgroundImage: AssetImage('assets/arts/vinyl_status.png'),
+              child: Image.asset(
+                'assets/arts/vinyl_status.png',
+                width: 30,
+                height: 30,
               ),
             ),
           ),

@@ -20,10 +20,19 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
+  late ScrollMonitor scrollMonitor;
+
   @override
   void initState() {
     super.initState();
+    scrollMonitor = ScrollMonitor();
     _checkOnboardingStatus();
+  }
+
+  @override
+  void dispose() {
+    scrollMonitor.dispose();
+    super.dispose();
   }
 
   Future<void> _checkOnboardingStatus() async {
@@ -74,7 +83,10 @@ class _FeedState extends State<Feed> {
       ScrollMonitor scrollMonitor) {
     return PageView(
       controller: pageController,
-      physics: const ClampingScrollPhysics(),
+      physics: const PageScrollPhysics().applyTo(
+        const ClampingScrollPhysics(),
+      ),
+      scrollDirection: Axis.horizontal,
       children: [
         const ListeningPartyPage(),
         _buildFeedContent(context, pageController, scrollMonitor),
