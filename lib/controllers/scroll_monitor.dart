@@ -1,30 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
-class ScrollMonitor with ChangeNotifier {
-  final ScrollController scrollController = ScrollController();
-  double _lastOffset = 0;
+class ScrollMonitor extends ChangeNotifier {
+  final ScrollController _scrollController = ScrollController();
   bool _isScrollingDown = false;
-  final double offsetThreshold = 50.0;
+  double _lastOffset = 0.0;
+  static const double scrollThreshold = 50.0;
 
   ScrollMonitor() {
-    scrollController.addListener(_onScroll);
+    _scrollController.addListener(_scrollListener);
   }
 
-  void _onScroll() {
-    final currentOffset = scrollController.offset;
+  ScrollController get scrollController => _scrollController;
 
-    if ((currentOffset - _lastOffset).abs() >= offsetThreshold) {
-      _isScrollingDown = currentOffset > _lastOffset;
-      _lastOffset = currentOffset;
+  bool get isScrollingDown => _isScrollingDown;
+
+  set isScrollingDown(bool value) {
+    if (_isScrollingDown != value) {
+      _isScrollingDown = value;
       notifyListeners();
     }
   }
 
-  bool get isScrollingDown => _isScrollingDown;
+  void _scrollListener() {
+    final double currentOffset = _scrollController.offset;
+
+    if ((currentOffset - _lastOffset).abs() < scrollThreshold) {
+      return; // Ignore small scroll changes
+    }
+
+    final ScrollDirection direction = _scrollController.position.userScrollDirection;
+
+    if (direction == ScrollDirection.reverse && !_isScrollingDown) {
+      isScrollingDown = true;
+    } else if (direction == ScrollDirection.forward && _isScrollingDown) {
+      isScrollingDown = false;
+    }
+
+    _lastOffset = currentOffset;
+  }
 
   @override
   void dispose() {
-    scrollController.dispose();
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
     super.dispose();
   }
 }
