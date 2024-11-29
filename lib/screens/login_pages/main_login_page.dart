@@ -10,8 +10,8 @@ import 'package:vynt/widgets/login_pages_widgets/onboarding_widgets.dart';
 
 import 'login_page.dart';
 
-class OnBoardingPage extends StatelessWidget {
-  const OnBoardingPage({super.key});
+class MainLoginPage extends StatelessWidget {
+  const MainLoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {

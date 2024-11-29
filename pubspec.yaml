@@ -58,6 +58,14 @@ dependencies:
   flutter_svg: ^2.0.14
   firebase_auth: ^5.3.3
   flutter_native_splash: ^2.4.3
+  cupertino_onboarding: ^1.2.0
+  modal_bottom_sheet: ^3.0.0
+  shared_preferences: ^2.3.3
+  pull_down_button: ^0.10.2
+  share_plus: ^10.1.2
+
+
+
 
 
 
@@ -94,6 +102,7 @@ flutter:
     - assets/icons/logo/vynt_logo.png
     - assets/icons/logo/splash_screen_vynt_logo.png
     - assets/arts/cover_art.png
+    - assets/arts/vinyl_status.png
     - assets/arts/vinyl_art.png
     - assets/test_pictures/daniele_pfp.png
     - assets/test_pictures/iava_pfp.png

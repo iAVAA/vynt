@@ -3,6 +3,9 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:pull_down_button/pull_down_button.dart';
+import 'package:share_plus/share_plus.dart';
+
 import 'package:vynt/controllers/animation_controller.dart';
 
 class PostWidget extends StatelessWidget {
@@ -59,8 +62,8 @@ class UserInfoRow extends StatelessWidget {
     return Row(
       children: [
         const CircleAvatar(
-          backgroundImage: AssetImage('assets/test_pictures/daniele_pfp.png'),
-          radius: 20,
+          backgroundImage: AssetImage('assets/test_pictures/test_post.webp'),
+          radius: 15,
         ),
         const SizedBox(width: 10),
         Text(
@@ -69,19 +72,37 @@ class UserInfoRow extends StatelessWidget {
               const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         const Spacer(),
-        Material(
-          color: Colors.transparent,
-          child: IconButton(
+        PullDownButton(
+          itemBuilder: (context) => [
+            PullDownMenuItem(
+              title: 'Show Profile',
+              onTap: () {},
+              icon: CupertinoIcons.profile_circled,
+            ),
+            PullDownMenuItem(
+              title: 'Save to your library',
+              onTap: () {},
+              icon: CupertinoIcons.music_albums,
+            ),
+            PullDownMenuItem(
+              title: 'Share',
+              onTap: () {
+                Share.share('check out my website https://example.com', subject: 'Look what I made!');
+              },
+              icon: CupertinoIcons.share,
+            ),
+          ],
+          buttonBuilder: (context, showMenu) => IconButton(
             icon: const Icon(
               Icons.more_horiz,
               color: Colors.white,
             ),
-            onPressed: () {},
-            splashColor: Colors.transparent,
+            onPressed: showMenu,
             highlightColor: Colors.transparent,
             hoverColor: Colors.transparent,
+            splashColor: Colors.transparent,
           ),
-        )
+        ),
       ],
     );
   }
@@ -201,10 +222,14 @@ class _PostImageState extends State<PostImage>
                           Positioned(
                             right: 72,
                             bottom: 50,
-                            child: Image.asset(
-                              'assets/test_pictures/cover_art/${widget.index}.jpeg',
-                              width: 93,
-                              height: 93,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  2),
+                              child: Image.asset(
+                                'assets/test_pictures/cover_art/${widget.index}.jpeg',
+                                width: 93,
+                                height: 93,
+                              ),
                             ),
                           ),
                         ],
@@ -240,6 +265,7 @@ class _PostActionsState extends State<PostActions>
     iconAnimationController = IconAnimationController(vsync: this);
     iconAnimationController.initLikeAnimation();
     iconAnimationController.initBookmarkAnimation();
+    iconAnimationController.initRotationAnimation();
   }
 
   @override
@@ -317,8 +343,8 @@ class _PostActionsState extends State<PostActions>
           child: IconButton(
             icon: Icon(
               isBookmarked
-                  ? CupertinoIcons.bookmark_fill
-                  : CupertinoIcons.bookmark,
+                  ? CupertinoIcons.add_circled_solid
+                  : CupertinoIcons.add_circled,
               color: Colors.white,
             ),
             onPressed: _onBookmarkButtonPressed,

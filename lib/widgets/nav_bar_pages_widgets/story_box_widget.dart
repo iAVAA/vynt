@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:marquee/marquee.dart';
-
 class StoryBoxRow extends StatelessWidget {
   const StoryBoxRow({super.key});
 
@@ -22,44 +20,51 @@ class StoryBoxRow extends StatelessWidget {
   }
 }
 
-class StoryBox extends StatelessWidget {
+class StoryBox extends StatefulWidget {
   const StoryBox({super.key});
+
+  @override
+  _StoryBoxState createState() => _StoryBoxState();
+}
+
+class _StoryBoxState extends State<StoryBox> with SingleTickerProviderStateMixin {
+  late AnimationController _rotationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _rotationController = AnimationController(
+      duration: const Duration(seconds: 5),
+      vsync: this,
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _rotationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {},
-      child: Column(
+      child: Stack(
         children: [
           const CircleAvatar(
-            radius: 20,
-            backgroundImage: AssetImage('assets/test_pictures/daniele_pfp.png'),
+            radius: 30,
+            backgroundImage: AssetImage('assets/test_pictures/test_post.webp'),
           ),
-          const SizedBox(height: 8),
-          SizedBox(
-            width: 80,
-            height: 20,
-            child: Marquee(
-              text: 'Song Name - Album Name',
-              style: const TextStyle(color: Colors.white, fontSize: 14),
-              scrollAxis: Axis.horizontal,
-              blankSpace: 20.0,
-              velocity: 30.0,
-              startPadding: 10.0,
-              pauseAfterRound: const Duration(seconds: 1),
-            ),
-          ),
-          SizedBox(
-            width: 80,
-            height: 20,
-            child: Marquee(
-              text: 'Artist Name',
-              style: const TextStyle(color: Colors.grey, fontSize: 12),
-              scrollAxis: Axis.horizontal,
-              blankSpace: 20.0,
-              velocity: 30.0,
-              startPadding: 10.0,
-              pauseAfterRound: const Duration(seconds: 1),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: RotationTransition(
+              turns: _rotationController,
+              child: Image.asset(
+                'assets/arts/vinyl_status.png',
+                width: 30,
+                height: 30,
+              ),
             ),
           ),
         ],

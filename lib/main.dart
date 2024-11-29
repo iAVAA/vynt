@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:vynt/screens/login_pages/login_page.dart';
-import 'package:vynt/screens/login_pages/onboarding_page.dart';
+import 'package:vynt/screens/login_pages/main_login_page.dart';
 import 'package:vynt/screens/splash_screen.dart';
 import 'controllers/scroll_monitor.dart';
 import 'firebase_options.dart';
