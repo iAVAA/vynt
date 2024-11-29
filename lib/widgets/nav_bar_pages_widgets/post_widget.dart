@@ -61,8 +61,8 @@ class UserInfoRow extends StatelessWidget {
     return Row(
       children: [
         const CircleAvatar(
-          backgroundImage: AssetImage('assets/test_pictures/daniele_pfp.png'),
-          radius: 20,
+          backgroundImage: AssetImage('assets/test_pictures/test_post.webp'),
+          radius: 15,
         ),
         const SizedBox(width: 10),
         Text(
@@ -262,6 +262,7 @@ class _PostActionsState extends State<PostActions>
     iconAnimationController = IconAnimationController(vsync: this);
     iconAnimationController.initLikeAnimation();
     iconAnimationController.initBookmarkAnimation();
+    iconAnimationController.initRotationAnimation();
   }
 
   @override
@@ -339,9 +340,9 @@ class _PostActionsState extends State<PostActions>
           child: IconButton(
             icon: Icon(
               isBookmarked
-                  ? CupertinoIcons.bookmark_fill
-                  : CupertinoIcons.bookmark,
-              color: Colors.white,
+                  ? CupertinoIcons.add_circled_solid
+                  : CupertinoIcons.add_circled,
+              color: Colors.deepPurpleAccent,
             ),
             onPressed: _onBookmarkButtonPressed,
             hoverColor: Colors.transparent,

@@ -100,6 +100,7 @@ flutter:
     - assets/icons/logo/vynt_logo.png
     - assets/icons/logo/splash_screen_vynt_logo.png
     - assets/arts/cover_art.png
+    - assets/arts/vinyl_status.png
     - assets/arts/vinyl_art.png
     - assets/test_pictures/daniele_pfp.png
     - assets/test_pictures/iava_pfp.png

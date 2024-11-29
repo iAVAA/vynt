@@ -7,8 +7,10 @@ class IconAnimationController {
 
   late AnimationController likeController;
   late AnimationController bookmarkController;
+  late AnimationController rotationController;
   late Animation<double> likeAnimation;
   late Animation<double> bookmarkAnimation;
+  late Animation<double> rotationAnimation;
 
   void initLikeAnimation() {
     likeController = AnimationController(
@@ -34,9 +36,19 @@ class IconAnimationController {
     ]).animate(bookmarkController);
   }
 
+  void initRotationAnimation() {
+    rotationController = AnimationController(
+      vsync: vsync,
+      duration: const Duration(seconds: 5),
+    )..repeat();
+
+    rotationAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(rotationController);
+  }
+
   void dispose() {
     likeController.dispose();
     bookmarkController.dispose();
+    rotationController.dispose();
   }
 
   void playLikeAnimation() {
