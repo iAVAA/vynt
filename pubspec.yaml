@@ -62,6 +62,8 @@ dependencies:
   modal_bottom_sheet: ^3.0.0
   shared_preferences: ^2.3.3
   pull_down_button: ^0.10.2
+  share_plus: ^10.1.2
+
 
 
 

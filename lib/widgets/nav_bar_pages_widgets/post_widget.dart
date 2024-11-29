@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:pull_down_button/pull_down_button.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'package:vynt/controllers/animation_controller.dart';
 
@@ -85,7 +86,9 @@ class UserInfoRow extends StatelessWidget {
             ),
             PullDownMenuItem(
               title: 'Share',
-              onTap: () {},
+              onTap: () {
+                Share.share('check out my website https://example.com', subject: 'Look what I made!');
+              },
               icon: CupertinoIcons.share,
             ),
           ],
