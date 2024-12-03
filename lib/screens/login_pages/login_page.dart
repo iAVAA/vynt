@@ -58,7 +58,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               const _LoginForm(),
               const SizedBox(height: 20),
               _SignupText(),
@@ -103,6 +103,7 @@ class _LoginForm extends StatefulWidget {
 class _LoginFormState extends State<_LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  String _errorMessage = '';
 
   @override
   void dispose() {
@@ -112,17 +113,41 @@ class _LoginFormState extends State<_LoginForm> {
   }
 
   Future<void> _submit() async {
+    setState(() {
+      _errorMessage = '';
+    });
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailController.text, password: _passwordController.text
+        email: _emailController.text,
+        password: _passwordController.text,
       );
-      print(credential.user);
+      print('User signed in: ${credential.user}');
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
+      setState(() {
+        switch (e.code) {
+          case 'invalid-email':
+            _errorMessage = 'The email address is not valid.';
+            break;
+          case 'user-disabled':
+            _errorMessage = 'The user corresponding to the given email has been disabled.';
+            break;
+          case 'user-not-found':
+            _errorMessage = 'No user found for that email.';
+            break;
+          case 'wrong-password':
+            _errorMessage = 'Wrong password provided for that user.';
+            break;
+          case 'operation-not-allowed':
+            _errorMessage = 'Email/password accounts are not enabled.';
+            break;
+          default:
+            _errorMessage = 'An undefined Error happened: ${e.message}';
+        }
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'An error occurred: $e';
+      });
     }
   }
 
@@ -133,6 +158,12 @@ class _LoginFormState extends State<_LoginForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          if (_errorMessage.isNotEmpty)
+            Text(
+              _errorMessage,
+              style: TextStyle(color: Colors.red),
+            ),
+          const SizedBox(height: 10),
           TextField(
             controller: _emailController,
             decoration: InputDecoration(

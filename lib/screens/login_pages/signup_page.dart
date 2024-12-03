@@ -59,7 +59,7 @@ class SignupPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               const _SignupForm(),
               const SizedBox(height: 20),
               _LoginText(),
@@ -104,6 +104,7 @@ class _SignupForm extends StatefulWidget {
 class _SignupFormState extends State<_SignupForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  String _errorMessage = '';
 
   @override
   void dispose() {
@@ -113,20 +114,42 @@ class _SignupFormState extends State<_SignupForm> {
   }
 
   Future<void> _submit() async {
+    setState(() {
+      _errorMessage = '';
+    });
     try {
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
-      print(credential.user);
+      print('User signed up: ${credential.user}');
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
+      setState(() {
+        switch (e.code) {
+          case 'invalid-email':
+            _errorMessage = 'The email address is not valid.';
+            break;
+          case 'user-disabled':
+            _errorMessage = 'The user corresponding to the given email has been disabled.';
+            break;
+          case 'email-already-in-use':
+            _errorMessage = 'The account already exists for that email.';
+            break;
+          case 'operation-not-allowed':
+            _errorMessage = 'Email/password accounts are not enabled.';
+            break;
+          case 'weak-password':
+            _errorMessage = 'The password provided is too weak.';
+            break;
+          default:
+            _errorMessage = 'An undefined Error happened: ${e.message}';
+        }
+      });
     } catch (e) {
-      print(e);
+      setState(() {
+        _errorMessage = 'An error occurred: $e';
+      });
     }
   }
 
@@ -137,6 +160,12 @@ class _SignupFormState extends State<_SignupForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          if (_errorMessage.isNotEmpty)
+            Text(
+              _errorMessage,
+              style: TextStyle(color: Colors.red),
+            ),
+          const SizedBox(height: 10),
           TextField(
             controller: _emailController,
             decoration: InputDecoration(
