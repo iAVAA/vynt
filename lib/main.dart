@@ -12,6 +12,7 @@ import 'constants/constants.dart' as constants;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    name: 'Vynt',
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
