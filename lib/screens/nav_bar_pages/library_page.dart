@@ -2,93 +2,69 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LibraryPage extends StatelessWidget {
-  static const Map<String, List<String>> userPlaylists = {
-    "Favorites": [
-      "Pop Hits",
-      "Classic Rock",
-      "Jazz Vibes",
-      "Daniele 1",
-      "Daniele 2"
-    ],
-    "Workout": ["Beast Mode", "Cardio Mix", "Running Tracks"],
-    "Relax": ["Chill Lofi", "Meditation", "Smooth Jazz"],
-  };
-
   const LibraryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[900],
-      appBar: AppBar(
-        backgroundColor: Colors.grey[850],
-        title: const Text(
-          'Library',
-          style: TextStyle(color: Colors.white),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(CupertinoIcons.add_circled),
-            color: Colors.white,
-            onPressed: () {},
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            backgroundColor: Colors.grey[900],
+            expandedHeight: 100.0,
+            floating: false,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(
+                'Library',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                ),
+              ),
+              centerTitle: true,
+              titlePadding: EdgeInsets.only(left: 16.0, bottom: 16.0),
+              collapseMode: CollapseMode.parallax,
+            ),
+            actions: [
+              IconButton(
+                icon: const Icon(CupertinoIcons.add_circled),
+                color: Colors.white,
+                onPressed: () {},
+              ),
+            ],
+          ),
+          SliverGrid(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      PlaylistImage(index: index + 1),
+                      const SizedBox(height: 10),
+                      Text(
+                        'Playlist ${index + 1}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.0,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                );
+              },
+              childCount: 10, // Adjust the number of items as needed
+            ),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.75,
+            ),
           ),
         ],
-        elevation: 0,
-      ),
-      body: ListView(
-        children: userPlaylists.entries.map((entry) {
-          final title = entry.key;
-          final playlists = entry.value;
-
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Text(
-                    title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 150,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: playlists.length,
-                    itemBuilder: (context, index) {
-                      final playlistName = playlists[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Column(
-                          children: [
-                            PlaylistImage(index: index + 1),
-                            const SizedBox(height: 8),
-                            Text(
-                              playlistName,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.0,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          );
-        }).toList(),
       ),
     );
   }
@@ -102,18 +78,41 @@ class PlaylistImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
-      height: 100,
+      width: double.infinity,
+      height: 200,
       decoration: BoxDecoration(
         color: Colors.grey[800],
         borderRadius: BorderRadius.circular(15.0),
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15.0),
-        child: Image.asset(
-          'assets/test_pictures/cover_art/$index.jpeg',
-          fit: BoxFit.cover,
-        ),
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15.0),
+            child: Image.asset(
+              'assets/test_pictures/cover_art/$index.jpeg',
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: 200,
+            ),
+          ),
+          Positioned(
+            bottom: 8,
+            left: 8,
+            right: 8,
+            child: Text(
+              'Playlist ${index + 1}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold,
+                backgroundColor: Colors.black54,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
       ),
     );
   }
