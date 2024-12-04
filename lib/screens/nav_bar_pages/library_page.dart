@@ -42,7 +42,36 @@ class LibraryPage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      PlaylistImage(index: index + 1),
+                      CupertinoContextMenu(
+                        actions: [
+                          CupertinoContextMenuAction(
+                            child: const Text('Share'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          CupertinoContextMenuAction(
+                            child: const Text('Play'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          CupertinoContextMenuAction(
+                            child: const Text('Play Shuffled'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          CupertinoContextMenuAction(
+                            isDestructiveAction: true,
+                            child: const Text('Delete'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                        child: PlaylistImage(index: index + 1),
+                      ),
                       const SizedBox(height: 10),
                       Text(
                         'Playlist ${index + 1}',
@@ -57,7 +86,7 @@ class LibraryPage extends StatelessWidget {
                   ),
                 );
               },
-              childCount: 10, // Adjust the number of items as needed
+              childCount: 10,
             ),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -78,42 +107,19 @@ class PlaylistImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      height: 200,
-      decoration: BoxDecoration(
-        color: Colors.grey[800],
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(15.0),
-            child: Image.asset(
-              'assets/test_pictures/cover_art/$index.jpeg',
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: 200,
-            ),
+        width: 200,
+        height: 200,
+        decoration: BoxDecoration(
+          color: Colors.grey[800],
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15.0),
+          child: Image.asset(
+            'assets/test_pictures/cover_art/$index.jpeg',
+            fit: BoxFit.cover,
           ),
-          Positioned(
-            bottom: 8,
-            left: 8,
-            right: 8,
-            child: Text(
-              'Playlist ${index + 1}',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14.0,
-                fontWeight: FontWeight.bold,
-                backgroundColor: Colors.black54,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
+        )
     );
   }
 }
