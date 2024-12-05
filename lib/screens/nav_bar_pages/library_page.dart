@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_down_button/pull_down_button.dart';
 
 import '../../controllers/scroll_monitor.dart';
+import '../subscreens/library_subscreens/playlist_page.dart';
 
 class LibraryPage extends StatelessWidget {
   const LibraryPage({super.key});
@@ -19,34 +22,90 @@ class LibraryPage extends StatelessWidget {
         slivers: [
           SliverAppBar(
             backgroundColor: Colors.grey[900],
-            expandedHeight: 100.0,
+            expandedHeight: 80,
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 'Library',
-                style: TextStyle(
+                style: GoogleFonts.poppins(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
                   color: Colors.white,
-                  fontSize: 18.0,
                 ),
               ),
-              centerTitle: true,
-              titlePadding: EdgeInsets.only(left: 16.0, bottom: 16.0),
               collapseMode: CollapseMode.parallax,
             ),
             actions: [
-              IconButton(
-                icon: const Icon(CupertinoIcons.add_circled),
-                color: Colors.white,
-                onPressed: () {},
+              PullDownButton(
+                itemBuilder: (context) => [
+                  PullDownMenuItem(
+                    title: 'Add new playlist',
+                    onTap: () {},
+                    icon: CupertinoIcons.add_circled,
+                  ),
+                  PullDownMenuItem(
+                    title: 'Select',
+                    onTap: () {},
+                    icon: CupertinoIcons.list_bullet,
+                  ),
+                  PullDownMenuItem(
+                    title: 'Edit toolbar',
+                    onTap: () {},
+                    icon: CupertinoIcons.list_bullet_below_rectangle,
+                  ),
+                ],
+                buttonBuilder: (context, showMenu) => IconButton(
+                  icon: const Icon(CupertinoIcons.add_circled),
+                  color: Colors.white,
+                  onPressed: showMenu,
+                  highlightColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                ),
               ),
             ],
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                CupertinoListTile(
+                  leading: const Icon(CupertinoIcons.music_note,
+                      color: Colors.white),
+                  title: const Text('Genres',
+                      style: TextStyle(color: Colors.white)),
+                  onTap: () {},
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 56.0),
+                  child: Divider(color: Colors.white),
+                ),
+                CupertinoListTile(
+                  leading: const Icon(CupertinoIcons.music_note_list,
+                      color: Colors.white),
+                  title: const Text('All Songs',
+                      style: TextStyle(color: Colors.white)),
+                  onTap: () {},
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 56.0),
+                  child: Divider(color: Colors.white),
+                ),
+                CupertinoListTile(
+                  leading:
+                      const Icon(CupertinoIcons.person_2, color: Colors.white),
+                  title: const Text('Artists',
+                      style: TextStyle(color: Colors.white)),
+                  onTap: () {},
+                ),
+              ],
+            ),
           ),
           SliverGrid(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: [
                       CupertinoContextMenu(
@@ -86,7 +145,8 @@ class LibraryPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => PlaylistPage(index: index + 1),
+                                builder: (context) =>
+                                    PlaylistPage(index: index + 1),
                               ),
                             );
                           },
@@ -140,24 +200,6 @@ class PlaylistImage extends StatelessWidget {
           'assets/test_pictures/cover_art/$index.jpeg',
           fit: BoxFit.cover,
         ),
-      ),
-    );
-  }
-}
-
-class PlaylistPage extends StatelessWidget {
-  final int index;
-
-  const PlaylistPage({required this.index, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Playlist $index'),
-      ),
-      body: Center(
-        child: Text('Details for Playlist $index'),
       ),
     );
   }
