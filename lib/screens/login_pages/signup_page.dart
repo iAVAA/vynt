@@ -9,6 +9,8 @@ import 'package:vynt/constants/constants.dart' as constants;
 import 'package:vynt/screens/login_pages/login_page.dart';
 
 import '../../widgets/login_pages_widgets/onboarding_widgets.dart';
+import '../main_page.dart';
+import '../nav_bar_pages/feed_page.dart';
 
 class SignupPage extends StatelessWidget {
   const SignupPage({super.key});
@@ -152,33 +154,45 @@ class _SignupFormState extends State<_SignupForm> {
         password: _passwordController.text,
       );
       print('User signed up: ${credential.user}');
+      if (mounted) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Home()),
+        );
+      }
     } on FirebaseAuthException catch (e) {
-      setState(() {
-        switch (e.code) {
-          case 'invalid-email':
-            _errorMessage = 'The email address is not valid.';
-            break;
-          case 'user-disabled':
-            _errorMessage =
-                'The user corresponding to the given email has been disabled.';
-            break;
-          case 'email-already-in-use':
-            _errorMessage = 'The account already exists for that email.';
-            break;
-          case 'operation-not-allowed':
-            _errorMessage = 'Email/password accounts are not enabled.';
-            break;
-          case 'weak-password':
-            _errorMessage = 'The password provided is too weak.';
-            break;
-          default:
-            _errorMessage = 'An undefined Error happened: ${e.message}';
-        }
-      });
+      if (mounted) {
+        setState(() {
+          switch (e.code) {
+            case 'invalid-email':
+              _errorMessage = 'The email address is not valid.';
+              break;
+            case 'user-disabled':
+              _errorMessage =
+                  'The user corresponding to the given email has been disabled.';
+              break;
+            case 'email-already-in-use':
+              _errorMessage = 'The account already exists for that email.';
+              break;
+            case 'operation-not-allowed':
+              _errorMessage = 'Email/password accounts are not enabled.';
+              break;
+            case 'weak-password':
+              _errorMessage = 'The password provided is too weak.';
+              break;
+            default:
+              _errorMessage = 'An undefined Error happened: ${e.message}';
+          }
+        });
+      }
     } catch (e) {
-      setState(() {
-        _errorMessage = 'An error occurred: $e';
-      });
+      if (mounted) {
+        setState(() {
+          _errorMessage = 'An error occurred: $e';
+        });
+      }
     }
   }
 

@@ -8,6 +8,8 @@ import 'package:vynt/constants/constants.dart' as constants;
 import 'package:vynt/screens/login_pages/signup_page.dart';
 
 import '../../widgets/login_pages_widgets/onboarding_widgets.dart';
+import '../main_page.dart';
+import '../nav_bar_pages/feed_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -131,39 +133,64 @@ class _LoginFormState extends State<_LoginForm> {
     setState(() {
       _errorMessage = '';
     });
+
+    if (_emailController.text.isEmpty) {
+      setState(() {
+        _errorMessage = 'Email cannot be empty.';
+      });
+      return;
+    } else if (_passwordController.text.isEmpty) {
+      setState(() {
+        _errorMessage = 'Password cannot be empty.';
+      });
+      return;
+    }
+
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
       print('User signed in: ${credential.user}');
+      if (mounted) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Home()),
+        );
+      }
     } on FirebaseAuthException catch (e) {
-      setState(() {
-        switch (e.code) {
-          case 'invalid-email':
-            _errorMessage = 'The email address is not valid.';
-            break;
-          case 'user-disabled':
-            _errorMessage =
-                'The user corresponding to the given email has been disabled.';
-            break;
-          case 'user-not-found':
-            _errorMessage = 'No user found for that email.';
-            break;
-          case 'wrong-password':
-            _errorMessage = 'Wrong password provided for that user.';
-            break;
-          case 'operation-not-allowed':
-            _errorMessage = 'Email/password accounts are not enabled.';
-            break;
-          default:
-            _errorMessage = 'An undefined Error happened: ${e.message}';
-        }
-      });
+      if (mounted) {
+        setState(() {
+          switch (e.code) {
+            case 'invalid-email':
+              _errorMessage = 'The email address is not valid.';
+              break;
+            case 'user-disabled':
+              _errorMessage =
+                  'The user corresponding to the given email has been disabled.';
+              break;
+            case 'user-not-found':
+              _errorMessage = 'No user found for that email.';
+              break;
+            case 'wrong-password':
+              _errorMessage = 'Wrong password provided for that user.';
+              break;
+            case 'operation-not-allowed':
+              _errorMessage = 'Email/password accounts are not enabled.';
+              break;
+            default:
+              _errorMessage = 'An undefined Error happened: ${e.message}';
+          }
+        });
+      }
     } catch (e) {
-      setState(() {
-        _errorMessage = 'An error occurred: $e';
-      });
+      if (mounted) {
+        setState(() {
+          _errorMessage = 'An error occurred: $e';
+        });
+      }
     }
   }
 
