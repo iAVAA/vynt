@@ -8,7 +8,7 @@ class LibraryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[900],
-      body: CustomScrollView(
+      body: CustomScrollView( // TODO: ADD THE CONTROLLER MONITOR
         slivers: [
           SliverAppBar(
             backgroundColor: Colors.grey[900],
@@ -45,29 +45,33 @@ class LibraryPage extends StatelessWidget {
                       CupertinoContextMenu(
                         actions: [
                           CupertinoContextMenuAction(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            trailingIcon: CupertinoIcons.share,
                             child: const Text('Share'),
+                          ),
+                          CupertinoContextMenuAction(
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                          ),
-                          CupertinoContextMenuAction(
+                            trailingIcon: CupertinoIcons.play_fill,
                             child: const Text('Play'),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
                           ),
                           CupertinoContextMenuAction(
-                            child: const Text('Play Shuffled'),
                             onPressed: () {
                               Navigator.pop(context);
                             },
+                            trailingIcon: CupertinoIcons.shuffle,
+                            child: const Text('Play Shuffled'),
                           ),
                           CupertinoContextMenuAction(
                             isDestructiveAction: true,
-                            child: const Text('Delete'),
                             onPressed: () {
                               Navigator.pop(context);
                             },
+                            trailingIcon: CupertinoIcons.delete,
+                            child: const Text('Delete'),
                           ),
                         ],
                         child: PlaylistImage(index: index + 1),
