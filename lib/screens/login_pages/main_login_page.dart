@@ -13,12 +13,77 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import 'package:vynt/constants/constants.dart' as constants;
 import 'package:vynt/screens/login_pages/signup_page.dart';
+import 'package:vynt/screens/main_page.dart';
 import 'package:vynt/widgets/login_pages_widgets/onboarding_widgets.dart';
 
 import 'login_page.dart';
 
-class MainLoginPage extends StatelessWidget {
+class MainLoginPage extends StatefulWidget {
   const MainLoginPage({super.key});
+
+  @override
+  _MainLoginPageState createState() => _MainLoginPageState();
+}
+
+class _MainLoginPageState extends State<MainLoginPage> {
+  Future<void> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Home()),
+        );
+      }
+    } catch (e) {
+      print('Error signing in with Google: $e');
+    }
+  }
+
+  String generateNonce([int length = 32]) {
+    final charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
+        .join();
+  }
+
+  String sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
+  Future<UserCredential> signInWithApple() async {
+    final rawNonce = generateNonce();
+    final nonce = sha256ofString(rawNonce);
+
+    final appleCredential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+      nonce: nonce,
+    );
+
+    final oauthCredential = OAuthProvider("apple.com").credential(
+      idToken: appleCredential.identityToken,
+      rawNonce: rawNonce,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,56 +134,10 @@ class MainLoginPage extends StatelessWidget {
 class _ActionButtons extends StatelessWidget {
   const _ActionButtons();
 
-  Future<UserCredential> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-  }
-
-  String generateNonce([int length = 32]) {
-    final charset =
-        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
-    final random = Random.secure();
-    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
-        .join();
-  }
-
-  String sha256ofString(String input) {
-    final bytes = utf8.encode(input);
-    final digest = sha256.convert(bytes);
-    return digest.toString();
-  }
-
-  Future<UserCredential> signInWithApple() async {
-    final rawNonce = generateNonce();
-    final nonce = sha256ofString(rawNonce);
-
-    final appleCredential = await SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-      nonce: nonce,
-    );
-
-    final oauthCredential = OAuthProvider("apple.com").credential(
-      idToken: appleCredential.identityToken,
-      rawNonce: rawNonce,
-    );
-
-    return await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-  }
-
   @override
   Widget build(BuildContext context) {
+    final _MainLoginPageState state = context.findAncestorStateOfType<_MainLoginPageState>()!;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Column(
@@ -169,7 +188,7 @@ class _ActionButtons extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SquareTile(
-                onTap: () => signInWithGoogle(),
+                onTap: () => state.signInWithGoogle(),
                 imagePath: 'assets/icons/icon_google.svg',
                 imageHeight: 50,
               ),
