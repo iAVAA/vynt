@@ -1,14 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../controllers/scroll_monitor.dart';
 
 class LibraryPage extends StatelessWidget {
   const LibraryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final scrollMonitor = Provider.of<ScrollMonitor>(context);
+
     return Scaffold(
       backgroundColor: Colors.grey[900],
-      body: CustomScrollView( // TODO: ADD THE CONTROLLER MONITOR
+      body: CustomScrollView(
+        key: const PageStorageKey('library'),
+        controller: scrollMonitor.scrollController,
         slivers: [
           SliverAppBar(
             backgroundColor: Colors.grey[900],
@@ -74,7 +81,17 @@ class LibraryPage extends StatelessWidget {
                             child: const Text('Delete'),
                           ),
                         ],
-                        child: PlaylistImage(index: index + 1),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PlaylistPage(index: index + 1),
+                              ),
+                            );
+                          },
+                          child: PlaylistImage(index: index + 1),
+                        ),
                       ),
                       const SizedBox(height: 10),
                       Text(
@@ -111,19 +128,37 @@ class PlaylistImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 200,
-        height: 200,
-        decoration: BoxDecoration(
-          color: Colors.grey[800],
-          borderRadius: BorderRadius.circular(15.0),
+      width: 200,
+      height: 200,
+      decoration: BoxDecoration(
+        color: Colors.grey[800],
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15.0),
+        child: Image.asset(
+          'assets/test_pictures/cover_art/$index.jpeg',
+          fit: BoxFit.cover,
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15.0),
-          child: Image.asset(
-            'assets/test_pictures/cover_art/$index.jpeg',
-            fit: BoxFit.cover,
-          ),
-        )
+      ),
+    );
+  }
+}
+
+class PlaylistPage extends StatelessWidget {
+  final int index;
+
+  const PlaylistPage({required this.index, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Playlist $index'),
+      ),
+      body: Center(
+        child: Text('Details for Playlist $index'),
+      ),
     );
   }
 }
