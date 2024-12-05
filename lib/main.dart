@@ -12,6 +12,7 @@ import 'constants/constants.dart' as constants;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    name: 'Vynt',
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
@@ -38,7 +39,7 @@ class Main extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home: const MainLoginPage(),
       debugShowCheckedModeBanner: false,
     );
   }
