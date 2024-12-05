@@ -2,15 +2,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:modular_ui/modular_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vynt/constants/constants.dart' as constants;
 import 'package:vynt/screens/login_pages/login_page.dart';
 
 import '../../widgets/login_pages_widgets/onboarding_widgets.dart';
+import '../main_page.dart';
+import '../nav_bar_pages/feed_page.dart';
 
 class SignupPage extends StatelessWidget {
   const SignupPage({super.key});
+
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +76,7 @@ class SignupPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               const _SignupForm(),
               const SizedBox(height: 20),
               _LoginText(),
@@ -74,7 +91,7 @@ class SignupPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SquareTile(
-                    onTap: () {},
+                    onTap: () => signInWithGoogle(),
                     imagePath: 'assets/icons/icon_google.svg',
                     imageHeight: 50,
                   ),
@@ -104,6 +121,7 @@ class _SignupForm extends StatefulWidget {
 class _SignupFormState extends State<_SignupForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  String _errorMessage = '';
 
   @override
   void dispose() {
@@ -113,20 +131,68 @@ class _SignupFormState extends State<_SignupForm> {
   }
 
   Future<void> _submit() async {
+    setState(() {
+      _errorMessage = '';
+    });
+
+    if (_emailController.text.isEmpty) {
+      setState(() {
+        _errorMessage = 'Email cannot be empty.';
+      });
+      return;
+    } else if (_passwordController.text.isEmpty) {
+      setState(() {
+        _errorMessage = 'Password cannot be empty.';
+      });
+      return;
+    }
+
     try {
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
-      print(credential.user);
+      print('User signed up: ${credential.user}');
+      if (mounted) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Home()),
+        );
+      }
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+      if (mounted) {
+        setState(() {
+          switch (e.code) {
+            case 'invalid-email':
+              _errorMessage = 'The email address is not valid.';
+              break;
+            case 'user-disabled':
+              _errorMessage =
+                  'The user corresponding to the given email has been disabled.';
+              break;
+            case 'email-already-in-use':
+              _errorMessage = 'The account already exists for that email.';
+              break;
+            case 'operation-not-allowed':
+              _errorMessage = 'Email/password accounts are not enabled.';
+              break;
+            case 'weak-password':
+              _errorMessage = 'The password provided is too weak.';
+              break;
+            default:
+              _errorMessage = 'An undefined Error happened: ${e.message}';
+          }
+        });
       }
     } catch (e) {
-      print(e);
+      if (mounted) {
+        setState(() {
+          _errorMessage = 'An error occurred: $e';
+        });
+      }
     }
   }
 
@@ -137,6 +203,12 @@ class _SignupFormState extends State<_SignupForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          if (_errorMessage.isNotEmpty)
+            Text(
+              _errorMessage,
+              style: TextStyle(color: Colors.red),
+            ),
+          const SizedBox(height: 10),
           TextField(
             controller: _emailController,
             decoration: InputDecoration(

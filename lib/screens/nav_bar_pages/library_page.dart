@@ -1,8 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LibraryPage extends StatelessWidget {
   static const Map<String, List<String>> userPlaylists = {
-    "Favorites": ["Pop Hits", "Classic Rock", "Jazz Vibes", "Daniele 1", "Daniele 2"],
+    "Favorites": [
+      "Pop Hits",
+      "Classic Rock",
+      "Jazz Vibes",
+      "Daniele 1",
+      "Daniele 2"
+    ],
     "Workout": ["Beast Mode", "Cardio Mix", "Running Tracks"],
     "Relax": ["Chill Lofi", "Meditation", "Smooth Jazz"],
   };
@@ -19,6 +26,13 @@ class LibraryPage extends StatelessWidget {
           'Library',
           style: TextStyle(color: Colors.white),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(CupertinoIcons.add_circled),
+            color: Colors.white,
+            onPressed: () {},
+          ),
+        ],
         elevation: 0,
       ),
       body: ListView(
@@ -32,7 +46,7 @@ class LibraryPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Text(
                     title,
                     style: const TextStyle(
@@ -94,9 +108,12 @@ class PlaylistImage extends StatelessWidget {
         color: Colors.grey[800],
         borderRadius: BorderRadius.circular(15.0),
       ),
-      child: Image.asset(
-        'assets/test_pictures/cover_art/$index.jpeg',
-        fit: BoxFit.cover,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15.0),
+        child: Image.asset(
+          'assets/test_pictures/cover_art/$index.jpeg',
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
