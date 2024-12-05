@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:modular_ui/modular_ui.dart';
 import 'package:vynt/constants/constants.dart' as constants;
 import 'package:vynt/screens/login_pages/signup_page.dart';
@@ -10,6 +11,20 @@ import '../../widgets/login_pages_widgets/onboarding_widgets.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
+
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +88,7 @@ class LoginPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SquareTile(
-                    onTap: () {},
+                    onTap: () => signInWithGoogle(),
                     imagePath: 'assets/icons/icon_google.svg',
                     imageHeight: 50,
                   ),
@@ -129,7 +144,8 @@ class _LoginFormState extends State<_LoginForm> {
             _errorMessage = 'The email address is not valid.';
             break;
           case 'user-disabled':
-            _errorMessage = 'The user corresponding to the given email has been disabled.';
+            _errorMessage =
+                'The user corresponding to the given email has been disabled.';
             break;
           case 'user-not-found':
             _errorMessage = 'No user found for that email.';

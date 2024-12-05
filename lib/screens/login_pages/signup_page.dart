@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:modular_ui/modular_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vynt/constants/constants.dart' as constants;
@@ -11,6 +12,20 @@ import '../../widgets/login_pages_widgets/onboarding_widgets.dart';
 
 class SignupPage extends StatelessWidget {
   const SignupPage({super.key});
+
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +89,7 @@ class SignupPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SquareTile(
-                    onTap: () {},
+                    onTap: () => signInWithGoogle(),
                     imagePath: 'assets/icons/icon_google.svg',
                     imageHeight: 50,
                   ),
@@ -117,6 +132,19 @@ class _SignupFormState extends State<_SignupForm> {
     setState(() {
       _errorMessage = '';
     });
+
+    if (_emailController.text.isEmpty) {
+      setState(() {
+        _errorMessage = 'Email cannot be empty.';
+      });
+      return;
+    } else if (_passwordController.text.isEmpty) {
+      setState(() {
+        _errorMessage = 'Password cannot be empty.';
+      });
+      return;
+    }
+
     try {
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -131,7 +159,8 @@ class _SignupFormState extends State<_SignupForm> {
             _errorMessage = 'The email address is not valid.';
             break;
           case 'user-disabled':
-            _errorMessage = 'The user corresponding to the given email has been disabled.';
+            _errorMessage =
+                'The user corresponding to the given email has been disabled.';
             break;
           case 'email-already-in-use':
             _errorMessage = 'The account already exists for that email.';
