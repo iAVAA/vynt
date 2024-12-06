@@ -7,8 +7,52 @@ import 'package:pull_down_button/pull_down_button.dart';
 import '../../controllers/scroll_monitor.dart';
 import '../subscreens/library_subscreens/playlist_page.dart';
 
-class LibraryPage extends StatelessWidget {
+class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});
+
+  @override
+  _LibraryPageState createState() => _LibraryPageState();
+}
+
+class _LibraryPageState extends State<LibraryPage> {
+  List<bool> _tileVisibility = [true, true, true];
+
+  void _toggleTileVisibility(int index) {
+    setState(() {
+      _tileVisibility[index] = !_tileVisibility[index];
+    });
+  }
+
+  void _showEditToolbarDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Edit Toolbar'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(_tileVisibility.length, (index) {
+              return CheckboxListTile(
+                title: Text('Tile ${index + 1}'),
+                value: _tileVisibility[index],
+                onChanged: (value) {
+                  _toggleTileVisibility(index);
+                },
+              );
+            }),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Done'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +95,7 @@ class LibraryPage extends StatelessWidget {
                   ),
                   PullDownMenuItem(
                     title: 'Edit toolbar',
-                    onTap: () {},
+                    onTap: _showEditToolbarDialog,
                     icon: CupertinoIcons.list_bullet_below_rectangle,
                   ),
                 ],
@@ -69,35 +113,57 @@ class LibraryPage extends StatelessWidget {
           SliverToBoxAdapter(
             child: Column(
               children: [
-                CupertinoListTile(
-                  leading: const Icon(CupertinoIcons.music_note,
-                      color: Colors.white),
-                  title: const Text('Genres',
-                      style: TextStyle(color: Colors.white)),
-                  onTap: () {},
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 56.0),
-                  child: Divider(color: Colors.white),
-                ),
-                CupertinoListTile(
-                  leading: const Icon(CupertinoIcons.music_note_list,
-                      color: Colors.white),
-                  title: const Text('All Songs',
-                      style: TextStyle(color: Colors.white)),
-                  onTap: () {},
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 56.0),
-                  child: Divider(color: Colors.white),
-                ),
-                CupertinoListTile(
-                  leading:
-                      const Icon(CupertinoIcons.person_2, color: Colors.white),
-                  title: const Text('Artists',
-                      style: TextStyle(color: Colors.white)),
-                  onTap: () {},
-                ),
+                if (_tileVisibility[0])
+                  CupertinoListTile(
+                    leading: const Icon(CupertinoIcons.music_note,
+                        color: Colors.white),
+                    title: const Text('Genres',
+                        style: TextStyle(color: Colors.white)),
+                    onTap: () {},
+                    trailing: const Icon(
+                        CupertinoIcons.forward,
+                        color: Colors.white
+                    ),
+                  ),
+                if (_tileVisibility[0])
+                  const Padding(
+                    padding: EdgeInsets.only(left: 64.0),
+                    child: Divider(color: Colors.white),
+                  ),
+                if (_tileVisibility[1])
+                  CupertinoListTile(
+                    leading: const Icon(CupertinoIcons.music_note_list,
+                        color: Colors.white),
+                    title: const Text('All Songs',
+                        style: TextStyle(color: Colors.white)),
+                    onTap: () {},
+                    trailing: const Icon(
+                        CupertinoIcons.forward,
+                        color: Colors.white
+                    ),
+                  ),
+                if (_tileVisibility[1])
+                  const Padding(
+                    padding: EdgeInsets.only(left: 64.0),
+                    child: Divider(color: Colors.white),
+                  ),
+                if (_tileVisibility[2])
+                  CupertinoListTile(
+                    leading: const Icon(CupertinoIcons.person_2,
+                        color: Colors.white),
+                    title: const Text('Artists',
+                        style: TextStyle(color: Colors.white)),
+                    onTap: () {},
+                    trailing: const Icon(
+                        CupertinoIcons.forward,
+                        color: Colors.white
+                    ),
+                  ),
+                if (_tileVisibility[2])
+                  const Padding(
+                    padding: EdgeInsets.only(left: 64.0),
+                    child: Divider(color: Colors.white),
+                  ),
               ],
             ),
           ),
