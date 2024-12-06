@@ -1,10 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vynt/controllers/scroll_monitor.dart';
 import 'package:vynt/constants/constants.dart' as constants;
+import 'package:vynt/controllers/scroll_monitor.dart';
+import 'package:vynt/screens/login_pages/main_login_page.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
+
+  Future<void> _logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const MainLoginPage()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +29,12 @@ class Profile extends StatelessWidget {
           'Profile',
           style: TextStyle(color: constants.primaryTextColor),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout, color: constants.primaryTextColor),
+            onPressed: () => _logout(context),
+          ),
+        ],
       ),
       body: CustomScrollView(
         key: const PageStorageKey('profile'),
