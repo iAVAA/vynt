@@ -22,7 +22,7 @@ void main() async {
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp
   ]);
-
+  // TODO: Optimize the app resolution for iPad
   runApp(
     ChangeNotifierProvider(
       create: (context) => ScrollMonitor(),
