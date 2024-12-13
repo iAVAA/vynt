@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:vynt/screens/login_pages/login_page.dart';
 import 'package:vynt/screens/login_pages/main_login_page.dart';
@@ -12,7 +13,7 @@ import 'controllers/scroll_monitor.dart';
 import 'firebase_options.dart';
 import 'constants/constants.dart' as constants;
 
-void main() async {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     name: 'Vynt',
@@ -23,6 +24,9 @@ void main() async {
     DeviceOrientation.portraitUp
   ]);
   // TODO: Optimize the app resolution for iPad
+
+  await dotenv.load(fileName: '.env');
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => ScrollMonitor(),
