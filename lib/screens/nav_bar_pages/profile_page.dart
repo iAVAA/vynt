@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:oauth2_client/oauth2_helper.dart';
+import 'package:oauth2_client/spotify_oauth2_client.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -19,22 +22,22 @@ class Profile extends StatelessWidget {
     );
   }
 
-  Future<void> _spotifyLogin() async {
-    final clientId = dotenv.env['SPOTIFY_CLIENT_ID'];
-    final redirectUri = dotenv.env['SPOTIFY_REDIRECT_URI'];
-    final scopes = dotenv.env['SPOTIFY_SCOPE'];
+  void _spotifyLogin() async {
+    SpotifyOAuth2Client client = SpotifyOAuth2Client(
+      customUriScheme: 'com.app.vynt',
+      redirectUri: "com.app.vynt://localhost:5000",
+    );
 
-    final url = 'https://accounts.spotify.com/authorize'
-        '?response_type=code'
-        '&client_id=$clientId'
-        '&redirect_uri=$redirectUri'
-        '&scope=$scopes';
-
-    if (await canLaunchUrlString(url)) {
-      await launchUrlString(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+    OAuth2Helper helper = OAuth2Helper(
+      client,
+      grantType: OAuth2Helper.authorizationCode,
+      clientId: dotenv.env['SPOTIFY_CLIENT_ID'].toString(),
+      clientSecret: dotenv.env['SPOTIFY_CLIENT_SECRET'].toString(),
+      scopes: dotenv.env['SPOTIFY_SCOPE'].toString().split(' '),
+    );
+    http.Response resp =
+        await helper.get('https://api.spotify.com/v1/me/player/currently-playing');
+    print(resp.body);
   }
 
   @override
@@ -78,7 +81,8 @@ class Profile extends StatelessWidget {
                   const SizedBox(height: 10),
                   Text(
                     'User Name',
-                    style: TextStyle(color: constants.primaryTextColor, fontSize: 24),
+                    style: TextStyle(
+                        color: constants.primaryTextColor, fontSize: 24),
                   ),
                   const SizedBox(height: 20),
                   Container(

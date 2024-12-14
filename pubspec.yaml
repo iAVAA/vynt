@@ -68,7 +68,8 @@ dependencies:
   crypto: ^3.0.6
   flutter_dotenv: ^5.2.1
   url_launcher: ^6.3.1
-
+  oauth2_client: ^3.3.0
+  flutter_secure_storage: ^9.2.2
 
 
 
