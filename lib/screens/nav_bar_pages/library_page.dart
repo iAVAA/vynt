@@ -15,45 +15,6 @@ class LibraryPage extends StatefulWidget {
 }
 
 class _LibraryPageState extends State<LibraryPage> {
-  List<bool> _tileVisibility = [true, true, true];
-
-  void _toggleTileVisibility(int index) {
-    setState(() {
-      _tileVisibility[index] = !_tileVisibility[index];
-    });
-  }
-
-  void _showEditToolbarDialog() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Edit Toolbar'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(_tileVisibility.length, (index) {
-              return CheckboxListTile(
-                title: Text('Tile ${index + 1}'),
-                value: _tileVisibility[index],
-                onChanged: (value) {
-                  _toggleTileVisibility(index);
-                },
-              );
-            }),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Done'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final scrollMonitor = Provider.of<ScrollMonitor>(context);
@@ -95,7 +56,7 @@ class _LibraryPageState extends State<LibraryPage> {
                   ),
                   PullDownMenuItem(
                     title: 'Edit toolbar',
-                    onTap: _showEditToolbarDialog,
+                    onTap: () {},
                     icon: CupertinoIcons.list_bullet_below_rectangle,
                   ),
                 ],
@@ -111,59 +72,60 @@ class _LibraryPageState extends State<LibraryPage> {
             ],
           ),
           SliverToBoxAdapter(
-            child: Column(
-              children: [
-                if (_tileVisibility[0])
-                  CupertinoListTile(
-                    leading: const Icon(CupertinoIcons.music_note,
-                        color: Colors.white),
-                    title: const Text('Genres',
-                        style: TextStyle(color: Colors.white)),
-                    onTap: () {},
-                    trailing: const Icon(
-                        CupertinoIcons.forward,
-                        color: Colors.white
-                    ),
+            child: CupertinoListSection.insetGrouped(
+              backgroundColor: Colors.grey.shade900,
+              children: <CupertinoListTile>[
+                CupertinoListTile.notched(
+                  title: const Text(
+                    'Open pull request',
+                    style: TextStyle(color: Colors.white),
                   ),
-                if (_tileVisibility[0])
-                  const Padding(
-                    padding: EdgeInsets.only(left: 64.0),
-                    child: Divider(color: Colors.white),
+                  backgroundColor: Colors.grey.shade800,
+                  backgroundColorActivated: Colors.grey.shade700,
+                  leading: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: CupertinoColors.activeGreen,
                   ),
-                if (_tileVisibility[1])
-                  CupertinoListTile(
-                    leading: const Icon(CupertinoIcons.music_note_list,
-                        color: Colors.white),
-                    title: const Text('All Songs',
-                        style: TextStyle(color: Colors.white)),
-                    onTap: () {},
-                    trailing: const Icon(
-                        CupertinoIcons.forward,
-                        color: Colors.white
-                    ),
+                  trailing: const CupertinoListTileChevron(),
+                  onTap: () {},
+                ),
+                CupertinoListTile.notched(
+                  title: const Text(
+                    'Push to master',
+                    style: TextStyle(color: Colors.white),
                   ),
-                if (_tileVisibility[1])
-                  const Padding(
-                    padding: EdgeInsets.only(left: 64.0),
-                    child: Divider(color: Colors.white),
+                  backgroundColor: Colors.grey.shade800,
+                  backgroundColorActivated: Colors.grey.shade700,
+                  leading: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: CupertinoColors.systemRed,
                   ),
-                if (_tileVisibility[2])
-                  CupertinoListTile(
-                    leading: const Icon(CupertinoIcons.person_2,
-                        color: Colors.white),
-                    title: const Text('Artists',
-                        style: TextStyle(color: Colors.white)),
-                    onTap: () {},
-                    trailing: const Icon(
-                        CupertinoIcons.forward,
-                        color: Colors.white
-                    ),
+                  additionalInfo: const Text(
+                    'Not available',
+                    style: TextStyle(color: Colors.white),
                   ),
-                if (_tileVisibility[2])
-                  const Padding(
-                    padding: EdgeInsets.only(left: 64.0),
-                    child: Divider(color: Colors.white),
+                ),
+                CupertinoListTile.notched(
+                  title: const Text(
+                    'View last commit',
+                    style: TextStyle(color: Colors.white),
                   ),
+                  backgroundColor: Colors.grey.shade800,
+                  backgroundColorActivated: Colors.grey.shade700,
+                  leading: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: CupertinoColors.activeOrange,
+                  ),
+                  additionalInfo: const Text(
+                    '12 days ago',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  trailing: const CupertinoListTileChevron(),
+                  onTap: () {},
+                ),
               ],
             ),
           ),
@@ -206,6 +168,7 @@ class _LibraryPageState extends State<LibraryPage> {
                             child: const Text('Delete'),
                           ),
                         ],
+                        enableHapticFeedback: true,
                         child: GestureDetector(
                           onTap: () {
                             Navigator.push(
