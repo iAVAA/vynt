@@ -25,7 +25,7 @@ class Profile extends StatelessWidget {
   void _spotifyLogin() async {
     SpotifyOAuth2Client client = SpotifyOAuth2Client(
       customUriScheme: 'com.app.vynt',
-      redirectUri: "com.app.vynt://localhost:5000",
+      redirectUri: "com.app.vynt://auth/callback",
     );
 
     OAuth2Helper helper = OAuth2Helper(
