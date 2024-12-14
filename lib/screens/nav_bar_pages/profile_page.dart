@@ -4,8 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:oauth2_client/oauth2_helper.dart';
 import 'package:oauth2_client/spotify_oauth2_client.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:vynt/constants/constants.dart' as constants;
 import 'package:vynt/controllers/scroll_monitor.dart';
 import 'package:vynt/screens/login_pages/main_login_page.dart';

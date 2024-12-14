@@ -12,6 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import 'package:vynt/constants/constants.dart' as constants;
+import 'package:vynt/screens/login_pages/save_user_data.dart';
 import 'package:vynt/screens/login_pages/signup_page.dart';
 import 'package:vynt/screens/main_page.dart';
 import 'package:vynt/widgets/login_pages_widgets/onboarding_widgets.dart';
@@ -38,7 +39,8 @@ class _MainLoginPageState extends State<MainLoginPage> {
         idToken: googleAuth?.idToken,
       );
 
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      await saveUserData(userCredential.user);
 
       if (mounted) {
         Navigator.pushReplacement(

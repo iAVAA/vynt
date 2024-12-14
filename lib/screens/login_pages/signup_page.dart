@@ -7,6 +7,7 @@ import 'package:modular_ui/modular_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vynt/constants/constants.dart' as constants;
 import 'package:vynt/screens/login_pages/login_page.dart';
+import 'package:vynt/screens/login_pages/save_user_data.dart';
 
 import '../../widgets/login_pages_widgets/onboarding_widgets.dart';
 import '../main_page.dart';
@@ -32,7 +33,8 @@ class _SignupPageState extends State<SignupPage> {
         idToken: googleAuth?.idToken,
       );
 
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      await saveUserData(userCredential.user);
 
       if (mounted) {
         Navigator.pushReplacement(
@@ -169,7 +171,9 @@ class _SignupFormState extends State<_SignupForm> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      print('User signed up: ${credential.user}');
+
+      await saveUserData(credential.user);
+
       if (mounted) {
         Navigator.of(context).popUntil((route) => route.isFirst);
 
