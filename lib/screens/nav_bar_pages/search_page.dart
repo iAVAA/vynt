@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:vynt/controllers/scroll_monitor.dart';
 import 'package:vynt/constants/constants.dart' as constants;
@@ -32,49 +33,56 @@ class _SearchState extends State<Search> {
 
     return Scaffold(
       backgroundColor: constants.bgColor,
-      appBar: AppBar(
-        backgroundColor: constants.bgColor,
-        elevation: 0,
-        title: Text(
-          'Search',
-          style: TextStyle(color: constants.primaryTextColor),
-        ),
-      ),
       body: CustomScrollView(
         key: const PageStorageKey('search'),
         controller: scrollMonitor.scrollController,
         slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CupertinoSearchTextField(
-                backgroundColor: constants.secondaryBgColor,
-                borderRadius: BorderRadius.circular(10),
-                placeholder: 'Search',
-                placeholderStyle: TextStyle(color: constants.secondaryTextColor),
-                itemColor: Colors.grey,
-                style: TextStyle(color: constants.primaryTextColor),
+          SliverAppBar(
+            backgroundColor: Colors.transparent,
+            floating: false,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(
+                'Library',
+                style: GoogleFonts.poppins(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
               ),
+              collapseMode: CollapseMode.parallax,
             ),
           ),
           SliverToBoxAdapter(
             child: Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CupertinoSearchTextField(
+                    backgroundColor: constants.secondaryBgColor,
+                    borderRadius: BorderRadius.circular(10),
+                    placeholder: 'Search',
+                    placeholderStyle:
+                        TextStyle(color: constants.secondaryTextColor),
+                    itemColor: Colors.grey,
+                    style: TextStyle(color: constants.primaryTextColor),
+                  ),
+                ),
                 SizedBox(
-                  height: 400.0,
+                  height: 500.0,
                   child: CardSwiper(
                     controller: controller,
                     cardsCount: cards.length,
                     onSwipe: _onSwipe,
                     onUndo: _onUndo,
-                    numberOfCardsDisplayed: 3,
-                    padding: const EdgeInsets.all(24.0),
+                    numberOfCardsDisplayed: 2,
                     cardBuilder: (
                       context,
                       index,
                       horizontalThresholdPercentage,
                       verticalThresholdPercentage,
-                    ) => cards[index],
+                    ) =>
+                        cards[index],
                   ),
                 ),
                 Padding(
