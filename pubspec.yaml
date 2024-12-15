@@ -51,7 +51,6 @@ dependencies:
   file_picker: ^8.1.4
   image_picker: ^1.1.2
   mime: ^2.0.0
-  open_filex: ^4.5.0
   path_provider: ^2.1.5
   http: ^1.2.2
   modular_ui: ^0.0.5 # TODO: Implements the buttons in this package
