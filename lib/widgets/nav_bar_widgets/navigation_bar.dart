@@ -42,6 +42,7 @@ class CustomNavigationBar extends StatelessWidget {
                 unselectedItemColor: Colors.white,
                 splashColor: Colors.transparent,
                 indicatorColor: Colors.transparent,
+                backgroundColor: Colors.grey.shade900.withOpacity(0.5),
                 onTap: onItemTapped,
                 duration: const Duration(milliseconds: 250),
                 curve: Curves.easeInOut,
