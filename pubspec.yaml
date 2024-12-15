@@ -66,6 +66,8 @@ dependencies:
   google_sign_in: ^6.2.2
   sign_in_with_apple: ^6.1.3
   crypto: ^3.0.6
+  flutter_card_swiper: ^7.0.2
+
 
 
 
@@ -117,6 +119,11 @@ flutter:
     - assets/test_pictures/cover_art/3.jpeg
     - assets/test_pictures/cover_art/4.jpeg
     - assets/test_pictures/cover_art/5.jpeg
+    - assets/test_pictures/cover_art/6.jpeg
+    - assets/test_pictures/cover_art/7.jpeg
+    - assets/test_pictures/cover_art/8.jpeg
+    - assets/test_pictures/cover_art/9.jpeg
+    - assets/test_pictures/cover_art/10.jpeg
     - assets/test_pictures/icons/spotify.webp
     - assets/test_pictures/icons/apple_music.png
 
