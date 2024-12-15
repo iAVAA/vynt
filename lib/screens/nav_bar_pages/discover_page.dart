@@ -30,80 +30,70 @@ class _DiscoverState extends State<Discover> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: constants.bgColor,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 70.0),
-                child: Text(
-                  'Discover',
-                  style: GoogleFonts.poppins(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 70.0),
+              child: Text(
+                'Discover',
+                style: GoogleFonts.poppins(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: CupertinoSearchTextField(
-                  backgroundColor: constants.secondaryBgColor,
-                  borderRadius: BorderRadius.circular(10),
-                  placeholder: 'Search',
-                  placeholderStyle: TextStyle(color: constants.secondaryTextColor),
-                  itemColor: Colors.grey,
-                  style: TextStyle(color: constants.primaryTextColor),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
+              child: CupertinoSearchTextField(
+                backgroundColor: constants.secondaryBgColor,
+                borderRadius: BorderRadius.circular(10),
+                placeholder: 'Search',
+                placeholderStyle: TextStyle(color: constants.secondaryTextColor),
+                itemColor: Colors.grey,
+                style: TextStyle(color: constants.primaryTextColor),
+              ),
+            ),
+            SizedBox(
+              height: 500.0,
+              child: CardSwiper(
+                controller: controller,
+                cardsCount: cards.length,
+                backCardOffset: const Offset(0, 0),
+                onSwipe: _onSwipe,
+                onUndo: _onUndo,
+                cardBuilder: (
+                  context,
+                  index,
+                  horizontalThresholdPercentage,
+                  verticalThresholdPercentage,
+                ) =>
+                    cards[index],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                MUISecondaryButton(
+                  text: 'Undo',
+                  onPressed: controller.undo,
                 ),
-              ),
-              SizedBox(
-                height: 500.0,
-                child: CardSwiper(
-                  // TODO: FIX THE SWIPE DIRECTIONS
-                  controller: controller,
-                  cardsCount: cards.length,
-                  backCardOffset: const Offset(0, 0),
-                  allowedSwipeDirection: const AllowedSwipeDirection.only(
-                    right: true,
-                    left: true,
-                    up: true,
-                    down: false,
-                  ),
-                  onSwipe: _onSwipe,
-                  onUndo: _onUndo,
-                  cardBuilder: (
-                    context,
-                    index,
-                    horizontalThresholdPercentage,
-                    verticalThresholdPercentage,
-                  ) =>
-                      cards[index],
+                FloatingActionButton(
+                  onPressed: () => controller.swipe(CardSwiperDirection.left),
+                  child: const Icon(Icons.keyboard_arrow_left),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  MUISecondaryButton(
-                    text: 'Undo',
-                    onPressed: controller.undo,
-                  ),
-                  FloatingActionButton(
-                    onPressed: () => controller.swipe(CardSwiperDirection.left),
-                    child: const Icon(Icons.keyboard_arrow_left),
-                  ),
-                  FloatingActionButton(
-                    onPressed: () => controller.swipe(CardSwiperDirection.top),
-                    child: const Icon(Icons.keyboard_arrow_up),
-                  ),
-                  FloatingActionButton(
-                    onPressed: () => controller.swipe(CardSwiperDirection.right),
-                    child: const Icon(Icons.keyboard_arrow_right),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                FloatingActionButton(
+                  onPressed: () => controller.swipe(CardSwiperDirection.top),
+                  child: const Icon(Icons.keyboard_arrow_up),
+                ),
+                FloatingActionButton(
+                  onPressed: () => controller.swipe(CardSwiperDirection.right),
+                  child: const Icon(Icons.keyboard_arrow_right),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

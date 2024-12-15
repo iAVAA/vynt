@@ -26,20 +26,16 @@ class _LibraryPageState extends State<LibraryPage> {
         controller: scrollMonitor.scrollController,
         slivers: [
           SliverAppBar(
-            backgroundColor: Colors.grey[900],
-            expandedHeight: 80,
-            floating: false,
+            backgroundColor: Colors.transparent,
+            forceMaterialTransparency: true,
             pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                'Library',
-                style: GoogleFonts.poppins(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
+            title: Text(
+              'Library',
+              style: GoogleFonts.poppins(
+                fontSize: 25,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
               ),
-              collapseMode: CollapseMode.parallax,
             ),
             actions: [
               PullDownButton(
@@ -74,6 +70,8 @@ class _LibraryPageState extends State<LibraryPage> {
           SliverToBoxAdapter(
             child: CupertinoListSection.insetGrouped(
               backgroundColor: Colors.grey.shade900,
+              dividerMargin: 0,
+              additionalDividerMargin: 0,
               children: <CupertinoListTile>[
                 CupertinoListTile.notched(
                   title: const Text(
