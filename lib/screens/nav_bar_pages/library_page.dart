@@ -77,51 +77,42 @@ class _LibraryPageState extends State<LibraryPage> {
               children: <CupertinoListTile>[
                 CupertinoListTile.notched(
                   title: const Text(
-                    'Open pull request',
+                    'Songs',
                     style: TextStyle(color: Colors.white),
                   ),
                   backgroundColor: Colors.grey.shade800,
                   backgroundColorActivated: Colors.grey.shade700,
-                  leading: Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    color: CupertinoColors.activeGreen,
+                  leading: Icon(
+                    CupertinoIcons.music_note,
+                    color: CupertinoColors.systemPurple,
                   ),
                   trailing: const CupertinoListTileChevron(),
                   onTap: () {},
                 ),
                 CupertinoListTile.notched(
                   title: const Text(
-                    'Push to master',
+                    'Artists',
                     style: TextStyle(color: Colors.white),
                   ),
                   backgroundColor: Colors.grey.shade800,
                   backgroundColorActivated: Colors.grey.shade700,
-                  leading: Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    color: CupertinoColors.systemRed,
+                  leading: Icon(
+                    CupertinoIcons.music_mic,
+                    color: CupertinoColors.systemPurple,
                   ),
-                  additionalInfo: const Text(
-                    'Not available',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  trailing: const CupertinoListTileChevron(),
+                  onTap: () {},
                 ),
                 CupertinoListTile.notched(
                   title: const Text(
-                    'View last commit',
+                    'Albums',
                     style: TextStyle(color: Colors.white),
                   ),
                   backgroundColor: Colors.grey.shade800,
                   backgroundColorActivated: Colors.grey.shade700,
-                  leading: Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    color: CupertinoColors.activeOrange,
-                  ),
-                  additionalInfo: const Text(
-                    '12 days ago',
-                    style: TextStyle(color: Colors.white),
+                  leading: Icon(
+                    CupertinoIcons.square_stack,
+                    color: CupertinoColors.systemPurple,
                   ),
                   trailing: const CupertinoListTileChevron(),
                   onTap: () {},
