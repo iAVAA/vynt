@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:vynt/screens/nav_bar_pages/feed_page.dart';
 import 'package:vynt/screens/nav_bar_pages/library_page.dart';
-import 'package:vynt/screens/nav_bar_pages/search_page.dart';
+import 'package:vynt/screens/nav_bar_pages/discover_page.dart';
 import 'package:vynt/screens/nav_bar_pages/profile_page.dart';
 import 'package:vynt/widgets/nav_bar_widgets/navigation_bar.dart';
 import 'package:vynt/widgets/nav_bar_pages_widgets/add_post_widget.dart';

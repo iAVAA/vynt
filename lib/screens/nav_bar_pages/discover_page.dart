@@ -60,6 +60,7 @@ class _DiscoverState extends State<Discover> {
               SizedBox(
                 height: 500.0,
                 child: CardSwiper(
+                  // TODO: FIX THE SWIPE DIRECTIONS
                   controller: controller,
                   cardsCount: cards.length,
                   backCardOffset: const Offset(0, 0),
