@@ -9,14 +9,14 @@ import 'package:vynt/constants/constants.dart' as constants;
 import '../../widgets/nav_bar_pages_widgets/example_candidate_model.dart';
 import '../../widgets/nav_bar_pages_widgets/example_card.dart';
 
-class Search extends StatefulWidget {
-  const Search({super.key});
+class Discover extends StatefulWidget {
+  const Discover({super.key});
 
   @override
-  State<Search> createState() => _SearchState();
+  State<Discover> createState() => _DiscoverState();
 }
 
-class _SearchState extends State<Search> {
+class _DiscoverState extends State<Discover> {
   final CardSwiperController controller = CardSwiperController();
 
   final cards = candidates.map(ExampleCard.new).toList();
@@ -34,30 +34,25 @@ class _SearchState extends State<Search> {
     return Scaffold(
       backgroundColor: constants.bgColor,
       body: CustomScrollView(
-        key: const PageStorageKey('search'),
+        key: const PageStorageKey('discover'),
         controller: scrollMonitor.scrollController,
         slivers: [
-          SliverAppBar(
-            backgroundColor: Colors.transparent,
-            floating: false,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                'Library',
-                style: GoogleFonts.poppins(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-              collapseMode: CollapseMode.parallax,
-            ),
-          ),
           SliverToBoxAdapter(
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(top: 70.0),
+                  child: Text(
+                    'Library',
+                    style: GoogleFonts.poppins(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
                   child: CupertinoSearchTextField(
                     backgroundColor: constants.secondaryBgColor,
                     borderRadius: BorderRadius.circular(10),

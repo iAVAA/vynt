@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
 
   static List<Widget> _pages(ScrollMonitor scrollMonitor) => <Widget>[
     const Feed(),
-    const Search(),
+    const Discover(),
     const AddPostWidget(),
     const LibraryPage(),
     const Profile(),
