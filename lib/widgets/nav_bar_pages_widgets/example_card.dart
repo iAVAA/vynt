@@ -32,10 +32,9 @@ class ExampleCard extends StatelessWidget {
           Flexible(
             child: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: candidate.color,
+                image: DecorationImage(
+                  image: candidate.image,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
