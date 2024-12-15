@@ -48,7 +48,6 @@ dependencies:
   flutter_chat_ui: ^1.6.15 # IMPORTANT FOR THE CHATS
   flutter_chat_types: ^3.6.2
   uuid: ^4.5.1
-  file_picker: ^8.1.4
   image_picker: ^1.1.2
   mime: ^2.0.0
   path_provider: ^2.1.5
