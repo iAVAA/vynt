@@ -17,3 +17,5 @@ Future<void> saveUserData(User? user) async {
     });
   }
 }
+
+// User DATA: User(displayName: null, email: prova123@gmail.com, isEmailVerified: false, isAnonymous: false, metadata: UserMetadata(creationTime: 2024-12-03 21:25:13.547Z, lastSignInTime: 2024-12-15 10:29:19.638Z), phoneNumber: null, photoURL: null, providerData, [UserInfo(displayName: null, email: prova123@gmail.com, phoneNumber: null, photoURL: null, providerId: password, uid: prova123@gmail.com)], refreshToken: AMf, tenantId: null, uid: 5qk70DskYEhG4mgz1S2ZFw0jK9n1)
