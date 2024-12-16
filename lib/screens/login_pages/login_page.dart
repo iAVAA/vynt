@@ -138,6 +138,7 @@ class _LoginFormState extends State<_LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String _errorMessage = '';
+  bool _isPasswordVisible = false;
 
   @override
   void dispose() {
@@ -252,8 +253,19 @@ class _LoginFormState extends State<_LoginForm> {
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none,
               ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                  color: constants.secondaryTextColor,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _isPasswordVisible = !_isPasswordVisible;
+                  });
+                },
+              ),
             ),
-            obscureText: true,
+            obscureText: !_isPasswordVisible,
             style: TextStyle(color: constants.primaryTextColor),
           ),
           const SizedBox(height: 20),
