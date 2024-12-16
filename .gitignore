@@ -1,3 +1,6 @@
+# API Enviroment
+.env
+
 # Miscellaneous
 *.class
 *.log
