@@ -51,8 +51,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       resizeToAvoidBottomInset: false,
-      body: CustomNavigationBar(
+      body: CustomNavigationBar( // TODO: FIX IT CAUSE IT HAS TO STAY TO BOTTOMNAVIGATIONBAR NOT BODY
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
         pages: _pages(_scrollMonitor),

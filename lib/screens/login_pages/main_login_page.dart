@@ -12,75 +12,45 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import 'package:vynt/constants/constants.dart' as constants;
+import 'package:vynt/screens/login_pages/save_user_data.dart';
 import 'package:vynt/screens/login_pages/signup_page.dart';
+import 'package:vynt/screens/main_page.dart';
 import 'package:vynt/widgets/login_pages_widgets/onboarding_widgets.dart';
 
 import 'login_page.dart';
 
-class MainLoginPage extends StatelessWidget {
+class MainLoginPage extends StatefulWidget {
   const MainLoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: constants.bgColor,
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                "assets/icons/logo/vynt_logo.png",
-                width: 150,
-                height: 150,
-              ),
-              const SizedBox(height: 20),
-              Text(
-                "Welcome to Vynt",
-                style: TextStyle(
-                  fontFamily: "AB",
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: constants.primaryTextColor,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 10),
-              Text(
-                "Log in or register to explore your journey.",
-                style: TextStyle(
-                  fontFamily: "AB",
-                  fontSize: 16,
-                  color: constants.secondaryTextColor,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 30),
-              const _ActionButtons(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  _MainLoginPageState createState() => _MainLoginPageState();
 }
 
-class _ActionButtons extends StatelessWidget {
-  const _ActionButtons();
+class _MainLoginPageState extends State<MainLoginPage> {
+  Future<void> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-  Future<UserCredential> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      await saveUserData(userCredential.user);
 
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Home()),
+        );
+      }
+    } catch (e) {
+      print('Error signing in with Google: $e');
+    }
   }
 
   String generateNonce([int length = 32]) {
@@ -119,6 +89,55 @@ class _ActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: constants.bgColor,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/icons/logo/vynt_logo.png",
+              width: 150,
+              height: 150,
+            ),
+            const SizedBox(height: 20),
+            Text(
+              "Welcome to Vynt",
+              style: TextStyle(
+                fontFamily: "AB",
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: constants.primaryTextColor,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Log in or register to explore your journey.",
+              style: TextStyle(
+                fontFamily: "AB",
+                fontSize: 16,
+                color: constants.secondaryTextColor,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 30),
+            const _ActionButtons(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ActionButtons extends StatelessWidget {
+  const _ActionButtons();
+
+  @override
+  Widget build(BuildContext context) {
+    final _MainLoginPageState state = context.findAncestorStateOfType<_MainLoginPageState>()!;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Column(
@@ -156,8 +175,7 @@ class _ActionButtons extends StatelessWidget {
               borderWidth: 1,
               borderRadius: 25,
               widthFactorUnpressed: 0.15,
-              widthFactorPressed: 0.095
-          ),
+              widthFactorPressed: 0.095),
           const SizedBox(height: 20),
           const LineSeparatorWithText(
             text: 'OR',
@@ -169,7 +187,7 @@ class _ActionButtons extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SquareTile(
-                onTap: () => signInWithGoogle(),
+                onTap: () => state.signInWithGoogle(),
                 imagePath: 'assets/icons/icon_google.svg',
                 imageHeight: 50,
               ),

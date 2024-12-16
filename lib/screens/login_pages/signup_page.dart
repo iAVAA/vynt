@@ -7,26 +7,44 @@ import 'package:modular_ui/modular_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vynt/constants/constants.dart' as constants;
 import 'package:vynt/screens/login_pages/login_page.dart';
+import 'package:vynt/screens/login_pages/save_user_data.dart';
 
 import '../../widgets/login_pages_widgets/onboarding_widgets.dart';
 import '../main_page.dart';
 import '../nav_bar_pages/feed_page.dart';
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
 
-  Future<UserCredential> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  @override
+  _SignupPageState createState() => _SignupPageState();
+}
 
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+class _SignupPageState extends State<SignupPage> {
+  Future<void> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      await saveUserData(userCredential.user);
+
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Home()),
+        );
+      }
+    } catch (e) {
+      print('Error signing in with Google: $e');
+    }
   }
 
   @override
@@ -122,6 +140,7 @@ class _SignupFormState extends State<_SignupForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String _errorMessage = '';
+  bool _isPasswordVisible = false;
 
   @override
   void dispose() {
@@ -153,7 +172,9 @@ class _SignupFormState extends State<_SignupForm> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      print('User signed up: ${credential.user}');
+
+      await saveUserData(credential.user);
+
       if (mounted) {
         Navigator.of(context).popUntil((route) => route.isFirst);
 
@@ -235,8 +256,19 @@ class _SignupFormState extends State<_SignupForm> {
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none,
               ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                  color: constants.secondaryTextColor,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _isPasswordVisible = !_isPasswordVisible;
+                  });
+                },
+              ),
             ),
-            obscureText: true,
+            obscureText: !_isPasswordVisible,
             style: TextStyle(color: constants.primaryTextColor),
           ),
           const SizedBox(height: 20),
