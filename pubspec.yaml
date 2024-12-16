@@ -50,7 +50,6 @@ dependencies:
   uuid: ^4.5.1
   image_picker: ^1.1.2
   mime: ^2.0.0
-  open_filex: ^4.5.0
   path_provider: ^2.1.5
   http: ^1.2.2
   modular_ui: ^0.0.5 # TODO: Implements the buttons in this package
@@ -70,6 +69,7 @@ dependencies:
   oauth2_client: ^3.3.0
   flutter_secure_storage: ^9.2.2
   cloud_firestore: ^5.5.1
+  flutter_card_swiper: ^7.0.2
 
 
 
@@ -123,6 +123,11 @@ flutter:
     - assets/test_pictures/cover_art/3.jpeg
     - assets/test_pictures/cover_art/4.jpeg
     - assets/test_pictures/cover_art/5.jpeg
+    - assets/test_pictures/cover_art/6.jpeg
+    - assets/test_pictures/cover_art/7.jpeg
+    - assets/test_pictures/cover_art/8.jpeg
+    - assets/test_pictures/cover_art/9.jpeg
+    - assets/test_pictures/cover_art/10.jpeg
     - assets/test_pictures/icons/spotify.webp
     - assets/test_pictures/icons/apple_music.png
 

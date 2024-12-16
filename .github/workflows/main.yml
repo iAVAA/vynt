@@ -28,6 +28,13 @@ jobs:
         if: matrix.platform == 'android'
         run: echo "JAVA_HOME=/opt/hostedtoolcache/Java_Corretto_jdk/17.0.13-11.1/x64" >> $GITHUB_ENV
 
+      - name: Create .env file for Spotify API
+        run: |
+          echo "SPOTIFY_CLIENT_ID=${{ vars.SPOTIFY_CLIENT_ID }}" >> .env
+          echo "SPOTIFY_CLIENT_SECRET=${{ secrets.SPOTIFY_CLIENT_SECRET }}" >> .env
+          echo "SPOTIFY_SCOPE=${{ vars.SPOTIFY_SCOPE }}" >> .env
+          echo "SPOTIFY_REDIRECT_URI=${{ vars.SPOTIFY_REDIRECT_URI }}" >> .env
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -69,14 +76,14 @@ jobs:
 
       - name: Upload APK
         if: matrix.platform == 'android'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: app-release.apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
       - name: Upload IPA
         if: matrix.platform == 'ios'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: ios-ipa
           path: build/ios/iphoneos/Runner.ipa

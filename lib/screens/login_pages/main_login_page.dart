@@ -90,43 +90,41 @@ class _MainLoginPageState extends State<MainLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: constants.bgColor,
       body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                "assets/icons/logo/vynt_logo.png",
-                width: 150,
-                height: 150,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/icons/logo/vynt_logo.png",
+              width: 150,
+              height: 150,
+            ),
+            const SizedBox(height: 20),
+            Text(
+              "Welcome to Vynt",
+              style: TextStyle(
+                fontFamily: "AB",
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: constants.primaryTextColor,
               ),
-              const SizedBox(height: 20),
-              Text(
-                "Welcome to Vynt",
-                style: TextStyle(
-                  fontFamily: "AB",
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: constants.primaryTextColor,
-                ),
-                textAlign: TextAlign.center,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Log in or register to explore your journey.",
+              style: TextStyle(
+                fontFamily: "AB",
+                fontSize: 16,
+                color: constants.secondaryTextColor,
               ),
-              const SizedBox(height: 10),
-              Text(
-                "Log in or register to explore your journey.",
-                style: TextStyle(
-                  fontFamily: "AB",
-                  fontSize: 16,
-                  color: constants.secondaryTextColor,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 30),
-              const _ActionButtons(),
-            ],
-          ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 30),
+            const _ActionButtons(),
+          ],
         ),
       ),
     );
@@ -177,8 +175,7 @@ class _ActionButtons extends StatelessWidget {
               borderWidth: 1,
               borderRadius: 25,
               widthFactorUnpressed: 0.15,
-              widthFactorPressed: 0.095
-          ),
+              widthFactorPressed: 0.095),
           const SizedBox(height: 20),
           const LineSeparatorWithText(
             text: 'OR',
