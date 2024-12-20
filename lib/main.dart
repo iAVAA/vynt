@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
+import 'package:vynt/controllers/theme_controller.dart';
 import 'package:vynt/screens/login_pages/login_page.dart';
 import 'package:vynt/screens/login_pages/main_login_page.dart';
 import 'package:vynt/screens/main_page.dart';
@@ -28,8 +29,11 @@ Future main() async {
   await dotenv.load(fileName: '.env');
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ScrollMonitor(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ScrollMonitor()),
+        ChangeNotifierProvider(create: (_) => ThemeController()),
+      ],
       child: const Main(),
     ),
   );
@@ -40,12 +44,13 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeController = Provider.of<ThemeController>(context);
+
     return MaterialApp(
       title: constants.appName,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: themeController.lightTheme,
+      darkTheme: themeController.darkTheme,
+      themeMode: themeController.isDarkMode ? ThemeMode.dark : ThemeMode.light,
       home: const AuthWrapper(),
       debugShowCheckedModeBanner: false,
     );
