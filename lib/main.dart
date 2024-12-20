@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:vynt/controllers/theme_controller.dart';
 import 'package:vynt/screens/login_pages/login_page.dart';
 import 'package:vynt/screens/login_pages/main_login_page.dart';
 import 'package:vynt/screens/splash_screen.dart';
@@ -16,13 +17,14 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp
-  ]);
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ScrollMonitor(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ScrollMonitor()),
+        ChangeNotifierProvider(create: (_) => ThemeController()),
+      ],
       child: const Main(),
     ),
   );
@@ -33,12 +35,13 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeController = Provider.of<ThemeController>(context);
+
     return MaterialApp(
       title: constants.appName,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: themeController.lightTheme,
+      darkTheme: themeController.darkTheme,
+      themeMode: themeController.isDarkMode ? ThemeMode.dark : ThemeMode.light,
       home: const MainLoginPage(),
       debugShowCheckedModeBanner: false,
     );
