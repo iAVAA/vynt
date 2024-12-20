@@ -13,6 +13,11 @@ class ThemeController with ChangeNotifier {
     notifyListeners();
   }
 
+  void setThemeMode(Brightness brightness) {
+    _isDarkMode = brightness == Brightness.dark;
+    notifyListeners();
+  }
+
   ThemeData get darkTheme => ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,

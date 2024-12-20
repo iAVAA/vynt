@@ -44,15 +44,23 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeController = Provider.of<ThemeController>(context);
+    Future.microtask(() {
+      final brightness = MediaQuery.of(context).platformBrightness;
+      final themeController = Provider.of<ThemeController>(context, listen: false);
+      themeController.setThemeMode(brightness);
+    });
 
-    return MaterialApp(
-      title: constants.appName,
-      theme: themeController.lightTheme,
-      darkTheme: themeController.darkTheme,
-      themeMode: themeController.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      home: const AuthWrapper(),
-      debugShowCheckedModeBanner: false,
+    return Consumer<ThemeController>(
+      builder: (context, themeController, child) {
+        return MaterialApp(
+          title: constants.appName,
+          theme: themeController.lightTheme,
+          darkTheme: themeController.darkTheme,
+          themeMode: themeController.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          home: const AuthWrapper(),
+          debugShowCheckedModeBanner: false,
+        );
+      },
     );
   }
 }

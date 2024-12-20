@@ -5,9 +5,9 @@ import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 import 'package:modular_ui/modular_ui.dart';
-
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -16,6 +16,7 @@ import 'package:vynt/screens/login_pages/save_user_data.dart';
 import 'package:vynt/screens/login_pages/signup_page.dart';
 import 'package:vynt/screens/main_page.dart';
 import 'package:vynt/widgets/login_pages_widgets/onboarding_widgets.dart';
+import 'package:vynt/controllers/theme_controller.dart';
 
 import 'login_page.dart';
 
@@ -91,7 +92,7 @@ class _MainLoginPageState extends State<MainLoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: constants.bgColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -108,7 +109,7 @@ class _MainLoginPageState extends State<MainLoginPage> {
                 fontFamily: "AB",
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
-                color: constants.primaryTextColor,
+                color: Theme.of(context).textTheme.bodyLarge?.color,
               ),
               textAlign: TextAlign.center,
             ),
@@ -118,7 +119,7 @@ class _MainLoginPageState extends State<MainLoginPage> {
               style: TextStyle(
                 fontFamily: "AB",
                 fontSize: 16,
-                color: constants.secondaryTextColor,
+                color: Theme.of(context).textTheme.bodyMedium?.color,
               ),
               textAlign: TextAlign.center,
             ),
