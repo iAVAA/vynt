@@ -117,7 +117,7 @@ class _FeedState extends State<Feed> {
                 child: PostWidget(index: index + 1),
               );
             },
-            childCount: 5,
+            childCount: 2,
           ),
         ),
       ],
