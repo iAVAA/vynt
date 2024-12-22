@@ -19,34 +19,34 @@ class ThemeController with ChangeNotifier {
   }
 
   ThemeData get darkTheme => ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        primaryColor: darkPrimaryColor,
-        scaffoldBackgroundColor: darkBackgroundColor,
-        colorScheme: ColorScheme.dark(
-          primary: darkPrimaryColor,
-          secondary: darkSecondaryColor,
-          surface: darkBackgroundColor,
-        ),
-        textTheme: TextTheme(
-          bodyLarge: TextStyle(color: darkPrimaryColor),
-          bodyMedium: TextStyle(color: darkPrimaryColor),
-        ),
-      );
+    useMaterial3: true,
+    brightness: Brightness.dark,
+    primaryColor: darkPrimaryColor,
+    scaffoldBackgroundColor: darkBackgroundColor,
+    colorScheme: ColorScheme.dark(
+      primary: darkPrimaryColor,
+      secondary: darkSecondaryColor,
+      surface: darkBackgroundColor,
+    ),
+    textTheme: TextTheme(
+      bodyLarge: TextStyle(color: darkPrimaryColor),
+      bodyMedium: TextStyle(color: darkPrimaryColor),
+    ),
+  );
 
   ThemeData get lightTheme => ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.light,
-        primaryColor: lightPrimaryColor,
-        scaffoldBackgroundColor: lightBackgroundColor,
-        colorScheme: ColorScheme.light(
-          primary: lightPrimaryColor,
-          secondary: lightSecondaryColor,
-          surface: lightBackgroundColor,
-        ),
-        textTheme: TextTheme(
-          bodyLarge: TextStyle(color: lightPrimaryColor),
-          bodyMedium: TextStyle(color: lightPrimaryColor),
-        ),
-      );
+    useMaterial3: true,
+    brightness: Brightness.light,
+    primaryColor: lightPrimaryColor,
+    scaffoldBackgroundColor: lightBackgroundColor,
+    colorScheme: ColorScheme.light(
+      primary: lightPrimaryColor,
+      secondary: lightSecondaryColor,
+      surface: lightBackgroundColor,
+    ),
+    textTheme: TextTheme(
+      bodyLarge: TextStyle(color: lightPrimaryColor),
+      bodyMedium: TextStyle(color: lightPrimaryColor),
+    ),
+  );
 }

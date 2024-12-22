@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,8 @@ class _MainLoginPageState extends State<MainLoginPage> {
         idToken: googleAuth?.idToken,
       );
 
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
       await saveUserData(userCredential.user);
 
       if (mounted) {
@@ -137,46 +139,52 @@ class _ActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _MainLoginPageState state = context.findAncestorStateOfType<_MainLoginPageState>()!;
+    final _MainLoginPageState state =
+        context.findAncestorStateOfType<_MainLoginPageState>()!;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          MUIOutlinedButton(
-            text: 'Register Now',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SignupPage()),
-              );
-            },
-            textColor: Colors.black,
-            hapticsEnabled: true,
-            borderColor: Colors.white,
-            bgColor: Colors.white,
-            borderWidth: 1,
-            borderRadius: 25,
-            widthFactorUnpressed: 0.05,
-            widthFactorPressed: 0.045,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 150,
+                height: 60,
+                child: CupertinoButton.filled(
+                  borderRadius: BorderRadius.circular(25),
+                  pressedOpacity: 0.8,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => const LoginPage()),
+                    );
+                  },
+                  child: const Text('Log in'),
+                ),
+              ),
+              const SizedBox(width: 20),
+              SizedBox(
+                width: 150,
+                height: 60,
+                child: CupertinoButton.tinted(
+                  borderRadius: BorderRadius.circular(25),
+                  pressedOpacity: 0.8,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => const SignupPage()),
+                    );
+                  },
+                  child: const Text('Register Now'),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 20),
-          MUIOutlinedButton(
-              text: 'Log in',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                );
-              },
-              textColor: constants.primaryTextColor,
-              hapticsEnabled: true,
-              borderColor: Colors.white,
-              borderWidth: 1,
-              borderRadius: 25,
-              widthFactorUnpressed: 0.15,
-              widthFactorPressed: 0.095),
           const SizedBox(height: 20),
           const LineSeparatorWithText(
             text: 'OR',

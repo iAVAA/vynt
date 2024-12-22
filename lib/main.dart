@@ -21,9 +21,7 @@ Future main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp
-  ]);
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // TODO: Optimize the app resolution for iPad
 
   await dotenv.load(fileName: '.env');
@@ -46,7 +44,8 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.microtask(() {
       final brightness = MediaQuery.of(context).platformBrightness;
-      final themeController = Provider.of<ThemeController>(context, listen: false);
+      final themeController =
+          Provider.of<ThemeController>(context, listen: false);
       themeController.setThemeMode(brightness);
     });
 
@@ -56,7 +55,8 @@ class Main extends StatelessWidget {
           title: constants.appName,
           theme: themeController.lightTheme,
           darkTheme: themeController.darkTheme,
-          themeMode: themeController.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          themeMode:
+              themeController.isDarkMode ? ThemeMode.dark : ThemeMode.light,
           home: const AuthWrapper(),
           debugShowCheckedModeBanner: false,
         );
