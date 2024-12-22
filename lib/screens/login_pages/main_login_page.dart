@@ -186,10 +186,10 @@ class _ActionButtons extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          const LineSeparatorWithText(
+          LineSeparatorWithText(
             text: 'OR',
-            lineColor: Colors.white54,
-            textColor: Colors.white70,
+            lineColor: Theme.of(context).textTheme.bodyLarge?.color ?? Colors.grey,
+            textColor: Theme.of(context).textTheme.bodyLarge?.color ?? Colors.grey,
           ),
           const SizedBox(height: 20),
           Row(

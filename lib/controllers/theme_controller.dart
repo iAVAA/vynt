@@ -26,6 +26,7 @@ class ThemeController with ChangeNotifier {
     colorScheme: ColorScheme.dark(
       primary: darkPrimaryColor,
       secondary: darkSecondaryColor,
+      tertiary: darkTertiaryColor,
       surface: darkBackgroundColor,
     ),
     textTheme: TextTheme(
@@ -42,6 +43,7 @@ class ThemeController with ChangeNotifier {
     colorScheme: ColorScheme.light(
       primary: lightPrimaryColor,
       secondary: lightSecondaryColor,
+      tertiary: lightTertiaryColor,
       surface: lightBackgroundColor,
     ),
     textTheme: TextTheme(
