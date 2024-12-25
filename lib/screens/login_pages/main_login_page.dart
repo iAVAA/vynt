@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:math';
-
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -80,9 +77,6 @@ class _ActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _MainLoginPageState state =
-        context.findAncestorStateOfType<_MainLoginPageState>()!;
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Column(
@@ -142,11 +136,12 @@ class _ActionButtons extends StatelessWidget {
                 onTap: () async {
                   if (await GoogleProvider().signIn()) {
                     if (context.mounted) {
-                      Navigator.pushReplacement(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         CupertinoPageRoute(
                           builder: (context) => const Home(),
                         ),
+                        (Route<dynamic> route) => false,
                       );
                     }
                   }

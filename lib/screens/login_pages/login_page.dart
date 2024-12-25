@@ -2,14 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:modular_ui/modular_ui.dart';
+import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import 'package:vynt/constants/constants.dart' as constants;
 import 'package:vynt/screens/login_pages/save_user_data.dart';
 import 'package:vynt/screens/login_pages/signup_page.dart';
 
 import '../../widgets/login_pages_widgets/onboarding_widgets.dart';
 import '../main_page.dart';
+import '../../providers/auth_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,42 +20,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  Future<void> signInWithGoogle() async {
-    try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-      await saveUserData(userCredential.user);
-
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const Home()),
-        );
-      }
-    } catch (e) {
-      print('Error signing in with Google: $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: constants.bgColor,
-        elevation: 0,
+      appBar: CupertinoNavigationBar(
+        border: null,
+        backgroundColor: Theme.of(context).canvasColor,
         leading: IconButton(
-          icon: const Icon(CupertinoIcons.back, color: Colors.white),
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
+          icon: Icon(
+            CupertinoIcons.back,
+            color: Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
+          ),
           highlightColor: Colors.transparent,
           onPressed: () {
             Navigator.pop(context);
@@ -62,11 +38,10 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       resizeToAvoidBottomInset: true,
-      backgroundColor: constants.bgColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
                 "assets/icons/logo/vynt_logo.png",
@@ -79,7 +54,8 @@ class _LoginPageState extends State<LoginPage> {
                   fontFamily: "AB",
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: constants.primaryTextColor,
+                  color: Theme.of(context).textTheme.bodyLarge?.color ??
+                      Colors.black,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -88,7 +64,8 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(
                   fontFamily: "AB",
                   fontSize: 16,
-                  color: constants.secondaryTextColor,
+                  color: Theme.of(context).textTheme.bodySmall?.color ??
+                      Colors.black,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -97,17 +74,31 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 20),
               _SignupText(),
               const SizedBox(height: 20),
-              const LineSeparatorWithText(
+              LineSeparatorWithText(
                 text: 'OR',
-                lineColor: Colors.white54,
-                textColor: Colors.white70,
+                lineColor:
+                    Theme.of(context).textTheme.bodyLarge?.color ?? Colors.grey,
+                textColor:
+                    Theme.of(context).textTheme.bodyLarge?.color ?? Colors.grey,
               ),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SquareTile(
-                    onTap: () => signInWithGoogle(),
+                    onTap: () async {
+                      if (await GoogleProvider().signIn()) {
+                        if (context.mounted) {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) => const Home(),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        }
+                      }
+                    },
                     imagePath: 'assets/icons/icon_google.svg',
                     imageHeight: 50,
                   ),
@@ -137,6 +128,8 @@ class _LoginForm extends StatefulWidget {
 class _LoginFormState extends State<_LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final RoundedLoadingButtonController _loadingButtonController =
+      RoundedLoadingButtonController();
   String _errorMessage = '';
   bool _isPasswordVisible = false;
 
@@ -154,11 +147,13 @@ class _LoginFormState extends State<_LoginForm> {
 
     if (_emailController.text.isEmpty) {
       setState(() {
+        _loadingButtonController.reset();
         _errorMessage = 'Email cannot be empty.';
       });
       return;
     } else if (_passwordController.text.isEmpty) {
       setState(() {
+        _loadingButtonController.reset();
         _errorMessage = 'Password cannot be empty.';
       });
       return;
@@ -171,6 +166,8 @@ class _LoginFormState extends State<_LoginForm> {
       );
 
       await saveUserData(credential.user);
+
+      _loadingButtonController.success();
 
       if (mounted) {
         Navigator.of(context).popUntil((route) => route.isFirst);
@@ -231,24 +228,27 @@ class _LoginFormState extends State<_LoginForm> {
             controller: _emailController,
             decoration: InputDecoration(
               hintText: 'Email',
-              hintStyle: TextStyle(color: constants.secondaryTextColor),
+              hintStyle: TextStyle(
+                  color: Theme.of(context).textTheme.bodyMedium?.color),
               filled: true,
-              fillColor: constants.secondaryBgColor,
+              fillColor: Theme.of(context).colorScheme.secondary,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none,
               ),
             ),
-            style: TextStyle(color: constants.primaryTextColor),
+            style:
+                TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
           ),
           const SizedBox(height: 20),
           TextField(
             controller: _passwordController,
             decoration: InputDecoration(
               hintText: 'Password',
-              hintStyle: TextStyle(color: constants.secondaryTextColor),
+              hintStyle: TextStyle(
+                  color: Theme.of(context).textTheme.bodyMedium?.color),
               filled: true,
-              fillColor: constants.secondaryBgColor,
+              fillColor: Theme.of(context).colorScheme.secondary,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none,
@@ -256,7 +256,7 @@ class _LoginFormState extends State<_LoginForm> {
               suffixIcon: IconButton(
                 icon: Icon(
                   _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                  color: constants.secondaryTextColor,
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
                 ),
                 onPressed: () {
                   setState(() {
@@ -266,20 +266,21 @@ class _LoginFormState extends State<_LoginForm> {
               ),
             ),
             obscureText: !_isPasswordVisible,
-            style: TextStyle(color: constants.primaryTextColor),
+            style:
+                TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
           ),
           const SizedBox(height: 20),
-          MUIOutlinedButton(
-            text: 'Log in',
-            onPressed: _submit,
-            textColor: Colors.black,
-            hapticsEnabled: true,
-            borderColor: Colors.white,
-            bgColor: Colors.white,
-            borderWidth: 1,
-            borderRadius: 25,
-            widthFactorUnpressed: 0.1,
-            widthFactorPressed: 0.095,
+          SizedBox(
+            width: 150,
+            height: 60,
+            child: RoundedLoadingButton(
+              color: Theme.of(context).colorScheme.primary,
+              controller: _loadingButtonController,
+              onPressed: _submit,
+              child: Text('Log in',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary)),
+            ),
           ),
         ],
       ),

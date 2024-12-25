@@ -66,3 +66,11 @@ class AppleProvider {
     }
   }
 }
+
+class SignInProvider {
+
+}
+
+class RegisterProvider {
+
+}
