@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -33,10 +35,16 @@ class Profile extends StatelessWidget {
       clientSecret: dotenv.env['SPOTIFY_CLIENT_SECRET'].toString(),
       scopes: dotenv.env['SPOTIFY_SCOPE'].toString().split(' '),
     );
-    http.Response resp =
-        await helper.get('https://api.spotify.com/v1/me/player/currently-playing');
+    http.Response resp = await helper
+        .get('https://api.spotify.com/v1/me/player/currently-playing');
+
+        http.Response previewTrack = await helper
+        .get('https://api.spotify.com/v1/tracks/51eSHglvG1RJXtL3qI5trr');
+
     print(resp.body);
-  }
+    var json = jsonDecode(previewTrack.body);
+    String previewUrl = json['id'];
+    print('Preview URL: $previewUrl');  }
 
   @override
   Widget build(BuildContext context) {

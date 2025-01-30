@@ -263,6 +263,8 @@ class _LoginFormState extends State<_LoginForm> {
                     _isPasswordVisible = !_isPasswordVisible;
                   });
                 },
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
               ),
             ),
             obscureText: !_isPasswordVisible,
@@ -277,9 +279,14 @@ class _LoginFormState extends State<_LoginForm> {
               color: Theme.of(context).colorScheme.primary,
               controller: _loadingButtonController,
               onPressed: _submit,
-              child: Text('Log in',
+              completionCurve: Curves.easeInOut,
+              elevation: 0.2,
+              child: Text(
+                  'Log in',
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary)),
+                      color: Theme.of(context).colorScheme.secondary
+                  )
+              ),
             ),
           ),
         ],
@@ -299,14 +306,14 @@ class _SignupText extends StatelessWidget {
           TextSpan(
             text: 'Register here!',
             style: TextStyle(
-              color: constants.primaryTextColor,
+              color: Theme.of(context).colorScheme.primary,
               fontWeight: FontWeight.bold,
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const SignupPage()),
+                  CupertinoPageRoute(builder: (context) => const SignupPage()),
                 );
               },
           ),
