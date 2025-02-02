@@ -1,8 +1,8 @@
+import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:modular_ui/modular_ui.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import 'package:vynt/constants/constants.dart' as constants;
 import 'package:vynt/screens/login_pages/save_user_data.dart';
@@ -22,14 +22,26 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      appBar: CupertinoNavigationBar(
-        border: null,
-        backgroundColor: Theme.of(context).canvasColor,
+      appBar: AppBar(
+        forceMaterialTransparency: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        flexibleSpace: ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0),
+            child: Container(
+              color: Colors.transparent,
+            ),
+          ),
+        ),
         leading: IconButton(
           icon: Icon(
             CupertinoIcons.back,
-            color: Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
+            color: textTheme.bodyLarge?.color ?? Colors.black,
           ),
           highlightColor: Colors.transparent,
           onPressed: () {
@@ -54,8 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                   fontFamily: "AB",
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).textTheme.bodyLarge?.color ??
-                      Colors.black,
+                  color: textTheme.bodyLarge?.color ?? Colors.black,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -64,22 +75,19 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(
                   fontFamily: "AB",
                   fontSize: 16,
-                  color: Theme.of(context).textTheme.bodySmall?.color ??
-                      Colors.black,
+                  color: textTheme.bodySmall?.color ?? Colors.black,
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 10),
               const _LoginForm(),
               const SizedBox(height: 20),
-              _SignupText(),
+              const _SignupText(),
               const SizedBox(height: 20),
               LineSeparatorWithText(
                 text: 'OR',
-                lineColor:
-                    Theme.of(context).textTheme.bodyLarge?.color ?? Colors.grey,
-                textColor:
-                    Theme.of(context).textTheme.bodyLarge?.color ?? Colors.grey,
+                lineColor: textTheme.bodyLarge?.color ?? Colors.grey,
+                textColor: textTheme.bodyLarge?.color ?? Colors.grey,
               ),
               const SizedBox(height: 20),
               Row(
@@ -174,32 +182,13 @@ class _LoginFormState extends State<_LoginForm> {
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const Home()),
+          CupertinoPageRoute(builder: (context) => const Home()),
         );
       }
     } on FirebaseAuthException catch (e) {
       if (mounted) {
         setState(() {
-          switch (e.code) {
-            case 'invalid-email':
-              _errorMessage = 'The email address is not valid.';
-              break;
-            case 'user-disabled':
-              _errorMessage =
-                  'The user corresponding to the given email has been disabled.';
-              break;
-            case 'user-not-found':
-              _errorMessage = 'No user found for that email.';
-              break;
-            case 'wrong-password':
-              _errorMessage = 'Wrong password provided for that user.';
-              break;
-            case 'operation-not-allowed':
-              _errorMessage = 'Email/password accounts are not enabled.';
-              break;
-            default:
-              _errorMessage = 'An undefined Error happened: ${e.message}';
-          }
+          _errorMessage = _getErrorMessage(e.code, e.message);
         });
       }
     } catch (e) {
@@ -211,8 +200,28 @@ class _LoginFormState extends State<_LoginForm> {
     }
   }
 
+  String _getErrorMessage(String code, String? message) {
+    switch (code) {
+      case 'invalid-email':
+        return 'The email address is not valid.';
+      case 'user-disabled':
+        return 'The user corresponding to the given email has been disabled.';
+      case 'user-not-found':
+        return 'No user found for that email.';
+      case 'wrong-password':
+        return 'Wrong password provided for that user.';
+      case 'operation-not-allowed':
+        return 'Email/password accounts are not enabled.';
+      default:
+        return 'An undefined Error happened: $message';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
@@ -221,34 +230,31 @@ class _LoginFormState extends State<_LoginForm> {
           if (_errorMessage.isNotEmpty)
             Text(
               _errorMessage,
-              style: TextStyle(color: Colors.red),
+              style: const TextStyle(color: Colors.red),
             ),
           const SizedBox(height: 10),
           TextField(
             controller: _emailController,
             decoration: InputDecoration(
               hintText: 'Email',
-              hintStyle: TextStyle(
-                  color: Theme.of(context).textTheme.bodyMedium?.color),
+              hintStyle: TextStyle(color: textTheme.bodyMedium?.color),
               filled: true,
-              fillColor: Theme.of(context).colorScheme.secondary,
+              fillColor: colorScheme.secondary,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none,
               ),
             ),
-            style:
-                TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+            style: TextStyle(color: textTheme.bodyMedium?.color),
           ),
           const SizedBox(height: 20),
           TextField(
             controller: _passwordController,
             decoration: InputDecoration(
               hintText: 'Password',
-              hintStyle: TextStyle(
-                  color: Theme.of(context).textTheme.bodyMedium?.color),
+              hintStyle: TextStyle(color: textTheme.bodyMedium?.color),
               filled: true,
-              fillColor: Theme.of(context).colorScheme.secondary,
+              fillColor: colorScheme.secondary,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none,
@@ -256,7 +262,7 @@ class _LoginFormState extends State<_LoginForm> {
               suffixIcon: IconButton(
                 icon: Icon(
                   _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                  color: Theme.of(context).textTheme.bodyMedium?.color,
+                  color: textTheme.bodyMedium?.color,
                 ),
                 onPressed: () {
                   setState(() {
@@ -268,24 +274,21 @@ class _LoginFormState extends State<_LoginForm> {
               ),
             ),
             obscureText: !_isPasswordVisible,
-            style:
-                TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+            style: TextStyle(color: textTheme.bodyMedium?.color),
           ),
           const SizedBox(height: 20),
           SizedBox(
             width: 150,
             height: 60,
             child: RoundedLoadingButton(
-              color: Theme.of(context).colorScheme.primary,
+              color: colorScheme.primary,
               controller: _loadingButtonController,
               onPressed: _submit,
               completionCurve: Curves.easeInOut,
               elevation: 0.2,
               child: Text(
-                  'Log in',
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary
-                  )
+                'Log in',
+                style: TextStyle(color: colorScheme.secondary),
               ),
             ),
           ),
@@ -296,12 +299,16 @@ class _LoginFormState extends State<_LoginForm> {
 }
 
 class _SignupText extends StatelessWidget {
+  const _SignupText();
+
   @override
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
         text: "Don't have an account yet? ",
-        style: TextStyle(color: constants.secondaryTextColor),
+        style: TextStyle(
+          color: Theme.of(context).textTheme.bodyMedium?.color,
+        ),
         children: [
           TextSpan(
             text: 'Register here!',

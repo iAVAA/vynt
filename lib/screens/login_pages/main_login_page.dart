@@ -77,88 +77,84 @@ class _ActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 150,
-                height: 60,
-                child: CupertinoButton.filled(
-                  borderRadius: BorderRadius.circular(25),
-                  pressedOpacity: 0.8,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => const LoginPage()),
-                    );
-                  },
-                  child: const Text('Log in'),
-                ),
-              ),
-              const SizedBox(width: 20),
-              SizedBox(
-                width: 150,
-                height: 60,
-                child: CupertinoButton.tinted(
-                  borderRadius: BorderRadius.circular(25),
-                  pressedOpacity: 0.8,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => const SignupPage()),
-                    );
-                  },
-                  child: const Text('Register Now'),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          LineSeparatorWithText(
-            text: 'OR',
-            lineColor:
-                Theme.of(context).textTheme.bodyLarge?.color ?? Colors.grey,
-            textColor:
-                Theme.of(context).textTheme.bodyLarge?.color ?? Colors.grey,
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SquareTile(
-                onTap: () async {
-                  if (await GoogleProvider().signIn()) {
-                    if (context.mounted) {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        CupertinoPageRoute(
-                          builder: (context) => const Home(),
-                        ),
-                        (Route<dynamic> route) => false,
-                      );
-                    }
-                  }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 150,
+              height: 60,
+              child: CupertinoButton.filled(
+                borderRadius: BorderRadius.circular(25),
+                pressedOpacity: 0.8,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(builder: (context) => const LoginPage()),
+                  );
                 },
-                imagePath: 'assets/icons/icon_google.svg',
-                imageHeight: 50,
+                child: const Text('Log in'),
               ),
-              const SizedBox(width: 25),
-              SquareTile(
-                onTap: () => {},
-                imagePath: 'assets/icons/icon_apple.svg',
-                imageHeight: 50,
+            ),
+            const SizedBox(width: 20),
+            SizedBox(
+              width: 150,
+              height: 60,
+              child: CupertinoButton.tinted(
+                borderRadius: BorderRadius.circular(25),
+                pressedOpacity: 0.8,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                        builder: (context) => const SignupPage()),
+                  );
+                },
+                child: const Text('Register Now'),
               ),
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        LineSeparatorWithText(
+          text: 'OR',
+          lineColor:
+              Theme.of(context).textTheme.bodyLarge?.color ?? Colors.grey,
+          textColor:
+              Theme.of(context).textTheme.bodyLarge?.color ?? Colors.grey,
+        ),
+        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SquareTile(
+              onTap: () async {
+                if (await GoogleProvider().signIn()) {
+                  if (context.mounted) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => const Home(),
+                      ),
+                      (Route<dynamic> route) => false,
+                    );
+                  }
+                }
+              },
+              imagePath: 'assets/icons/icon_google.svg',
+              imageHeight: 50,
+            ),
+            const SizedBox(width: 25),
+            SquareTile(
+              onTap: () => {},
+              imagePath: 'assets/icons/icon_apple.svg',
+              imageHeight: 50,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
