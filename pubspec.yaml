@@ -39,7 +39,6 @@ dependencies:
 
   #/---[State Management]---/
   provider: ^6.1.2
-  page_transition: ^2.1.0
 
   #/---[Splash Screen]---/
   flutter_native_splash: ^2.4.3

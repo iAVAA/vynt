@@ -12,6 +12,9 @@ import 'package:vynt/controllers/scroll_monitor.dart';
 import 'package:vynt/screens/login_pages/main_login_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import '../../constants/page_routes.dart';
+import '../subscreens/profile_subscreens/settings.dart';
+
 class Profile extends StatelessWidget {
   const Profile({super.key});
 
@@ -39,13 +42,14 @@ class Profile extends StatelessWidget {
     http.Response resp = await helper
         .get('https://api.spotify.com/v1/me/player/currently-playing');
 
-        http.Response previewTrack = await helper
+    http.Response previewTrack = await helper
         .get('https://api.spotify.com/v1/tracks/51eSHglvG1RJXtL3qI5trr');
 
     print(resp.body);
     var json = jsonDecode(previewTrack.body);
     String previewUrl = json['id'];
-    print('Preview URL: $previewUrl');  }
+    print('Preview URL: $previewUrl');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +66,18 @@ class Profile extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout, color: Theme.of(context).textTheme.bodyLarge?.color),
-            onPressed: () => _logout(context),
+            icon: Icon(CupertinoIcons.settings,
+                color: Theme.of(context).textTheme.bodyLarge?.color),
+            onPressed: () => {
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  fullscreenDialog: true,
+                  allowSnapshotting: true,
+                  builder: (context) => RoundedPageRoute(child: SettingsPage()),
+                ),
+              ),
+            },
           ),
         ],
       ),
@@ -89,7 +103,8 @@ class Profile extends StatelessWidget {
                   Text(
                     'User Name',
                     style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyLarge?.color, fontSize: 24),
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                        fontSize: 24),
                   ),
                   const SizedBox(height: 20),
                   TextButton(
