@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:oauth2_client/oauth2_helper.dart';
@@ -22,7 +23,7 @@ class Profile extends StatelessWidget {
     );
   }
 
-  void _spotifyLogin() async {
+  Future<void> _spotifyLogin() async {
     SpotifyOAuth2Client client = SpotifyOAuth2Client(
       customUriScheme: 'com.app.vynt',
       redirectUri: dotenv.env['SPOTIFY_REDIRECT_URI'].toString(),
@@ -51,17 +52,17 @@ class Profile extends StatelessWidget {
     final scrollMonitor = Provider.of<ScrollMonitor>(context);
 
     return Scaffold(
-      backgroundColor: constants.bgColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: constants.bgColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         title: Text(
           'Profile',
-          style: TextStyle(color: constants.primaryTextColor),
+          style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout, color: constants.primaryTextColor),
+            icon: Icon(Icons.logout, color: Theme.of(context).textTheme.bodyLarge?.color),
             onPressed: () => _logout(context),
           ),
         ],
@@ -88,39 +89,10 @@ class Profile extends StatelessWidget {
                   Text(
                     'User Name',
                     style: TextStyle(
-                        color: constants.primaryTextColor, fontSize: 24),
+                        color: Theme.of(context).textTheme.bodyLarge?.color, fontSize: 24),
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[800],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Today\'s Post',
-                          style: TextStyle(
-                            color: constants.primaryTextColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          'Description of today\'s post...',
-                          style: TextStyle(
-                            color: constants.secondaryTextColor,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
+                  TextButton(
                     onPressed: _spotifyLogin,
                     child: Text('Login with Spotify'),
                   ),
