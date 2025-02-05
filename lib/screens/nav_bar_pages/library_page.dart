@@ -161,11 +161,8 @@ class _LibraryPageState extends State<LibraryPage> {
                         child: GestureDetector(
                           onTap: () {
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    PlaylistPage(index: index + 1),
-                              ),
+                                context,
+                                CupertinoPageRoute(builder: (context) => PlaylistPage(index: index + 1)),
                             );
                           },
                           child: PlaylistImage(index: index + 1),

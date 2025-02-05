@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +8,12 @@ import 'package:http/http.dart' as http;
 import 'package:oauth2_client/oauth2_helper.dart';
 import 'package:oauth2_client/spotify_oauth2_client.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vynt/constants/constants.dart' as constants;
 import 'package:vynt/controllers/scroll_monitor.dart';
 import 'package:vynt/screens/login_pages/main_login_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import '../../constants/page_routes.dart';
 import '../subscreens/profile_subscreens/settings.dart';
 
 class Profile extends StatelessWidget {
@@ -51,6 +52,26 @@ class Profile extends StatelessWidget {
     print('Preview URL: $previewUrl');
   }
 
+  Future<String> _getUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? cachedUsername = prefs.getString('username');
+    if (cachedUsername != null) {
+      return cachedUsername;
+    }
+
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      String username = userDoc['name'];
+      await prefs.setString('username', username);
+      return username;
+    }
+    return 'Unknown User';
+  }
+
   @override
   Widget build(BuildContext context) {
     final scrollMonitor = Provider.of<ScrollMonitor>(context);
@@ -72,11 +93,9 @@ class Profile extends StatelessWidget {
               Navigator.push(
                 context,
                 CupertinoPageRoute(
-                  fullscreenDialog: true,
-                  allowSnapshotting: true,
-                  builder: (context) => RoundedPageRoute(child: SettingsPage()),
+                  builder: (context) => const SettingsPage(),
                 ),
-              ),
+              )
             },
           ),
         ],
@@ -100,11 +119,29 @@ class Profile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    'User Name',
-                    style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyLarge?.color,
-                        fontSize: 24),
+                  FutureBuilder<String>(
+                    future: _getUsername(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text(
+                          'Error: ${snapshot.error}',
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                            fontSize: 24,
+                          ),
+                        );
+                      } else {
+                        return Text(
+                          snapshot.data ?? 'Unknown User',
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                            fontSize: 24,
+                          ),
+                        );
+                      }
+                    },
                   ),
                   const SizedBox(height: 20),
                   TextButton(
