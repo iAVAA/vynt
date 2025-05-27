@@ -28,8 +28,11 @@ jobs:
         if: matrix.platform == 'android'
         run: echo "JAVA_HOME=/opt/hostedtoolcache/Java_Corretto_jdk/17.0.13-11.1/x64" >> $GITHUB_ENV
 
-      - name: Create .env file for Spotify API
+      - name: Create .env file for APIs
         run: |
+          echo "FIREBASE_IOS_KEY=${{ secrets.FIREBASE_IOS_KEY }}" >> .env
+          echo "FIREBASE_ANDROID_KEY=${{ secrets.FIREBASE_ANDROID_KEY }}" >> .env
+          echo "FIREBASE_WEB_KEY=${{ FIREBASE_WEB_KEY }}" >> .env
           echo "SPOTIFY_CLIENT_ID=${{ vars.SPOTIFY_CLIENT_ID }}" >> .env
           echo "SPOTIFY_CLIENT_SECRET=${{ secrets.SPOTIFY_CLIENT_SECRET }}" >> .env
           echo "SPOTIFY_SCOPE=${{ vars.SPOTIFY_SCOPE }}" >> .env
