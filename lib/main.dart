@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
+import 'package:vynt/controllers/theme_controller.dart';
 import 'package:vynt/screens/login_pages/login_page.dart';
 import 'package:vynt/screens/login_pages/main_login_page.dart';
 import 'package:vynt/screens/main_page.dart';
@@ -14,22 +15,23 @@ import 'firebase_options.dart';
 import 'constants/constants.dart' as constants;
 
 Future main() async {
+  await dotenv.load(fileName: '.env');
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     name: 'Vynt',
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp
-  ]);
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // TODO: Optimize the app resolution for iPad
 
-  await dotenv.load(fileName: '.env');
-
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ScrollMonitor(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ScrollMonitor()),
+        ChangeNotifierProvider(create: (_) => ThemeController()),
+      ],
       child: const Main(),
     ),
   );
@@ -40,14 +42,25 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: constants.appName,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const AuthWrapper(),
-      debugShowCheckedModeBanner: false,
+    Future.microtask(() {
+      final brightness = MediaQuery.of(context).platformBrightness;
+      final themeController =
+          Provider.of<ThemeController>(context, listen: false);
+      themeController.setThemeMode(brightness);
+    });
+
+    return Consumer<ThemeController>(
+      builder: (context, themeController, child) {
+        return MaterialApp(
+          title: constants.appName,
+          theme: themeController.lightTheme,
+          darkTheme: themeController.darkTheme,
+          themeMode:
+              themeController.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          home: const AuthWrapper(),
+          debugShowCheckedModeBanner: false,
+        );
+      },
     );
   }
 }

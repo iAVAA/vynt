@@ -13,10 +13,3 @@ flutter_launcher_icons:
   image_path_ios_tinted_grayscale: "assets/icons/logo/vynt_logo.png"
   desaturate_tinted_to_grayscale_ios: true
   remove_alpha_ios: true
-
-
-  web:
-    generate: true
-    image_path: "assets/icons/logo/vynt_logo.png"
-    background_color: "#FFFFFF"
-    theme_color: "#212121"

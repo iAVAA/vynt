@@ -1,17 +1,18 @@
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:modular_ui/modular_ui.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import 'package:vynt/constants/constants.dart' as constants;
 import 'package:vynt/screens/login_pages/login_page.dart';
 import 'package:vynt/screens/login_pages/save_user_data.dart';
 
+import '../../providers/auth_provider.dart';
 import '../../widgets/login_pages_widgets/onboarding_widgets.dart';
 import '../main_page.dart';
-import '../nav_bar_pages/feed_page.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -33,7 +34,8 @@ class _SignupPageState extends State<SignupPage> {
         idToken: googleAuth?.idToken,
       );
 
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
       await saveUserData(userCredential.user);
 
       if (mounted) {
@@ -49,14 +51,27 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: constants.bgColor,
+        forceMaterialTransparency: true,
+        backgroundColor: Colors.transparent,
         elevation: 0,
+        flexibleSpace: ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0),
+            child: Container(
+              color: Colors.transparent,
+            ),
+          ),
+        ),
         leading: IconButton(
-          icon: const Icon(CupertinoIcons.back, color: Colors.white),
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
+          icon: Icon(
+            CupertinoIcons.back,
+            color: textTheme.bodyLarge?.color ?? Colors.black,
+          ),
           highlightColor: Colors.transparent,
           onPressed: () {
             Navigator.pop(context);
@@ -64,7 +79,7 @@ class _SignupPageState extends State<SignupPage> {
         ),
       ),
       resizeToAvoidBottomInset: true,
-      backgroundColor: constants.bgColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -81,7 +96,7 @@ class _SignupPageState extends State<SignupPage> {
                   fontFamily: "AB",
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: constants.primaryTextColor,
+                  color: textTheme.bodyLarge?.color ?? Colors.black,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -90,7 +105,7 @@ class _SignupPageState extends State<SignupPage> {
                 style: TextStyle(
                   fontFamily: "AB",
                   fontSize: 16,
-                  color: constants.secondaryTextColor,
+                  color: textTheme.bodySmall?.color ?? Colors.black,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -99,17 +114,29 @@ class _SignupPageState extends State<SignupPage> {
               const SizedBox(height: 20),
               _LoginText(),
               const SizedBox(height: 20),
-              const LineSeparatorWithText(
+              LineSeparatorWithText(
                 text: 'OR',
-                lineColor: Colors.white54,
-                textColor: Colors.white70,
+                lineColor: textTheme.bodyLarge?.color ?? Colors.grey,
+                textColor: textTheme.bodyLarge?.color ?? Colors.grey,
               ),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SquareTile(
-                    onTap: () => signInWithGoogle(),
+                    onTap: () async {
+                      if (await GoogleProvider().signIn()) {
+                        if (context.mounted) {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) => const Home(),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        }
+                      }
+                    },
                     imagePath: 'assets/icons/icon_google.svg',
                     imageHeight: 50,
                   ),
@@ -139,6 +166,8 @@ class _SignupForm extends StatefulWidget {
 class _SignupFormState extends State<_SignupForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final RoundedLoadingButtonController _loadingButtonController =
+    RoundedLoadingButtonController();
   String _errorMessage = '';
   bool _isPasswordVisible = false;
 
@@ -156,11 +185,13 @@ class _SignupFormState extends State<_SignupForm> {
 
     if (_emailController.text.isEmpty) {
       setState(() {
+        _loadingButtonController.reset();
         _errorMessage = 'Email cannot be empty.';
       });
       return;
     } else if (_passwordController.text.isEmpty) {
       setState(() {
+        _loadingButtonController.reset();
         _errorMessage = 'Password cannot be empty.';
       });
       return;
@@ -175,37 +206,20 @@ class _SignupFormState extends State<_SignupForm> {
 
       await saveUserData(credential.user);
 
+      _loadingButtonController.success();
+
       if (mounted) {
         Navigator.of(context).popUntil((route) => route.isFirst);
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const Home()),
+          CupertinoPageRoute(builder: (context) => const Home()),
         );
       }
     } on FirebaseAuthException catch (e) {
       if (mounted) {
         setState(() {
-          switch (e.code) {
-            case 'invalid-email':
-              _errorMessage = 'The email address is not valid.';
-              break;
-            case 'user-disabled':
-              _errorMessage =
-                  'The user corresponding to the given email has been disabled.';
-              break;
-            case 'email-already-in-use':
-              _errorMessage = 'The account already exists for that email.';
-              break;
-            case 'operation-not-allowed':
-              _errorMessage = 'Email/password accounts are not enabled.';
-              break;
-            case 'weak-password':
-              _errorMessage = 'The password provided is too weak.';
-              break;
-            default:
-              _errorMessage = 'An undefined Error happened: ${e.message}';
-          }
+          _errorMessage = _getErrorMessage(e.code, e.message);
         });
       }
     } catch (e) {
@@ -217,8 +231,30 @@ class _SignupFormState extends State<_SignupForm> {
     }
   }
 
+  String _getErrorMessage(String code, String? message) {
+    switch (code) {
+      case 'invalid-email':
+        return 'The email address is not valid.';
+      case 'user-disabled':
+        return 'The user corresponding to the given email has been disabled.';
+      case 'email-already-in-use':
+        return 'The account already exists for that email.';
+      case 'wrong-password':
+        return 'Wrong password provided for that user.';
+      case 'operation-not-allowed':
+        return 'Email/password accounts are not enabled.';
+      case 'weak-password':
+        return 'The password provided is too weak.';
+      default:
+        return 'An undefined Error happened: $message';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
@@ -234,24 +270,24 @@ class _SignupFormState extends State<_SignupForm> {
             controller: _emailController,
             decoration: InputDecoration(
               hintText: 'Email',
-              hintStyle: TextStyle(color: constants.secondaryTextColor),
+              hintStyle: TextStyle(color: textTheme.bodyMedium?.color),
               filled: true,
-              fillColor: constants.secondaryBgColor,
+              fillColor: colorScheme.secondary,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none,
               ),
             ),
-            style: TextStyle(color: constants.primaryTextColor),
+            style: TextStyle(color: textTheme.bodyMedium?.color),
           ),
           const SizedBox(height: 20),
           TextField(
             controller: _passwordController,
             decoration: InputDecoration(
               hintText: 'Password',
-              hintStyle: TextStyle(color: constants.secondaryTextColor),
+              hintStyle: TextStyle(color: textTheme.bodyMedium?.color),
               filled: true,
-              fillColor: constants.secondaryBgColor,
+              fillColor: colorScheme.secondary,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none,
@@ -259,30 +295,35 @@ class _SignupFormState extends State<_SignupForm> {
               suffixIcon: IconButton(
                 icon: Icon(
                   _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                  color: constants.secondaryTextColor,
+                  color: textTheme.bodyMedium?.color,
                 ),
                 onPressed: () {
                   setState(() {
                     _isPasswordVisible = !_isPasswordVisible;
                   });
                 },
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
               ),
             ),
             obscureText: !_isPasswordVisible,
-            style: TextStyle(color: constants.primaryTextColor),
+            style: TextStyle(color: textTheme.bodyMedium?.color),
           ),
           const SizedBox(height: 20),
-          MUIOutlinedButton(
-            text: 'Sign up',
-            onPressed: _submit,
-            textColor: Colors.black,
-            hapticsEnabled: true,
-            borderColor: Colors.white,
-            bgColor: Colors.white,
-            borderWidth: 1,
-            borderRadius: 25,
-            widthFactorUnpressed: 0.1,
-            widthFactorPressed: 0.095,
+          SizedBox(
+            width: 150,
+            height: 60,
+            child: RoundedLoadingButton(
+              color: colorScheme.primary,
+              controller: _loadingButtonController,
+              onPressed: _submit,
+              completionCurve: Curves.easeInOut,
+              elevation: 0.2,
+              child: Text(
+                'Sign up',
+                style: TextStyle(color: colorScheme.secondary),
+              ),
+            ),
           ),
         ],
       ),
@@ -296,19 +337,21 @@ class _LoginText extends StatelessWidget {
     return RichText(
       text: TextSpan(
         text: "Already have an account? ",
-        style: TextStyle(color: constants.secondaryTextColor),
+        style: TextStyle(
+          color: Theme.of(context).textTheme.bodyMedium?.color,
+        ),
         children: [
           TextSpan(
             text: 'Log in here!',
             style: TextStyle(
-              color: constants.primaryTextColor,
+              color: Theme.of(context).textTheme.bodyMedium?.color,
               fontWeight: FontWeight.bold,
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                  CupertinoPageRoute(builder: (context) => const LoginPage()),
                 );
               },
           ),

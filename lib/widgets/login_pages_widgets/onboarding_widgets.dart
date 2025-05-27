@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SquareTile extends StatelessWidget {
+class SquareTile extends StatefulWidget {
   final String imagePath;
   final double imageHeight;
   final Function()? onTap;
@@ -14,19 +14,50 @@ class SquareTile extends StatelessWidget {
   });
 
   @override
+  _SquareTileState createState() => _SquareTileState();
+}
+
+class _SquareTileState extends State<SquareTile> {
+  double _elevation = 2.0;
+
+  void _increaseElevation() {
+    setState(() {
+      _elevation = 8.0;
+    });
+  }
+
+  void _resetElevation() {
+    setState(() {
+      _elevation = 2.0;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          color: Colors.grey[800],
-        ),
-        child: Center(
-          child: SvgPicture.asset(
-            imagePath,
-            height: imageHeight,
+    return Material(
+      elevation: _elevation,
+      borderRadius: BorderRadius.circular(25),
+      child: InkWell(
+        onTap: widget.onTap,
+        onHighlightChanged: (isHighlighted) {
+          if (isHighlighted) {
+            _increaseElevation();
+          } else {
+            _resetElevation();
+          }
+        },
+        borderRadius: BorderRadius.circular(25),
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+          child: Center(
+            child: SvgPicture.asset(
+              widget.imagePath,
+              height: widget.imageHeight,
+            ),
           ),
         ),
       ),
@@ -48,32 +79,35 @@ class LineSeparatorWithText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Divider(
-            color: lineColor,
-            thickness: 1.2,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Text(
-            text,
-            style: TextStyle(
-              color: textColor,
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: Row(
+        children: [
+          Expanded(
+            child: Divider(
+              color: lineColor,
+              thickness: 1.2,
             ),
           ),
-        ),
-        Expanded(
-          child: Divider(
-            color: lineColor,
-            thickness: 1.2,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              text,
+              style: TextStyle(
+                color: textColor,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-        ),
-      ],
+          Expanded(
+            child: Divider(
+              color: lineColor,
+              thickness: 1.2,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

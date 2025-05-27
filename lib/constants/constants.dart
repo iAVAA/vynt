@@ -7,29 +7,82 @@ Color? secondaryBgColor = Colors.grey.shade800;
 Color primaryTextColor = Colors.white;
 Color secondaryTextColor = Colors.grey;
 
-/**
- * Color Palette
- *
- * !Primary Color (Purple from the logo): #9C27B0
- * This vibrant shade of purple harmonizes well with the vinyl record motif and works great as a primary accent.
- *
- * !Secondary Color (Gradient pink in the logo): #E91E63
- * Use this for highlights, buttons, or action elements to enhance contrast.
- *
- * !Tertiary Color (Complementary light blue): #03A9F4
- * A subtle contrast to purple, great for icons, small details, or notifications.
- *
- * !Background Accent Colors:
- * Dark mode: #303030 (subtle background layers)
- * Light mode: #F5F5F5 (for card backgrounds or dividers)
- *
- * !Neutral Colors (Text and Icons):
- * Dark mode text: #E0E0E0 (primary) and #BDBDBD (secondary)
- * Light mode text: #212121 (primary) and #757575 (secondary)
- * Highlight/Accent (Bright Vinyl Glow): #FFD700 (gold) for a glow effect or special highlights, referencing vinyl grooves.
- *
- * !Error/Warning Colors:
- * Error: #F44336
- * Warning: #FF9800
- * Success/Confirmation Colors: #4CAF50
+Color warningColor = Color(0xFFFF9800);
+Color errorColor = Color(0xFFF44336);
+Color successColor = Color(0xFF13AD5D);
+
+//* Dark Mode Colors
+Color darkPrimaryColor = Color(0xFFF3E2FB);
+Color darkSecondaryColor = Color(0xFF644172);
+Color darkTertiaryColor = Color(0xFFDC40A4);
+Color darkBackgroundColor = Color(0xFF320943);
+
+//* Light Mode Colors
+Color lightPrimaryColor = Color(0xFF320943);
+Color lightSecondaryColor = Color(0xFFDCC8E5);
+Color lightTertiaryColor = Color(0xFFDC40A4);
+Color lightBackgroundColor = Color(0xFFF3E2FB);
+
+/*
+my_flutter_project/
+│
+├── android/                    # Native Android code
+│   ├── app/
+│   │   ├── build.gradle
+│   │   └── src/
+│   │       └── main/
+│   │           ├── AndroidManifest.xml
+│   │           ├── java/
+│   │           │   └── com/
+│   │           │       └── example/
+│   │           │           └── my_flutter_project/
+│   │           │               └── MainActivity.java
+│   │           └── res/
+│   └── build.gradle
+├── ios/                        # Native iOS code
+│   ├── Runner/
+│   │   ├── AppDelegate.swift
+│   │   ├── Assets.xcassets/
+│   │   ├── Info.plist
+│   │   └── main.m
+│   └── Podfile
+├── lib/                        # Main Dart code
+│   ├── screens/                # UI screens
+│   │   ├── home_screen.dart
+│   │   ├── login_screen.dart
+│   │   └── profile_screen.dart
+│   ├── widgets/                # Reusable widgets
+│   │   ├── custom_button.dart
+│   │   └── navigation_bar.dart
+│   ├── utils/                  # Utility classes
+│   │   ├── constants.dart
+│   │   └── helpers.dart
+│   ├── models/                 # Data models
+│   │   ├── user.dart
+│   │   └── post.dart
+│   ├── providers/              # State management
+│   │   ├── auth_provider.dart
+│   │   └── feed_provider.dart
+│   ├── services/               # Services (e.g., APIs, Firebase)
+│   │   ├── firebase_service.dart
+│   │   └── api_service.dart
+│   ├── main.dart               # Entry point of the app
+│   └── firebase_options.dart   # Firebase configuration
+├── test/                       # Unit and widget tests
+│   ├── widget_test.dart
+│   └── mock_data.dart
+├── assets/                     # Static assets
+│   ├── images/
+│   │   ├── logo.png
+│   │   └── profile_placeholder.png
+│   ├── fonts/
+│   │   └── Roboto-Regular.ttf
+│   └── json/
+│       └── sample_data.json
+├── pubspec.yaml                # Flutter project configuration
+├── pubspec.lock                # Locked versions of dependencies
+├── README.md                   # Project documentation
+├── analysis_options.yaml       # Code analysis rules
+├── .gitignore                  # Git ignored files
+└── .metadata                   # Flutter project metadata
  */
