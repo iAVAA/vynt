@@ -32,7 +32,7 @@ jobs:
         run: |
           echo "FIREBASE_IOS_KEY=${{ secrets.FIREBASE_IOS_KEY }}" >> .env
           echo "FIREBASE_ANDROID_KEY=${{ secrets.FIREBASE_ANDROID_KEY }}" >> .env
-          echo "FIREBASE_WEB_KEY=${{ FIREBASE_WEB_KEY }}" >> .env
+          echo "FIREBASE_WEB_KEY=${{ secrets.FIREBASE_WEB_KEY }}" >> .env
           echo "SPOTIFY_CLIENT_ID=${{ vars.SPOTIFY_CLIENT_ID }}" >> .env
           echo "SPOTIFY_CLIENT_SECRET=${{ secrets.SPOTIFY_CLIENT_SECRET }}" >> .env
           echo "SPOTIFY_SCOPE=${{ vars.SPOTIFY_SCOPE }}" >> .env
