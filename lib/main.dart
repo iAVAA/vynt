@@ -15,6 +15,8 @@ import 'firebase_options.dart';
 import 'constants/constants.dart' as constants;
 
 Future main() async {
+  await dotenv.load(fileName: '.env');
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     name: 'Vynt',
@@ -23,8 +25,6 @@ Future main() async {
 
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // TODO: Optimize the app resolution for iPad
-
-  await dotenv.load(fileName: '.env');
 
   runApp(
     MultiProvider(
