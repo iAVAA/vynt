@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -46,8 +47,8 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDpX4M2Vv3w-DAoZL2rgBvBdbWFEu6NEpA',
+  static FirebaseOptions web = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_WEB_KEY'] ?? '',
     appId: '1:91243704533:web:6b2ab2d394125c9c1a325c',
     messagingSenderId: '91243704533',
     projectId: 'vynt-iava',
@@ -56,16 +57,16 @@ class DefaultFirebaseOptions {
     measurementId: 'G-QS36XYH31P',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCtDxuGuyogGjOe5KKE59qf-w7SarYLa7M',
+  static FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_ANDROID_KEY'] ?? '',
     appId: '1:91243704533:android:93d4a24fc325c7f01a325c',
     messagingSenderId: '91243704533',
     projectId: 'vynt-iava',
     storageBucket: 'vynt-iava.appspot.com',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDf9Tits4PdMJCYNhUqx63VT8zY0Oq9gEM',
+  static FirebaseOptions ios = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_IOS_KEY'] ?? '',
     appId: '1:91243704533:ios:df2730c95e67540a1a325c',
     messagingSenderId: '91243704533',
     projectId: 'vynt-iava',
