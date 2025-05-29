@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 
@@ -31,9 +30,9 @@ class _LibraryPageState extends State<LibraryPage> {
             pinned: true,
             title: Text(
               'Library',
-              style: GoogleFonts.poppins(
+              style: TextStyle(
                 fontSize: 25,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.bold,
                 color: Theme.of(context).textTheme.bodyLarge?.color,
               ),
             ),

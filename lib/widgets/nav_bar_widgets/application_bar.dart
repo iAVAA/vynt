@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:google_fonts/google_fonts.dart';
-
 class ApplicationBar extends StatelessWidget {
   final String title;
   final ScrollController scrollController;
@@ -59,9 +57,9 @@ class ApplicationBar extends StatelessWidget {
               },
               child: Text(
                 title,
-                style: GoogleFonts.poppins(
+                style: TextStyle(
                   fontSize: 25,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.bold,
                   color: Theme.of(context).textTheme.titleLarge?.color,
                 ),
               ),

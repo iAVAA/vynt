@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:modular_ui/modular_ui.dart';
 import 'package:vynt/constants/constants.dart' as constants;
 
@@ -37,9 +36,9 @@ class _DiscoverState extends State<Discover> {
               padding: const EdgeInsets.only(top: 70.0),
               child: Text(
                 'Discover',
-                style: GoogleFonts.poppins(
+                style: TextStyle(
                   fontSize: 25,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.bold,
                   color: Theme.of(context).textTheme.bodyLarge?.color,
                 ),
               ),
@@ -50,8 +49,17 @@ class _DiscoverState extends State<Discover> {
                 backgroundColor: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(10),
                 placeholder: 'Search',
-                placeholderStyle: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7)),
-itemColor: (Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black).withOpacity(0.7),                style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+                placeholderStyle: TextStyle(
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.color
+                        ?.withOpacity(0.7)),
+                itemColor: (Theme.of(context).textTheme.bodyMedium?.color ??
+                        Colors.black)
+                    .withOpacity(0.7),
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyMedium?.color),
               ),
             ),
             SizedBox(
