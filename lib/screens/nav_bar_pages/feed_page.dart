@@ -20,18 +20,14 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
-  late ScrollMonitor scrollMonitor;
-
   @override
   void initState() {
     super.initState();
-    scrollMonitor = ScrollMonitor();
     _checkOnboardingStatus();
   }
 
   @override
   void dispose() {
-    scrollMonitor.dispose();
     super.dispose();
   }
 
@@ -97,13 +93,14 @@ class _FeedState extends State<Feed> {
 
   Widget _buildFeedContent(BuildContext context, PageController pageController,
       ScrollMonitor scrollMonitor) {
+    final feedScrollController = scrollMonitor.getScrollController('feed');
     return CustomScrollView(
       key: const PageStorageKey('feed'),
-      controller: scrollMonitor.scrollController,
+      controller: feedScrollController,
       slivers: [
         ApplicationBar(
           title: constants.appName,
-          scrollController: scrollMonitor.scrollController,
+          scrollController: feedScrollController,
           pageController: pageController,
         ),
         const SliverToBoxAdapter(child: StoryBoxRow()),

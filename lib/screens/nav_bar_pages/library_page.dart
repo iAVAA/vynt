@@ -23,7 +23,7 @@ class _LibraryPageState extends State<LibraryPage> {
       backgroundColor: Colors.grey[900],
       body: CustomScrollView(
         key: const PageStorageKey('library'),
-        controller: scrollMonitor.scrollController,
+        controller: scrollMonitor.getScrollController('library'),
         slivers: [
           SliverAppBar(
             backgroundColor: Colors.transparent,
