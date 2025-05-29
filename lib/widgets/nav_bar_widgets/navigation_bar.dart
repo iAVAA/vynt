@@ -39,7 +39,7 @@ class CustomNavigationBar extends StatelessWidget {
                   : 0,
               child: CrystalNavigationBar(
                 currentIndex: selectedIndex,
-                unselectedItemColor: Colors.white,
+                unselectedItemColor: Theme.of(context).textTheme.bodyLarge?.color,
                 splashColor: Colors.transparent,
                 indicatorColor: Colors.transparent,
                 backgroundColor: Colors.grey.withValues(

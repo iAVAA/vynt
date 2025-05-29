@@ -29,7 +29,7 @@ class _DiscoverState extends State<Discover> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: constants.bgColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -40,19 +40,18 @@ class _DiscoverState extends State<Discover> {
                 style: GoogleFonts.poppins(
                   fontSize: 25,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
               child: CupertinoSearchTextField(
-                backgroundColor: constants.secondaryBgColor,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(10),
                 placeholder: 'Search',
-                placeholderStyle: TextStyle(color: constants.secondaryTextColor),
-                itemColor: Colors.grey,
-                style: TextStyle(color: constants.primaryTextColor),
+                placeholderStyle: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7)),
+itemColor: (Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black).withOpacity(0.7),                style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
               ),
             ),
             SizedBox(

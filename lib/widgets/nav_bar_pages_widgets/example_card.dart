@@ -15,10 +15,10 @@ class ExampleCard extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
+            color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
             spreadRadius: 3,
             blurRadius: 7,
             offset: const Offset(0, 3),
@@ -46,8 +46,8 @@ class ExampleCard extends StatelessWidget {
               children: [
                 Text(
                   candidate.name,
-                  style: const TextStyle(
-                    color: Colors.black,
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.titleLarge?.color,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   ),
@@ -55,15 +55,15 @@ class ExampleCard extends StatelessWidget {
                 const SizedBox(height: 5),
                 Text(
                   candidate.job,
-                  style: const TextStyle(
-                    color: Colors.grey,
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodySmall?.color,
                     fontSize: 15,
                   ),
                 ),
                 const SizedBox(height: 5),
                 Text(
                   candidate.city,
-                  style: const TextStyle(color: Colors.grey),
+                  style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color),
                 ),
               ],
             ),

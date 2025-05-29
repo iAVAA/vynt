@@ -34,7 +34,7 @@ class ApplicationBar extends StatelessWidget {
               child: IconButton(
                 icon: Icon(
                   CupertinoIcons.headphones,
-                  color: Colors.white,
+                  color: Theme.of(context).iconTheme.color,
                   size: 25,
                 ),
                 onPressed: () {
@@ -62,7 +62,7 @@ class ApplicationBar extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 25,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: Theme.of(context).textTheme.titleLarge?.color,
                 ),
               ),
             ),
@@ -71,7 +71,7 @@ class ApplicationBar extends StatelessWidget {
               child: IconButton(
                 icon: Icon(
                   CupertinoIcons.paperplane,
-                  color: Colors.white,
+                  color: Theme.of(context).iconTheme.color,
                   size: 25,
                 ),
                 onPressed: () {

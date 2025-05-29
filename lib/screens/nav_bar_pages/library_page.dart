@@ -20,7 +20,7 @@ class _LibraryPageState extends State<LibraryPage> {
     final scrollMonitor = Provider.of<ScrollMonitor>(context);
 
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: CustomScrollView(
         key: const PageStorageKey('library'),
         controller: scrollMonitor.getScrollController('library'),
@@ -34,7 +34,7 @@ class _LibraryPageState extends State<LibraryPage> {
               style: GoogleFonts.poppins(
                 fontSize: 25,
                 fontWeight: FontWeight.w600,
-                color: Colors.white,
+                color: Theme.of(context).textTheme.bodyLarge?.color,
               ),
             ),
             actions: [
@@ -58,7 +58,7 @@ class _LibraryPageState extends State<LibraryPage> {
                 ],
                 buttonBuilder: (context, showMenu) => IconButton(
                   icon: const Icon(CupertinoIcons.add_circled),
-                  color: Colors.white,
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
                   onPressed: showMenu,
                   highlightColor: Colors.transparent,
                   hoverColor: Colors.transparent,
@@ -69,17 +69,17 @@ class _LibraryPageState extends State<LibraryPage> {
           ),
           SliverToBoxAdapter(
             child: CupertinoListSection.insetGrouped(
-              backgroundColor: Colors.grey.shade900,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               dividerMargin: 0,
               additionalDividerMargin: 0,
               children: <CupertinoListTile>[
                 CupertinoListTile.notched(
-                  title: const Text(
+                  title: Text(
                     'Songs',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
                   ),
-                  backgroundColor: Colors.grey.shade800,
-                  backgroundColorActivated: Colors.grey.shade700,
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                  backgroundColorActivated: Theme.of(context).colorScheme.secondary.withOpacity(0.7),
                   leading: Icon(
                     CupertinoIcons.music_note,
                     color: CupertinoColors.systemPurple,
@@ -88,12 +88,12 @@ class _LibraryPageState extends State<LibraryPage> {
                   onTap: () {},
                 ),
                 CupertinoListTile.notched(
-                  title: const Text(
+                  title: Text(
                     'Artists',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
                   ),
-                  backgroundColor: Colors.grey.shade800,
-                  backgroundColorActivated: Colors.grey.shade700,
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                  backgroundColorActivated: Theme.of(context).colorScheme.secondary.withOpacity(0.7),
                   leading: Icon(
                     CupertinoIcons.music_mic,
                     color: CupertinoColors.systemPurple,
@@ -102,12 +102,12 @@ class _LibraryPageState extends State<LibraryPage> {
                   onTap: () {},
                 ),
                 CupertinoListTile.notched(
-                  title: const Text(
+                  title: Text(
                     'Albums',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
                   ),
-                  backgroundColor: Colors.grey.shade800,
-                  backgroundColorActivated: Colors.grey.shade700,
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                  backgroundColorActivated: Theme.of(context).colorScheme.secondary.withOpacity(0.7),
                   leading: Icon(
                     CupertinoIcons.square_stack,
                     color: CupertinoColors.systemPurple,
@@ -171,8 +171,8 @@ class _LibraryPageState extends State<LibraryPage> {
                       const SizedBox(height: 10),
                       Text(
                         'Playlist ${index + 1}',
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
                           fontSize: 14.0,
                         ),
                         maxLines: 1,
@@ -206,7 +206,7 @@ class PlaylistImage extends StatelessWidget {
       width: 200,
       height: 200,
       decoration: BoxDecoration(
-        color: Colors.grey[800],
+        color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: ClipRRect(

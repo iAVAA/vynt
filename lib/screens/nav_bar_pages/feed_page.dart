@@ -71,7 +71,7 @@ class _FeedState extends State<Feed> {
           _buildBody(context, pageController, scrollMonitor),
         ],
       ),
-      backgroundColor: constants.bgColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     );
   }
 

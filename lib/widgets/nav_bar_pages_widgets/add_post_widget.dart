@@ -21,17 +21,17 @@ class AddPostWidget extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.8,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey[900],
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: const BorderRadius.all(Radius.circular(50)),
                 ),
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    const Text(
+                    Text(
                       'Add a new post',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Theme.of(context).textTheme.titleLarge?.color,
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
@@ -53,12 +53,12 @@ class AddPostWidget extends StatelessWidget {
                     ),
                     TextField(
                       maxLines: 1,
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
                       decoration: InputDecoration(
                         hintText: 'Write a description...',
-                        hintStyle: const TextStyle(color: Colors.white70),
+                        hintStyle: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color),
                         filled: true,
-                        fillColor: Colors.grey[800],
+                        fillColor: Theme.of(context).colorScheme.secondary,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none,
