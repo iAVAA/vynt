@@ -35,7 +35,7 @@ class CustomNavigationBar extends StatelessWidget {
               left: 0,
               right: 0,
               bottom: scrollMonitor.isScrollingDown
-                  ? -constants.minNavBarHeight
+                  ? -MediaQuery.of(context).size.height * 0.15
                   : 0,
               child: CrystalNavigationBar(
                 currentIndex: selectedIndex,
