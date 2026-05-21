@@ -1,6 +1,11 @@
 # API Enviroment
 .env
 
+# Firebase config (contains API keys — keep local only)
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json
+
+
 # Miscellaneous
 *.class
 *.log
