@@ -6,11 +6,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:vynt/controllers/theme_controller.dart';
 import 'package:vynt/providers/post_provider.dart';
-import 'package:vynt/screens/login_pages/login_page.dart';
 import 'package:vynt/screens/login_pages/main_login_page.dart';
 import 'package:vynt/screens/main_page.dart';
-import 'package:vynt/screens/nav_bar_pages/feed_page.dart';
-import 'package:vynt/screens/splash_screen.dart';
 import 'controllers/scroll_monitor.dart';
 import 'firebase_options.dart';
 import 'constants/constants.dart' as constants;
@@ -19,10 +16,20 @@ Future main() async {
   await dotenv.load(fileName: '.env');
 
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    name: 'Vynt',
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  try {
+    if (Firebase.apps.isEmpty) {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    }
+  } catch (e) {
+    if (e is FirebaseException && e.code == 'duplicate-app') {
+      debugPrint('Firebase is already initialized natively.');
+      await Firebase.initializeApp();
+    } else {
+      rethrow;
+    }
+  }
 
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // TODO: Optimize the app resolution for iPad

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
-import 'package:vynt/constants/constants.dart' as constants;
+
 import 'package:vynt/screens/login_pages/save_user_data.dart';
 import 'package:vynt/screens/login_pages/signup_page.dart';
 
@@ -23,7 +23,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(

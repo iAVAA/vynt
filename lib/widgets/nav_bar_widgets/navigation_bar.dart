@@ -7,8 +7,6 @@ import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 
 import 'package:vynt/controllers/scroll_monitor.dart';
 
-import 'package:vynt/constants/constants.dart' as constants;
-
 class CustomNavigationBar extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onItemTapped;
@@ -27,59 +25,81 @@ class CustomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        // Page content
         pages[selectedIndex],
-        Consumer<ScrollMonitor>(
-          builder: (context, scrollMonitor, child) {
-            return AnimatedPositioned(
-              duration: const Duration(milliseconds: 250),
-              left: 0,
-              right: 0,
-              bottom: scrollMonitor.isScrollingDown
-                  ? -MediaQuery.of(context).size.height * 0.15
-                  : 0,
-              child: CrystalNavigationBar(
-                currentIndex: selectedIndex,
-                unselectedItemColor: Theme.of(context).textTheme.bodyLarge?.color,
-                splashColor: Colors.transparent,
-                indicatorColor: Colors.transparent,
-                backgroundColor: Colors.grey.withValues(
-                  alpha: 0.1
-                ),
-                onTap: onItemTapped,
-                duration: const Duration(milliseconds: 250),
-                curve: Curves.easeInOut,
-                items: [
-                  CrystalNavigationBarItem(
-                    icon: CupertinoIcons.house_fill,
-                    unselectedIcon: CupertinoIcons.house,
-                    selectedColor: Colors.purple[600],
-                  ),
-                  CrystalNavigationBarItem(
-                    icon: CupertinoIcons.search,
-                    unselectedIcon: CupertinoIcons.search,
-                    selectedColor: Colors.purple[600],
-                  ),
-                  CrystalNavigationBarItem(
-                    icon: CupertinoIcons.add,
-                    unselectedIcon: CupertinoIcons.add,
-                    selectedColor: Colors.purple[600],
-                  ),
-                  CrystalNavigationBarItem(
-                    icon: CupertinoIcons.music_albums_fill,
-                    unselectedIcon: CupertinoIcons.music_albums,
-                    selectedColor: Colors.purple[600],
-                  ),
-                  CrystalNavigationBarItem(
-                    icon: CupertinoIcons.person_fill,
-                    unselectedIcon: CupertinoIcons.person,
-                    selectedColor: Colors.purple[600],
-                  ),
-                ],
-              ),
-            );
-          },
+        // Navigation bar — only rebuild the animated position, not the whole stack
+        _AnimatedNavBar(
+          selectedIndex: selectedIndex,
+          onItemTapped: onItemTapped,
         ),
       ],
+    );
+  }
+}
+
+/// Separated widget so only it rebuilds when ScrollMonitor changes
+class _AnimatedNavBar extends StatelessWidget {
+  final int selectedIndex;
+  final ValueChanged<int> onItemTapped;
+
+  const _AnimatedNavBar({
+    required this.selectedIndex,
+    required this.onItemTapped,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Selector<ScrollMonitor, bool>(
+      selector: (_, monitor) => monitor.isScrollingDown,
+      builder: (context, isScrollingDown, child) {
+        return AnimatedPositioned(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeInOut,
+          left: 0,
+          right: 0,
+          bottom: isScrollingDown
+              ? -MediaQuery.of(context).size.height * 0.15
+              : 0,
+          child: child!,
+        );
+      },
+      child: CrystalNavigationBar(
+        currentIndex: selectedIndex,
+        unselectedItemColor: Theme.of(context).textTheme.bodyLarge?.color,
+        splashColor: Colors.transparent,
+        indicatorColor: Colors.transparent,
+        backgroundColor: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
+        onTap: onItemTapped,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOut,
+        items: [
+          CrystalNavigationBarItem(
+            icon: CupertinoIcons.house_fill,
+            unselectedIcon: CupertinoIcons.house,
+            selectedColor: Theme.of(context).colorScheme.tertiary,
+          ),
+          CrystalNavigationBarItem(
+            icon: CupertinoIcons.search,
+            unselectedIcon: CupertinoIcons.search,
+            selectedColor: Theme.of(context).colorScheme.tertiary,
+          ),
+          CrystalNavigationBarItem(
+            icon: CupertinoIcons.add_circled_solid,
+            unselectedIcon: CupertinoIcons.add_circled,
+            selectedColor: Theme.of(context).colorScheme.tertiary,
+          ),
+          CrystalNavigationBarItem(
+            icon: CupertinoIcons.music_albums_fill,
+            unselectedIcon: CupertinoIcons.music_albums,
+            selectedColor: Theme.of(context).colorScheme.tertiary,
+          ),
+          CrystalNavigationBarItem(
+            icon: CupertinoIcons.person_fill,
+            unselectedIcon: CupertinoIcons.person,
+            selectedColor: Theme.of(context).colorScheme.tertiary,
+          ),
+        ],
+      ),
     );
   }
 }

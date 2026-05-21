@@ -6,7 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
-import 'package:vynt/constants/constants.dart' as constants;
+
 import 'package:vynt/screens/login_pages/login_page.dart';
 import 'package:vynt/screens/login_pages/save_user_data.dart';
 
@@ -221,12 +221,14 @@ class _SignupFormState extends State<_SignupForm> {
         setState(() {
           _errorMessage = _getErrorMessage(e.code, e.message);
         });
+        _loadingButtonController.reset();
       }
     } catch (e) {
       if (mounted) {
         setState(() {
           _errorMessage = 'An error occurred: $e';
         });
+        _loadingButtonController.reset();
       }
     }
   }
@@ -344,7 +346,7 @@ class _LoginText extends StatelessWidget {
           TextSpan(
             text: 'Log in here!',
             style: TextStyle(
-              color: Theme.of(context).textTheme.bodyMedium?.color,
+              color: Theme.of(context).colorScheme.tertiary,
               fontWeight: FontWeight.bold,
             ),
             recognizer: TapGestureRecognizer()

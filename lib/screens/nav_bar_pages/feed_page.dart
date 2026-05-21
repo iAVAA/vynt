@@ -20,14 +20,19 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
+  // PageController must be created in State and disposed properly
+  late final PageController _pageController;
+
   @override
   void initState() {
     super.initState();
+    _pageController = PageController(initialPage: 1);
     _checkOnboardingStatus();
   }
 
   @override
   void dispose() {
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -36,7 +41,6 @@ class _FeedState extends State<Feed> {
     final bool? onboardingShown = prefs.getBool('onboardingShown');
     if (onboardingShown == null || !onboardingShown) {
       if (mounted) {
-        setState(() {});
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
             showCupertinoModalBottomSheet(
@@ -54,45 +58,37 @@ class _FeedState extends State<Feed> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('onboardingShown', true);
     if (mounted) {
-      setState(() {});
       Navigator.of(context).pop();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final scrollMonitor = Provider.of<ScrollMonitor>(context);
-    final PageController pageController = PageController(initialPage: 1);
+    final scrollMonitor = Provider.of<ScrollMonitor>(context, listen: false);
 
     return Scaffold(
       extendBody: true,
-      body: Stack(
-        children: [
-          _buildBody(context, pageController, scrollMonitor),
-        ],
-      ),
+      body: _buildBody(context, scrollMonitor),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     );
   }
 
-  Widget _buildBody(BuildContext context, PageController pageController,
-      ScrollMonitor scrollMonitor) {
+  Widget _buildBody(BuildContext context, ScrollMonitor scrollMonitor) {
     return PageView(
-      controller: pageController,
+      controller: _pageController,
       physics: const PageScrollPhysics().applyTo(
         const ClampingScrollPhysics(),
       ),
       scrollDirection: Axis.horizontal,
       children: [
         const ListeningPartyPage(),
-        _buildFeedContent(context, pageController, scrollMonitor),
-        MessagePage(pageController: pageController),
+        _buildFeedContent(context, scrollMonitor),
+        MessagePage(pageController: _pageController),
       ],
     );
   }
 
-  Widget _buildFeedContent(BuildContext context, PageController pageController,
-      ScrollMonitor scrollMonitor) {
+  Widget _buildFeedContent(BuildContext context, ScrollMonitor scrollMonitor) {
     final feedScrollController = scrollMonitor.getScrollController('feed');
     return CustomScrollView(
       key: const PageStorageKey('feed'),
@@ -101,11 +97,11 @@ class _FeedState extends State<Feed> {
         ApplicationBar(
           title: constants.appName,
           scrollController: feedScrollController,
-          pageController: pageController,
+          pageController: _pageController,
         ),
         const SliverToBoxAdapter(child: StoryBoxRow()),
         const SliverPadding(
-          padding: EdgeInsets.symmetric(vertical: 10.0),
+          padding: EdgeInsets.symmetric(vertical: 8.0),
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
@@ -116,6 +112,10 @@ class _FeedState extends State<Feed> {
             },
             childCount: 2,
           ),
+        ),
+        // Bottom padding for nav bar
+        const SliverPadding(
+          padding: EdgeInsets.only(bottom: 90),
         ),
       ],
     );

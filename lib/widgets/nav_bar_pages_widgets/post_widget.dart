@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:pull_down_button/pull_down_button.dart';
@@ -21,20 +22,13 @@ class PostWidget extends StatefulWidget {
 
 class _PostWidgetState extends State<PostWidget> {
   void _handleDoubleTapLike() {
-    // Always show the heart animation on double tap
-    // Only increment like count if not already liked
     final postProvider = Provider.of<PostProvider>(context, listen: false);
     postProvider.likePost(widget.index);
-    print('Double tap liked post #${widget.index}');
   }
 
-  void _updateLikeStatus(bool liked, int count) {
+  void _handleLikeToggle() {
     final postProvider = Provider.of<PostProvider>(context, listen: false);
-    if (liked) {
-      postProvider.likePost(widget.index);
-    } else {
-      postProvider.toggleLike(widget.index);
-    }
+    postProvider.toggleLike(widget.index);
   }
 
   @override
@@ -45,7 +39,7 @@ class _PostWidgetState extends State<PostWidget> {
         final likeCount = postProvider.getPostLikeCount(widget.index);
 
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -56,31 +50,77 @@ class _PostWidgetState extends State<PostWidget> {
                 isLiked: isLiked,
                 onDoubleTapLike: _handleDoubleTapLike,
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 8),
               PostActions(
                 isLiked: isLiked,
                 likeCount: likeCount,
-                onLikeChanged: _updateLikeStatus,
+                onLikeToggle: _handleLikeToggle,
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 4),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'user_x ',
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'and others liked this',
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodySmall?.color,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 4),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'user_${widget.index} ',
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'Sample caption for post #${widget.index} 🎵',
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 4),
               Text(
-                'Liked by user_x and others',
-                style:
-                    TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+                'View all 10 comments',
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodySmall?.color,
+                  fontSize: 12,
+                ),
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 3),
               Text(
-                'User ${widget.index}: Sample caption for post #${widget.index}...',
-                style:
-                    TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+                '01/01/2022',
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.6),
+                  fontSize: 11,
+                ),
               ),
-              const SizedBox(height: 5),
-              Text(
-                'Posted on 01/01/2022',
-                style:
-                    TextStyle(color: Theme.of(context).textTheme.bodySmall?.color),
+              const SizedBox(height: 20),
+              Divider(
+                color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+                thickness: 0.5,
               ),
-              const SizedBox(height: 25),
             ],
           ),
         );
@@ -98,16 +138,44 @@ class UserInfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const CircleAvatar(
-          backgroundImage: AssetImage('assets/test_pictures/test_post.webp'),
-          radius: 15,
+        Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              colors: [
+                Theme.of(context).colorScheme.tertiary,
+                Theme.of(context).colorScheme.primary,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          padding: const EdgeInsets.all(2),
+          child: const CircleAvatar(
+            backgroundImage: AssetImage('assets/test_pictures/test_post.webp'),
+            radius: 18,
+          ),
         ),
         const SizedBox(width: 10),
-        Text(
-          'User $index',
-          style: TextStyle(
-              color: Theme.of(context).textTheme.bodyLarge?.color,
-              fontWeight: FontWeight.bold),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'user_$index',
+              style: TextStyle(
+                color: Theme.of(context).textTheme.bodyLarge?.color,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+            Text(
+              'Listening now 🎵',
+              style: TextStyle(
+                color: Theme.of(context).textTheme.bodySmall?.color,
+                fontSize: 11,
+              ),
+            ),
+          ],
         ),
         const Spacer(),
         PullDownButton(
@@ -125,8 +193,10 @@ class UserInfoRow extends StatelessWidget {
             PullDownMenuItem(
               title: 'Share',
               onTap: () {
-                Share.share('check out my website https://example.com',
-                    subject: 'Look what I made!');
+                Share.share(
+                  'Check out this post on Vynt!',
+                  subject: 'Vynt Post',
+                );
               },
               icon: CupertinoIcons.share,
             ),
@@ -152,11 +222,12 @@ class PostImage extends StatefulWidget {
   final bool isLiked;
   final VoidCallback onDoubleTapLike;
 
-  const PostImage(
-      {required this.index,
-      required this.onDoubleTapLike,
-      required this.isLiked,
-      super.key});
+  const PostImage({
+    required this.index,
+    required this.onDoubleTapLike,
+    required this.isLiked,
+    super.key,
+  });
 
   @override
   _PostImageState createState() => _PostImageState();
@@ -164,10 +235,12 @@ class PostImage extends StatefulWidget {
 
 class _PostImageState extends State<PostImage> with TickerProviderStateMixin {
   late TransformationController _transformationController;
-  late AnimationController _animationController;
+  late AnimationController _zoomAnimationController;
   late AnimationController _heartAnimationController;
-  late Animation<double> _heartAnimation;
-  Animation<Matrix4>? _animation;
+  late AnimationController _heartOpacityController;
+  late Animation<double> _heartScaleAnimation;
+  late Animation<double> _heartOpacityAnimation;
+  Animation<Matrix4>? _zoomAnimation;
 
   bool _showHeartOverlay = false;
   Offset _heartPosition = Offset.zero;
@@ -175,142 +248,129 @@ class _PostImageState extends State<PostImage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
     _transformationController = TransformationController();
 
-    _animationController = AnimationController(
+    // Zoom-back animation after pinch
+    _zoomAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
     )..addListener(() {
-        _transformationController.value = _animation!.value;
+        _transformationController.value = _zoomAnimation!.value;
       });
 
+    // Heart scale animation
     _heartAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 700),
     );
 
-    _heartAnimation = TweenSequence([
-      TweenSequenceItem(tween: Tween<double>(begin: 0.0, end: 1.5), weight: 40),
-      TweenSequenceItem(tween: Tween<double>(begin: 1.5, end: 1.0), weight: 20),
-      TweenSequenceItem(tween: Tween<double>(begin: 1.0, end: 0.0), weight: 40),
+    // Heart opacity animation
+    _heartOpacityController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 700),
+    );
+
+    _heartScaleAnimation = TweenSequence([
+      TweenSequenceItem(tween: Tween<double>(begin: 0.0, end: 1.3), weight: 30),
+      TweenSequenceItem(tween: Tween<double>(begin: 1.3, end: 1.0), weight: 20),
+      TweenSequenceItem(tween: Tween<double>(begin: 1.0, end: 1.0), weight: 30),
+      TweenSequenceItem(tween: Tween<double>(begin: 1.0, end: 0.0), weight: 20),
     ]).animate(CurvedAnimation(
       parent: _heartAnimationController,
-      curve: Curves.easeInOut,
+      curve: Curves.easeOut,
     ))
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          setState(() {
-            _showHeartOverlay = false;
-          });
+          if (mounted) {
+            setState(() {
+              _showHeartOverlay = false;
+            });
+          }
         }
       });
+
+    _heartOpacityAnimation = TweenSequence([
+      TweenSequenceItem(tween: Tween<double>(begin: 0.0, end: 1.0), weight: 20),
+      TweenSequenceItem(tween: Tween<double>(begin: 1.0, end: 1.0), weight: 50),
+      TweenSequenceItem(tween: Tween<double>(begin: 1.0, end: 0.0), weight: 30),
+    ]).animate(CurvedAnimation(
+      parent: _heartOpacityController,
+      curve: Curves.easeInOut,
+    ));
   }
 
   @override
   void dispose() {
     _transformationController.dispose();
-    _animationController.dispose();
+    _zoomAnimationController.dispose();
     _heartAnimationController.dispose();
+    _heartOpacityController.dispose();
     super.dispose();
   }
 
-  void _onInteractionEnd() {
+  void _onInteractionEnd(ScaleEndDetails details) {
     if (_transformationController.value != Matrix4.identity()) {
-      _animation = Matrix4Tween(
+      _zoomAnimation = Matrix4Tween(
         begin: _transformationController.value,
         end: Matrix4.identity(),
       ).animate(CurvedAnimation(
-        parent: _animationController,
+        parent: _zoomAnimationController,
         curve: Curves.easeOut,
       ));
-      _animationController.forward(from: 0);
+      _zoomAnimationController.forward(from: 0);
     }
   }
 
   void _handleDoubleTap(TapDownDetails details) {
-    print("_handleDoubleTap called with position: ${details.localPosition}");
+    // Haptic feedback
+    HapticFeedback.mediumImpact();
+
+    // Trigger the like
+    widget.onDoubleTapLike();
+
+    // Show the heart overlay at the tap position
     setState(() {
       _showHeartOverlay = true;
       _heartPosition = details.localPosition;
     });
-    widget.onDoubleTapLike();
+
+    // Play animations
     _heartAnimationController.forward(from: 0.0);
+    _heartOpacityController.forward(from: 0.0);
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onDoubleTapDown: _handleDoubleTap,
-      onDoubleTap: () {
-        print("Outer GestureDetector onDoubleTap called");
-        // This will be called after onDoubleTapDown
-        _heartAnimationController.forward(from: 0.0);
-      },
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: GestureDetector(
+        onDoubleTapDown: _handleDoubleTap,
+        onDoubleTap: () {}, // Required for onDoubleTapDown to fire
         child: Stack(
           children: [
-            // Heart overlay animation
-            if (_showHeartOverlay)
-              Positioned(
-                left: _heartPosition.dx - 40,
-                top: _heartPosition.dy - 40,
-                child: AnimatedBuilder(
-                  animation: _heartAnimation,
-                  builder: (context, child) {
-                    return Opacity(
-                      opacity: _heartAnimation.value > 0 ? 1.0 : 0.0,
-                      child: Transform.scale(
-                        scale: _heartAnimation.value,
-                        child: Icon(
-                          Icons.favorite,
-                          color: Theme.of(context).colorScheme.tertiary,
-                          size: 80,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            // Wrap the InteractiveViewer in a GestureDetector to handle double-tap
-            GestureDetector(
-              onDoubleTap: () {
-                print("Middle GestureDetector onDoubleTap called");
-                // Get the center position of the container
-                final RenderBox renderBox = context.findRenderObject() as RenderBox;
-                final size = renderBox.size;
-                final position = Offset(size.width / 2, size.height / 2);
-
-                setState(() {
-                  _showHeartOverlay = true;
-                  _heartPosition = position;
-                });
-                widget.onDoubleTapLike();
-                _heartAnimationController.forward(from: 0.0);
-              },
-              child: InteractiveViewer(
-                transformationController: _transformationController,
-                onInteractionEnd: (details) => _onInteractionEnd(),
-                minScale: 1.0,
-                maxScale: 4.0,
-                // Disable InteractiveViewer's double tap to zoom functionality
-                // to prevent conflicts with our double tap to like
-                interactionEndFrictionCoefficient: 0.01,
-                child: Container(
-                  height: 300,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/test_pictures/test_post.webp'),
-                      fit: BoxFit.cover,
-                    ),
+            // Main interactive image
+            InteractiveViewer(
+              transformationController: _transformationController,
+              onInteractionEnd: _onInteractionEnd,
+              minScale: 1.0,
+              maxScale: 4.0,
+              child: Container(
+                height: 300,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/test_pictures/test_post.webp'),
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
+
+            // Music card overlay (centered)
             Positioned.fill(
               child: Center(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(12),
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                     child: Container(
@@ -320,8 +380,15 @@ class _PostImageState extends State<PostImage> with TickerProviderStateMixin {
                         color: Theme.of(context)
                             .colorScheme
                             .primary
-                            .withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(10),
+                            .withOpacity(0.25),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.15),
+                          width: 1,
+                        ),
                       ),
                       child: Stack(
                         alignment: Alignment.center,
@@ -367,6 +434,40 @@ class _PostImageState extends State<PostImage> with TickerProviderStateMixin {
                 ),
               ),
             ),
+
+            // Heart overlay animation at tap position
+            if (_showHeartOverlay)
+              Positioned(
+                left: _heartPosition.dx - 45,
+                top: _heartPosition.dy - 45,
+                child: IgnorePointer(
+                  child: AnimatedBuilder(
+                    animation: _heartAnimationController,
+                    builder: (context, child) {
+                      return Opacity(
+                        opacity: _heartOpacityAnimation.value,
+                        child: Transform.scale(
+                          scale: _heartScaleAnimation.value,
+                          child: Icon(
+                            Icons.favorite,
+                            color: Colors.white.withOpacity(0.95),
+                            size: 90,
+                            shadows: [
+                              Shadow(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .tertiary
+                                    .withOpacity(0.8),
+                                blurRadius: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
           ],
         ),
       ),
@@ -377,13 +478,14 @@ class _PostImageState extends State<PostImage> with TickerProviderStateMixin {
 class PostActions extends StatefulWidget {
   final bool isLiked;
   final int likeCount;
-  final Function(bool, int) onLikeChanged;
+  final VoidCallback onLikeToggle;
 
-  const PostActions(
-      {required this.isLiked,
-      required this.likeCount,
-      required this.onLikeChanged,
-      super.key});
+  const PostActions({
+    required this.isLiked,
+    required this.likeCount,
+    required this.onLikeToggle,
+    super.key,
+  });
 
   @override
   _PostActionsState createState() => _PostActionsState();
@@ -391,36 +493,61 @@ class PostActions extends StatefulWidget {
 
 class _PostActionsState extends State<PostActions>
     with TickerProviderStateMixin {
-  bool isBookmarked = false;
-  late IconAnimationController iconAnimationController;
+  bool _isBookmarked = false;
+  late IconAnimationController _iconAnimationController;
+  late AnimationController _likeCountController;
+  late Animation<Offset> _likeCountAnimation;
+
 
   @override
   void initState() {
     super.initState();
-    iconAnimationController = IconAnimationController(vsync: this);
-    iconAnimationController.initLikeAnimation();
-    iconAnimationController.initBookmarkAnimation();
-    iconAnimationController.initRotationAnimation();
+    _iconAnimationController = IconAnimationController(vsync: this);
+    _iconAnimationController.initLikeAnimation();
+    _iconAnimationController.initBookmarkAnimation();
+    _iconAnimationController.initRotationAnimation();
+
+    // Counter slide animation
+    _likeCountController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _likeCountAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.5),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _likeCountController,
+      curve: Curves.easeOut,
+    ));
+  }
+
+  @override
+  void didUpdateWidget(PostActions oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.likeCount != widget.likeCount) {
+      _likeCountController.forward(from: 0);
+    }
   }
 
   @override
   void dispose() {
-    iconAnimationController.dispose();
+    _iconAnimationController.dispose();
+    _likeCountController.dispose();
     super.dispose();
   }
 
   void _onLikeButtonPressed() {
-    final newLiked = !widget.isLiked;
-    final newCount = newLiked ? widget.likeCount + 1 : widget.likeCount - 1;
-    widget.onLikeChanged(newLiked, newCount);
-    iconAnimationController.playLikeAnimation();
+    HapticFeedback.lightImpact();
+    widget.onLikeToggle();
+    _iconAnimationController.playLikeAnimation();
   }
 
   void _onBookmarkButtonPressed() {
+    HapticFeedback.lightImpact();
     setState(() {
-      isBookmarked = !isBookmarked;
+      _isBookmarked = !_isBookmarked;
     });
-    iconAnimationController.playBookmarkAnimation();
+    _iconAnimationController.playBookmarkAnimation();
   }
 
   @override
@@ -428,13 +555,23 @@ class _PostActionsState extends State<PostActions>
     return Row(
       children: [
         ScaleTransition(
-          scale: iconAnimationController.likeAnimation,
+          scale: _iconAnimationController.likeAnimation,
           child: IconButton(
-            icon: Icon(
-              widget.isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-              color: widget.isLiked
-                  ? Theme.of(context).colorScheme.tertiary
-                  : Theme.of(context).iconTheme.color,
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 200),
+              transitionBuilder: (child, animation) => ScaleTransition(
+                scale: animation,
+                child: child,
+              ),
+              child: Icon(
+                widget.isLiked
+                    ? Icons.favorite
+                    : Icons.favorite_border_outlined,
+                key: ValueKey(widget.isLiked),
+                color: widget.isLiked
+                    ? Theme.of(context).colorScheme.tertiary
+                    : Theme.of(context).iconTheme.color,
+              ),
             ),
             onPressed: _onLikeButtonPressed,
             hoverColor: Colors.transparent,
@@ -442,11 +579,22 @@ class _PostActionsState extends State<PostActions>
             splashColor: Colors.transparent,
           ),
         ),
-        Text(
-          '${widget.likeCount}',
-          style:
-              TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+        SlideTransition(
+          position: _likeCountAnimation,
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            child: Text(
+              '${widget.likeCount}',
+              key: ValueKey(widget.likeCount),
+              style: TextStyle(
+                color: Theme.of(context).textTheme.bodyMedium?.color,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+              ),
+            ),
+          ),
         ),
+        const SizedBox(width: 4),
         IconButton(
           icon: Icon(
             CupertinoIcons.chat_bubble,
@@ -459,9 +607,13 @@ class _PostActionsState extends State<PostActions>
         ),
         Text(
           '10',
-          style:
-              TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyMedium?.color,
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+          ),
         ),
+        const SizedBox(width: 4),
         IconButton(
           icon: Icon(
             CupertinoIcons.paperplane,
@@ -474,18 +626,31 @@ class _PostActionsState extends State<PostActions>
         ),
         Text(
           '10',
-          style:
-              TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyMedium?.color,
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+          ),
         ),
         const Spacer(),
         ScaleTransition(
-          scale: iconAnimationController.bookmarkAnimation,
+          scale: _iconAnimationController.bookmarkAnimation,
           child: IconButton(
-            icon: Icon(
-              isBookmarked
-                  ? CupertinoIcons.add_circled_solid
-                  : CupertinoIcons.add_circled,
-              color: Theme.of(context).iconTheme.color,
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 200),
+              transitionBuilder: (child, animation) => ScaleTransition(
+                scale: animation,
+                child: child,
+              ),
+              child: Icon(
+                _isBookmarked
+                    ? CupertinoIcons.add_circled_solid
+                    : CupertinoIcons.add_circled,
+                key: ValueKey(_isBookmarked),
+                color: _isBookmarked
+                    ? Theme.of(context).colorScheme.tertiary
+                    : Theme.of(context).iconTheme.color,
+              ),
             ),
             onPressed: _onBookmarkButtonPressed,
             hoverColor: Colors.transparent,
