@@ -18,7 +18,7 @@ class ExampleCard extends StatelessWidget {
         color: Theme.of(context).colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
+            color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.2),
             spreadRadius: 3,
             blurRadius: 7,
             offset: const Offset(0, 3),

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -25,7 +26,7 @@ class GoogleProvider {
       await saveUserData(userCredential.user);
       return true;
     } catch (e) {
-      print('Error signing in with Google: $e');
+      debugPrint('Error signing in with Google: $e');
       return false;
     }
   }
@@ -61,7 +62,7 @@ class AppleProvider {
       await saveUserData(userCredential.user);
       return userCredential;
     } catch (e) {
-      print('Error signing in with Apple: $e');
+      debugPrint('Error signing in with Apple: $e');
       rethrow;
     }
   }

@@ -83,8 +83,8 @@ class _StoryBoxState extends State<StoryBox>
               gradient: widget.seen
                   ? LinearGradient(
                       colors: [
-                        Colors.grey.withOpacity(0.4),
-                        Colors.grey.withOpacity(0.4),
+                        Colors.grey.withValues(alpha: 0.4),
+                        Colors.grey.withValues(alpha: 0.4),
                       ],
                     )
                   : LinearGradient(

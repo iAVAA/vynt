@@ -169,7 +169,7 @@ class _DiscoverState extends State<Discover> {
               color: colorScheme.secondary,
               boxShadow: [
                 BoxShadow(
-                  color: effectiveAccent.withOpacity(0.2),
+                  color: effectiveAccent.withValues(alpha: 0.2),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),

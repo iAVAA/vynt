@@ -73,7 +73,7 @@ class _AddPostWidgetState extends State<AddPostWidget>
                   borderRadius: const BorderRadius.all(Radius.circular(28)),
                   boxShadow: [
                     BoxShadow(
-                      color: colorScheme.primary.withOpacity(0.15),
+                      color: colorScheme.primary.withValues(alpha: 0.15),
                       blurRadius: 30,
                       offset: const Offset(0, 10),
                     ),

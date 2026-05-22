@@ -93,7 +93,7 @@ class ListeningPartyPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
         boxShadow: [
           BoxShadow(
-            color: colorScheme.primary.withOpacity(0.08),
+            color: colorScheme.primary.withValues(alpha: 0.08),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -109,7 +109,7 @@ class ListeningPartyPage extends StatelessWidget {
               width: 56,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.0),
-                color: colorScheme.primary.withOpacity(0.08),
+                color: colorScheme.primary.withValues(alpha: 0.08),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

@@ -112,13 +112,13 @@ class _PostWidgetState extends State<PostWidget> {
               Text(
                 '01/01/2022',
                 style: TextStyle(
-                  color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.6),
+                  color: Theme.of(context).textTheme.bodySmall?.color?.withValues(alpha: 0.6),
                   fontSize: 11,
                 ),
               ),
               const SizedBox(height: 20),
               Divider(
-                color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+                color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.5),
                 thickness: 0.5,
               ),
             ],
@@ -380,13 +380,13 @@ class _PostImageState extends State<PostImage> with TickerProviderStateMixin {
                         color: Theme.of(context)
                             .colorScheme
                             .primary
-                            .withOpacity(0.25),
+                            .withValues(alpha: 0.25),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: Theme.of(context)
                               .colorScheme
                               .primary
-                              .withOpacity(0.15),
+                              .withValues(alpha: 0.15),
                           width: 1,
                         ),
                       ),
@@ -450,14 +450,14 @@ class _PostImageState extends State<PostImage> with TickerProviderStateMixin {
                           scale: _heartScaleAnimation.value,
                           child: Icon(
                             Icons.favorite,
-                            color: Colors.white.withOpacity(0.95),
+                            color: Colors.white.withValues(alpha: 0.95),
                             size: 90,
                             shadows: [
                               Shadow(
                                 color: Theme.of(context)
                                     .colorScheme
                                     .tertiary
-                                    .withOpacity(0.8),
+                                    .withValues(alpha: 0.8),
                                 blurRadius: 20,
                               ),
                             ],
@@ -519,6 +519,7 @@ class _PostActionsState extends State<PostActions>
       parent: _likeCountController,
       curve: Curves.easeOut,
     ));
+    _likeCountController.value = 1.0;
   }
 
   @override
@@ -550,115 +551,146 @@ class _PostActionsState extends State<PostActions>
     _iconAnimationController.playBookmarkAnimation();
   }
 
+  String _formatNumber(int number) {
+    if (number >= 1000000) {
+      return '${(number / 1000000).toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '')}M';
+    } else if (number >= 10000) {
+      return '${(number / 1000).toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '')}K';
+    } else if (number >= 1000) {
+      final str = number.toString();
+      return '${str.substring(0, str.length - 3)}.${str.substring(str.length - 3)}';
+    }
+    return number.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        ScaleTransition(
-          scale: _iconAnimationController.likeAnimation,
-          child: IconButton(
-            icon: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 200),
-              transitionBuilder: (child, animation) => ScaleTransition(
-                scale: animation,
-                child: child,
-              ),
-              child: Icon(
-                widget.isLiked
-                    ? Icons.favorite
-                    : Icons.favorite_border_outlined,
-                key: ValueKey(widget.isLiked),
-                color: widget.isLiked
-                    ? Theme.of(context).colorScheme.tertiary
-                    : Theme.of(context).iconTheme.color,
-              ),
-            ),
-            onPressed: _onLikeButtonPressed,
-            hoverColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-          ),
-        ),
-        SlideTransition(
-          position: _likeCountAnimation,
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
-            child: Text(
-              '${widget.likeCount}',
-              key: ValueKey(widget.likeCount),
-              style: TextStyle(
-                color: Theme.of(context).textTheme.bodyMedium?.color,
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(width: 4),
-        IconButton(
-          icon: Icon(
-            CupertinoIcons.chat_bubble,
-            color: Theme.of(context).iconTheme.color,
-          ),
-          onPressed: () {},
-          hoverColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-        ),
-        Text(
-          '10',
-          style: TextStyle(
-            color: Theme.of(context).textTheme.bodyMedium?.color,
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
-          ),
-        ),
-        const SizedBox(width: 4),
-        IconButton(
-          icon: Icon(
-            CupertinoIcons.paperplane,
-            color: Theme.of(context).iconTheme.color,
-          ),
-          onPressed: () {},
-          hoverColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-        ),
-        Text(
-          '10',
-          style: TextStyle(
-            color: Theme.of(context).textTheme.bodyMedium?.color,
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
-          ),
-        ),
-        const Spacer(),
-        ScaleTransition(
-          scale: _iconAnimationController.bookmarkAnimation,
-          child: IconButton(
-            icon: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 200),
-              transitionBuilder: (child, animation) => ScaleTransition(
-                scale: animation,
-                child: child,
-              ),
-              child: Icon(
-                _isBookmarked
-                    ? CupertinoIcons.add_circled_solid
-                    : CupertinoIcons.add_circled,
-                key: ValueKey(_isBookmarked),
-                color: _isBookmarked
-                    ? Theme.of(context).colorScheme.tertiary
-                    : Theme.of(context).iconTheme.color,
+    final iconColor = Theme.of(context).iconTheme.color;
+    final textStyle = TextStyle(
+      color: Theme.of(context).textTheme.bodyMedium?.color,
+      fontWeight: FontWeight.w600,
+      fontSize: 14,
+    );
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 4.0, right: 4.0, top: 4.0, bottom: 8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Like Button
+          GestureDetector(
+            onTap: _onLikeButtonPressed,
+            behavior: HitTestBehavior.opaque,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ScaleTransition(
+                    scale: _iconAnimationController.likeAnimation,
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 200),
+                      transitionBuilder: (child, animation) => ScaleTransition(
+                        scale: animation,
+                        child: child,
+                      ),
+                      child: Icon(
+                        widget.isLiked
+                            ? Icons.favorite
+                            : Icons.favorite_border_outlined,
+                        key: ValueKey(widget.isLiked),
+                        color: widget.isLiked
+                            ? Theme.of(context).colorScheme.tertiary
+                            : iconColor,
+                        size: 26,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  SlideTransition(
+                    position: _likeCountAnimation,
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 200),
+                      child: Text(
+                        _formatNumber(widget.likeCount),
+                        key: ValueKey(widget.likeCount),
+                        style: textStyle,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            onPressed: _onBookmarkButtonPressed,
-            hoverColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
           ),
-        ),
-      ],
+          const SizedBox(width: 4),
+
+          // Comment Button
+          GestureDetector(
+            onTap: () {},
+            behavior: HitTestBehavior.opaque,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(CupertinoIcons.chat_bubble, color: iconColor, size: 24),
+                  const SizedBox(width: 6),
+                  Text(_formatNumber(1231), style: textStyle),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(width: 4),
+
+          // Share Button
+          GestureDetector(
+            onTap: () {},
+            behavior: HitTestBehavior.opaque,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(CupertinoIcons.paperplane, color: iconColor, size: 24),
+                  const SizedBox(width: 6),
+                  Text(_formatNumber(12000), style: textStyle),
+                ],
+              ),
+            ),
+          ),
+
+          const Spacer(),
+
+          // Bookmark Button
+          GestureDetector(
+            onTap: _onBookmarkButtonPressed,
+            behavior: HitTestBehavior.opaque,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              child: ScaleTransition(
+                scale: _iconAnimationController.bookmarkAnimation,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  transitionBuilder: (child, animation) => ScaleTransition(
+                    scale: animation,
+                    child: child,
+                  ),
+                  child: Icon(
+                    _isBookmarked
+                        ? CupertinoIcons.add_circled_solid
+                        : CupertinoIcons.add_circled,
+                    key: ValueKey(_isBookmarked),
+                    color: _isBookmarked
+                        ? Theme.of(context).colorScheme.tertiary
+                        : iconColor,
+                    size: 26,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

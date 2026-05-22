@@ -133,7 +133,7 @@ class Profile extends StatelessWidget {
                     backgroundColor: colorScheme.secondary,
                     child: Icon(
                       Icons.person_rounded,
-                      color: colorScheme.primary.withOpacity(0.5),
+                      color: colorScheme.primary.withValues(alpha: 0.5),
                       size: 56,
                     ),
                   ),
@@ -219,7 +219,7 @@ class Profile extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 Divider(
-                  color: colorScheme.secondary.withOpacity(0.5),
+                  color: colorScheme.secondary.withValues(alpha: 0.5),
                   thickness: 0.5,
                 ),
               ],

@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:vynt/controllers/theme_controller.dart';
 import 'package:vynt/providers/post_provider.dart';
+import 'package:vynt/providers/chat_provider.dart';
 import 'package:vynt/screens/login_pages/main_login_page.dart';
 import 'package:vynt/screens/main_page.dart';
 import 'controllers/scroll_monitor.dart';
@@ -40,6 +41,7 @@ Future main() async {
         ChangeNotifierProvider(create: (_) => ScrollMonitor()),
         ChangeNotifierProvider(create: (_) => ThemeController()),
         ChangeNotifierProvider(create: (_) => PostProvider()),
+        ChangeNotifierProvider(create: (_) => ChatProvider()),
       ],
       child: const Main(),
     ),

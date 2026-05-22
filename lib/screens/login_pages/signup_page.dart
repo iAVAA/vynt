@@ -45,7 +45,7 @@ class _SignupPageState extends State<SignupPage> {
         );
       }
     } catch (e) {
-      print('Error signing in with Google: $e');
+      debugPrint('Error signing in with Google: $e');
     }
   }
 

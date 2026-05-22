@@ -33,7 +33,6 @@ class ThemeController with ChangeNotifier {
       onPrimary: darkBackgroundColor,
       onSecondary: darkPrimaryColor,
       onSurface: darkPrimaryColor,
-      onBackground: darkPrimaryColor,
     ),
     textTheme: TextTheme(
       displayLarge: GoogleFonts.poppins(color: darkPrimaryColor, fontWeight: FontWeight.bold),
@@ -47,10 +46,10 @@ class ThemeController with ChangeNotifier {
       titleSmall: GoogleFonts.poppins(color: darkPrimaryColor, fontWeight: FontWeight.w600),
       bodyLarge: GoogleFonts.poppins(color: darkPrimaryColor, fontWeight: FontWeight.bold),
       bodyMedium: GoogleFonts.poppins(color: darkPrimaryColor),
-      bodySmall: GoogleFonts.poppins(color: darkPrimaryColor.withOpacity(0.7)),
+      bodySmall: GoogleFonts.poppins(color: darkPrimaryColor.withValues(alpha: 0.7)),
       labelLarge: GoogleFonts.poppins(color: darkPrimaryColor, fontWeight: FontWeight.bold),
       labelMedium: GoogleFonts.poppins(color: darkPrimaryColor),
-      labelSmall: GoogleFonts.poppins(color: darkPrimaryColor.withOpacity(0.7)),
+      labelSmall: GoogleFonts.poppins(color: darkPrimaryColor.withValues(alpha: 0.7)),
     ),
     iconTheme: IconThemeData(
       color: darkPrimaryColor,
@@ -71,7 +70,6 @@ class ThemeController with ChangeNotifier {
       onPrimary: lightBackgroundColor,
       onSecondary: lightPrimaryColor,
       onSurface: lightPrimaryColor,
-      onBackground: lightPrimaryColor,
     ),
     textTheme: TextTheme(
       displayLarge: GoogleFonts.poppins(color: lightPrimaryColor, fontWeight: FontWeight.bold),
@@ -85,10 +83,10 @@ class ThemeController with ChangeNotifier {
       titleSmall: GoogleFonts.poppins(color: lightPrimaryColor, fontWeight: FontWeight.w600),
       bodyLarge: GoogleFonts.poppins(color: lightPrimaryColor, fontWeight: FontWeight.bold),
       bodyMedium: GoogleFonts.poppins(color: lightPrimaryColor),
-      bodySmall: GoogleFonts.poppins(color: lightPrimaryColor.withOpacity(0.7)),
+      bodySmall: GoogleFonts.poppins(color: lightPrimaryColor.withValues(alpha: 0.7)),
       labelLarge: GoogleFonts.poppins(color: lightPrimaryColor, fontWeight: FontWeight.bold),
       labelMedium: GoogleFonts.poppins(color: lightPrimaryColor),
-      labelSmall: GoogleFonts.poppins(color: lightPrimaryColor.withOpacity(0.7)),
+      labelSmall: GoogleFonts.poppins(color: lightPrimaryColor.withValues(alpha: 0.7)),
     ),
     iconTheme: IconThemeData(
       color: lightPrimaryColor,

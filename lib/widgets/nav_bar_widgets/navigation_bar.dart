@@ -68,7 +68,7 @@ class _AnimatedNavBar extends StatelessWidget {
         unselectedItemColor: Theme.of(context).textTheme.bodyLarge?.color,
         splashColor: Colors.transparent,
         indicatorColor: Colors.transparent,
-        backgroundColor: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
+        backgroundColor: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.6),
         onTap: onItemTapped,
         duration: const Duration(milliseconds: 250),
         curve: Curves.easeInOut,

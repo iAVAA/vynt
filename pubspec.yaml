@@ -21,7 +21,7 @@ dependencies:
   flutter_svg: ^2.0.14
 
   #/---[Fonts]---/
-  google_fonts: ^6.2.1
+  google_fonts: ^8.1.0
   font_awesome_flutter: ^10.8.0
 
   #/---[UI]---/
@@ -31,7 +31,6 @@ dependencies:
   modal_bottom_sheet: ^3.0.0
   shared_preferences: ^2.3.3
   pull_down_button: ^0.10.2
-  modular_ui: ^0.0.5 # TODO: Implements the buttons in this package
   flutter_chat_ui: ^1.6.15
   flutter_chat_types: ^3.6.2
   share_plus: ^10.1.2

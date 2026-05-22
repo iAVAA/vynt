@@ -2,64 +2,91 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:uuid/uuid.dart';
+import 'package:provider/provider.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+import 'package:vynt/providers/chat_provider.dart';
 
-  @override
-  _ChatPageState createState() => _ChatPageState();
-}
+class ChatPage extends StatelessWidget {
+  final String chatId;
+  final String otherUserName;
+  final String otherUserId;
+  final String? otherUserAvatar;
 
-class _ChatPageState extends State<ChatPage> {
-  final List<types.Message> _messages = [];
-  final types.User _user = const types.User(id: 'user-id');
-
-  void _handleSendPressed(types.PartialText message) {
-    final textMessage = types.TextMessage(
-      author: _user,
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-      id: const Uuid().v4(),
-      text: message.text,
-    );
-
-    setState(() {
-      _messages.insert(0, textMessage);
-    });
-  }
+  const ChatPage({
+    super.key,
+    required this.chatId,
+    required this.otherUserName,
+    required this.otherUserId,
+    this.otherUserAvatar,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final scaffoldColor = Theme.of(context).scaffoldBackgroundColor;
+    
+    final chatProvider = Provider.of<ChatProvider>(context, listen: false);
+    final currentUser = types.User(id: chatProvider.currentUserId ?? 'unknown');
+
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: scaffoldColor,
       appBar: AppBar(
-        backgroundColor: Colors.grey[850],
-        title: const Text('Chat', style: TextStyle(color: Colors.white)),
-        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: colorScheme.secondary,
+        title: Row(
+          children: [
+            CircleAvatar(
+              radius: 16,
+              backgroundColor: colorScheme.primary,
+              backgroundImage: otherUserAvatar != null ? AssetImage(otherUserAvatar!) : null,
+              child: otherUserAvatar == null ? Text(otherUserName[0].toUpperCase(), style: const TextStyle(fontSize: 14)) : null,
+            ),
+            const SizedBox(width: 10),
+            Text(
+              otherUserName,
+              style: TextStyle(
+                color: textTheme.bodyLarge?.color,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+          ],
+        ),
+        iconTheme: IconThemeData(color: textTheme.bodyLarge?.color),
         leading: IconButton(
           icon: const Icon(CupertinoIcons.back),
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           hoverColor: Colors.transparent,
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: Chat(
-        messages: _messages,
-        onSendPressed: _handleSendPressed,
-        user: _user,
-        theme: DefaultChatTheme(
-          inputBackgroundColor: Colors.grey[800]!,
-          inputTextStyle: const TextStyle(color: Colors.white, fontSize: 16),
-          inputBorderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-          inputTextColor: Colors.white,
-          primaryColor: Colors.purple[700]!,
-          backgroundColor: Colors.grey[900]!,
-          sentMessageBodyTextStyle: const TextStyle(color: Colors.white),
-          receivedMessageBodyTextStyle: const TextStyle(color: Colors.white),
-        ),
+      body: StreamBuilder<List<types.Message>>(
+        stream: chatProvider.getMessagesStream(chatId),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final messages = snapshot.data ?? [];
+
+          return Chat(
+            messages: messages,
+            onSendPressed: (types.PartialText message) {
+              chatProvider.sendMessage(chatId, message.text);
+            },
+            user: currentUser,
+            theme: DefaultChatTheme(
+              inputBackgroundColor: colorScheme.secondary,
+              inputTextStyle: TextStyle(color: textTheme.bodyLarge?.color ?? Colors.white, fontSize: 16),
+              inputBorderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+              inputTextColor: textTheme.bodyLarge?.color ?? Colors.white,
+              primaryColor: colorScheme.tertiary,
+              backgroundColor: scaffoldColor,
+              sentMessageBodyTextStyle: const TextStyle(color: Colors.white),
+              receivedMessageBodyTextStyle: TextStyle(color: textTheme.bodyLarge?.color ?? Colors.white),
+            ),
+          );
+        },
       ),
     );
   }

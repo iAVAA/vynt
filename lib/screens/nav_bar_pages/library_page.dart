@@ -82,7 +82,7 @@ class _LibraryPageState extends State<LibraryPage> {
                   ),
                   backgroundColor: colorScheme.secondary,
                   backgroundColorActivated:
-                      colorScheme.secondary.withOpacity(0.7),
+                      colorScheme.secondary.withValues(alpha: 0.7),
                   leading: const Icon(
                     CupertinoIcons.music_note,
                     color: CupertinoColors.systemPurple,
@@ -97,7 +97,7 @@ class _LibraryPageState extends State<LibraryPage> {
                   ),
                   backgroundColor: colorScheme.secondary,
                   backgroundColorActivated:
-                      colorScheme.secondary.withOpacity(0.7),
+                      colorScheme.secondary.withValues(alpha: 0.7),
                   leading: const Icon(
                     CupertinoIcons.music_mic,
                     color: CupertinoColors.systemPurple,
@@ -112,7 +112,7 @@ class _LibraryPageState extends State<LibraryPage> {
                   ),
                   backgroundColor: colorScheme.secondary,
                   backgroundColorActivated:
-                      colorScheme.secondary.withOpacity(0.7),
+                      colorScheme.secondary.withValues(alpha: 0.7),
                   leading: const Icon(
                     CupertinoIcons.square_stack,
                     color: CupertinoColors.systemPurple,
@@ -268,7 +268,7 @@ class _PlaylistCardState extends State<_PlaylistCard>
                               end: Alignment.bottomCenter,
                               colors: [
                                 Colors.transparent,
-                                Colors.black.withOpacity(0.4),
+                                Colors.black.withValues(alpha: 0.4),
                               ],
                             ),
                           ),
@@ -282,7 +282,7 @@ class _PlaylistCardState extends State<_PlaylistCard>
                           width: 30,
                           height: 30,
                           decoration: BoxDecoration(
-                            color: colorScheme.tertiary.withOpacity(0.85),
+                            color: colorScheme.tertiary.withValues(alpha: 0.85),
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(
